@@ -1,5 +1,7 @@
 package br.belval.api.model;
 
+import java.util.Objects;
+
 public class Pessoa {
 
 	private Integer id;
@@ -60,11 +62,31 @@ public class Pessoa {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pessoa other = (Pessoa) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + ", CPF=" + CPF + ", telefone=" + telefone + ", endereço="
+		return "Pessoa [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + ", endereço="
 				+ endereço + ", email=" + email + "]";
 	}
+	
+
 
 //		public static void main(String[] args) {      
 //            
