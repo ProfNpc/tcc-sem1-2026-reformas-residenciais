@@ -35,30 +35,6 @@ public void settelefone(Integer telefone) {
 	
 }
 
-public static void main(String[] args) {
-	
-	servico i = new servico();
-	//servico n = new servico();
-	//servico d = new servico();
-	//servico t = new servico();
-	
-	i.setId(2);	
-	i.setNome("jaciel");
-	i.setDescricao("Eletricista");
-	i.settelefone(1155555555);
-	
-	
-	Integer id = i.getid();
-	Integer telefone = i.gettelefone();
-	String nome = i.getNome();
-	String descricao = i.getDescricao();
-	
-	System.out.println("ID: " + id + "\nNome: " + nome + "\nServiço a prestar: " + descricao +"\ntelefone " + telefone);
-	
-	
-		
-}
-
 
 public String getNome() {
 	return nome;
@@ -103,5 +79,30 @@ public boolean equals(Object obj) {
 public String toString() {
 	return "servico [id=" + id + ", nome=" + nome + ", descricao=" + descricao + "Telefone " + telefone + "]";
 }
+
+public static void main(String[] args) {
+	
+	servico i = new servico();
+	//servico n = new servico();
+	//servico d = new servico();
+	//servico t = new servico();
+	
+	i.setId(100);	
+	i.setNome("jaciel");
+	i.setDescricao("Eletricista");
+	i.settelefone(1155555555);
+	
+	
+	Integer id = i.getid();
+	Integer telefone = i.gettelefone();
+	String nome = i.getNome();
+	String descricao = i.getDescricao();
+	
+	System.out.println("ID: " + id + "\nNome: " + nome + "\nServiço a prestar: " + descricao +"\ntelefone " + telefone);
+	
+	
+		
+}
+
 
 }

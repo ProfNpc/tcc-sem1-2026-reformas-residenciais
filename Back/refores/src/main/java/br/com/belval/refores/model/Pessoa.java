@@ -1,20 +1,56 @@
-package br.belval.api.model;
+package br.com.belval.refores.model;
 
 //Add import com Ctrl+SHIFT+O
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 /**
  * Corresponde à tabela produto
  */
-public class Produto {
+@Entity
+@Table (name = "tb_Pessoa")
+public class Pessoa {
 	
+    /*@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+    
 	private String nome;
+	
 	private String descricao;
+	
 	private BigDecimal preco;//valores decimais como 12.34
-	private LocalDateTime dataCriacao;
+	
+	private LocalDateTime dataCriacao;*/
+	
+	
+	  	@Id
+	  	@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Integer id;
+		
+		@Column(name = "nometeste", nullable = false, length = 100)
+		private String nome;
+		
+		@Column(name = "email", length = 100)
+		private String email;
+		
+		@Column(name = "cpf", length = 11)
+		private String cpf;
+		
+		@Column(name = "telefone", length = 15)
+		private String telefone;
+		
+		@Column(name = "data_criacao")
+		private LocalDateTime dataCriacao;
+	
 	
 	/**
 	 * Precisamos criar:
@@ -44,7 +80,7 @@ public class Produto {
 	 * Método construtor padrão
 	 * 3 - Lista de parâmetros vazia 
 	 */
-	public Produto() {
+	public Pessoa() {
 		
 	}
 	
@@ -69,26 +105,32 @@ public class Produto {
 		this.nome = nome;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	
+	public String getemail() {
+		return email;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setemail(String email) {
+		this.email = email;
+	}
+	
+	
+	public String getcpf() {
+		return cpf;
 	}
 
-	public BigDecimal getPreco() {
-		return preco;
+	public void setcpf(String cpf) {
+		this.cpf = cpf;
 	}
 
-	public void setPreco(BigDecimal preco) {
-		this.preco = preco;
+	public String gettelefone() {
+		return telefone;
 	}
 
-	public LocalDateTime getDataCriacao() {
-		return dataCriacao;
+	public void settelefone(String telefone) {
+		this.telefone = telefone;
 	}
-
+	
 	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
@@ -109,7 +151,7 @@ public class Produto {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Produto other = (Produto) obj;
+		Pessoa other = (Pessoa) obj;
 		return Objects.equals(id, other.id);
 	}
 
@@ -123,7 +165,7 @@ public class Produto {
 	
 	@Override
 	public String toString() {
-		return "Produto [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", preco=" + preco
+		return "Produto [id=" + id + ", nome=" + nome + ", email=" + email + ", cpf=" + cpf
 				+ ", dataCriacao=" + dataCriacao + "]";
 	}
 	
