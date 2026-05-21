@@ -25,8 +25,8 @@ public class PessoaController {
 	@Autowired
 	private PessoaRepository repository;
 	
-	@GetMapping("/pessoa")
-	public ResponseEntity<Iterable<Pessoa>> obterPessoa() {
+	@GetMapping("/pessoas")
+	public ResponseEntity<Iterable<Pessoa>> obterPessoas() {
 		return ResponseEntity
 			.status(HttpStatus.OK)
 			.body(repository.findAll());
@@ -34,7 +34,7 @@ public class PessoaController {
 	
 	
 	
-	@PostMapping("/pessoa")
+	@PostMapping("/pessoas")
 	public ResponseEntity<Pessoa> criarProduto(@RequestBody Pessoa pessoa) {
 		
 		//pessoa.setDataCriacao(LocalDateTime.now());
@@ -49,7 +49,7 @@ public class PessoaController {
 	}
 	
 	
-	@GetMapping("/pessoa/{id}")
+	@GetMapping("/pessoas/{id}")
 	public ResponseEntity<Object> buscarPorId(
 			@PathVariable(value = "id") Integer id) {
 		
@@ -66,7 +66,7 @@ public class PessoaController {
 		}
 	
 	
-	@PutMapping("/pessoa/{id}")
+	@PutMapping("/pessoas/{id}")
 	public ResponseEntity<Object> buscarPorId(
 			@PathVariable Integer id,
 			@RequestBody Pessoa pessoa) {
@@ -87,30 +87,26 @@ public class PessoaController {
 		return ResponseEntity
 				.status(HttpStatus.OK)
 				.body("Pessoa atualizado com sucesso!");
-		}
+	}
 		
 	
-	    //curl -X DELETE http://localhost:8080/produtos/1//
-		@DeleteMapping("/pessoa/{id}")
-		public ResponseEntity<String> apagarPessoa(@PathVariable Integer id) {
-			Optional<Pessoa> pessoaoOpt = repository.findById(id);
-			
-			if (pessoaoOpt.isEmpty()) {
-				return ResponseEntity
-						.status(HttpStatus.NOT_FOUND)
-						.body("Pessoa não encontrado!");
+    //curl -X DELETE http://localhost:8080/produtos/1//
+	@DeleteMapping("/pessoas/{id}")
+	public ResponseEntity<String> apagarPessoa(@PathVariable Integer id) {
+		Optional<Pessoa> pessoaoOpt = repository.findById(id);
 		
-			}
-			
-			repository.deleteById(id);
-			
+		if (pessoaoOpt.isEmpty()) {
 			return ResponseEntity
-					.status(HttpStatus.OK)
-					.body("Pessoa apagado com sucesso!");
+					.status(HttpStatus.NOT_FOUND)
+					.body("Pessoa não encontrado!");
+	
 		}
+		
+		repository.deleteById(id);
+		
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body("Pessoa apagado com sucesso!");
+	}
 	
-
-	
-
-	 
 }
