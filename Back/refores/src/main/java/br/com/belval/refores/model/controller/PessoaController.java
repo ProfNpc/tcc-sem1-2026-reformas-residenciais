@@ -1,11 +1,5 @@
 package br.com.belval.refores.model.controller;
 
-
-
-
-
-
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -24,7 +18,7 @@ import br.com.belval.refores.model.Pessoa;
 import br.com.belval.refores.model.PessoaRepository.PessoaRepository;
 
 @RestController
-public class pessoaController {
+public class PessoaController {
 	
 	@Autowired
 	private PessoaRepository repository;
@@ -99,7 +93,7 @@ public class pessoaController {
 		}
 		
 		Pessoa.setId(id);
-		Pessoa.setDataCriacao(PessoaOpt.get().getDataCriacao());
+		Pessoa.setDataCriacao(pessoaOpt.get().getDataCriacao());
 				repository.save(Pessoa);
 				return ResponseEntity
 						.status(HttpStatus.OK)

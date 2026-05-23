@@ -1,6 +1,7 @@
 package br.com.belval.refores.model;
 
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -36,6 +37,9 @@ public class Pessoa {
 	
 	@Column(name = "email", length = 100)
 	private String email;
+	
+	@Column(name = "data_criacao")
+	private LocalDateTime dataCriacao;
 	
 	
 	public Pessoa() {
@@ -97,6 +101,15 @@ public class Pessoa {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public LocalDateTime getDataCriacao() {
+		return dataCriacao;
+	}
+
+
+	public void setDataCriacao(LocalDateTime dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
 
 	@Override
 	public int hashCode() {
@@ -115,12 +128,11 @@ public class Pessoa {
 		return Objects.equals(id, other.id);
 	}
 
-	
+
 	@Override
 	public String toString() {
 		return "Pessoa [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + ", endereco="
-				+ endereco + ", email=" + email + "]";
+				+ endereco + ", email=" + email + ", dataCriacao=" + dataCriacao + "]";
 	}
-
 
 }
