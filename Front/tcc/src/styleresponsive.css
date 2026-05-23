@@ -1,0 +1,222 @@
+:root {
+
+            --primary: #2563eb;
+            --secondary: #1e293b;
+
+            --accent: #f59e0b;
+
+            --light: #f8fafc;
+
+        }
+
+ 
+
+        body {
+
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+            margin: 0;
+
+            color: var(--secondary);
+
+            background-color: var(--light);
+
+        }
+
+ 
+
+        header {
+
+            background: white;
+
+            padding: 1rem 5%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+        }
+
+ 
+
+        .logo {
+
+            font-size: 1.5rem;
+
+            font-weight: bold;
+
+            color: var(--primary);
+
+        }
+
+ 
+
+        .nav-links a {
+
+            text-decoration: none;
+
+            color: var(--secondary);
+
+            margin-left: 20px;
+
+            font-weight: 500;
+
+           
+
+        }
+
+ 
+
+     
+
+ 
+
+        .btn-main {
+
+            background: var(--primary);
+
+            color: white;
+
+            padding: 10px 20px;
+
+            border-radius: 5px;
+
+            text-decoration: none;
+
+        }
+
+ 
+
+        .hero {
+
+          padding: 30px 19%;
+
+            text-align: center;
+
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com') no-repeat center/cover;
+
+            color: white;
+
+            position: fixed;
+
+ 
+
+     
+
+ 
+
+       
+
+        }
+
+ 
+
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; }
+
+ 
+
+        .container { padding: 1px 5%;   margin-top: 300px;}
+
+ 
+
+        .grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+            gap: 30px;
+
+            margin-top: 40px;
+
+        }
+
+ 
+
+        .card {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+
+            border-top: 5px solid var(--primary);
+
+        }
+
+ 
+
+        .card h3 { color: var(--primary); }
+
+ 
+
+        .badge {
+
+            background: var(--accent);
+
+            color: white;
+
+            padding: 4px 10px;
+
+            border-radius: 4px;
+
+            font-size: 0.8rem;
+
+        }
+
+ 
+
+        footer {
+
+            background: var(--secondary);
+
+            color: white;
+
+            text-align: center;
+
+            padding: 40px 5%;
+
+            margin-top: 50px;
+
+        }
+
+ 
+
+        @media (max-width: 768px) {
+
+            .hero h1 { font-size: 2rem; }
+
+            .nav-links { display: none; }
+
+        }
+
+ 
+
+        .btn-sol-orcamento{
+
+            background: var(--primary);
+
+            color: white;
+
+            padding: 12px 90px;
+
+            border-radius: 11px;
+
+            text-decoration: blue;
+
+        }
+
+ 

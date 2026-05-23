@@ -1,0 +1,196 @@
+/* ===== VARIÁVEIS DO SEU PROJETO ===== */
+:root {
+  --cliente-color: #27ae60;
+  --pro-color: #2c3e50;
+  --accent: #e67e22;
+}
+
+/* ===== GLOBAL ===== */
+* {
+  box-sizing: border-box !important;
+}
+
+/* Envolve a página toda para garantir alinhamento vertical */
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  background: #9da09f;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ===== TOPO DE BOAS VINDAS ===== */
+.topo {
+  padding: 20px;
+  text-align: center;
+  background: linear-gradient(#f3faf8, #9aa09e);
+  color: #2c3e50;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.topo h1 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.topo p {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* ===== LOGO INTERNA ===== */
+.login-container .logo {
+  width: 100% !important;
+  padding: 15px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.3rem;
+  transition: background-color 0.3s;
+}
+
+/* Cor da logo muda baseada no tema ativo */
+.theme-cliente .logo { background-color: var(--cliente-color); }
+.theme-pro .logo { background-color: var(--pro-color); }
+
+/* ===== CAIXA DE LOGIN (PROTEGIDA CONTRA O RESET DA HOME) ===== */
+.login-container {
+  background: white !important;
+  width: 100% !important;
+  max-width: 400px !important; /* Trava o tamanho em 400px certinho */
+  border-radius: 15px !important;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+  overflow: hidden;
+  margin: 15px auto !important;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  background: #eee;
+  width: 100%;
+}
+
+.tab {
+  flex: 1;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: #7f8c8d;
+  transition: 0.3s;
+  background: #eee;
+}
+
+/* Regras de ativação das abas corrigidas para as classes do React */
+.theme-cliente .tab:first-child {
+  background: white;
+  color: var(--cliente-color);
+  border-top: 4px solid var(--cliente-color);
+}
+
+.theme-pro .tab:last-child {
+  background: white;
+  color: var(--pro-color);
+  border-top: 4px solid var(--pro-color);
+}
+
+/* ===== FORM CONTENT ===== */
+.form-content {
+  padding: 30px 25px;
+  width: 100%;
+}
+
+.header-text h2 {
+  margin: 0 0 5px 0;
+  font-size: 22px;
+  color: #2c3e50;
+}
+
+.header-text p {
+  font-size: 14px;
+  color: #95a5a6;
+  margin-bottom: 25px;
+}
+
+/* ===== INPUTS ===== */
+.input-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.input-group label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #34495e;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #dcdde1;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+}
+
+/* Borda do input acende com a cor do tema ao clicar */
+.theme-cliente .input-group input:focus { border-color: var(--cliente-color); }
+.theme-pro .input-group input:focus { border-color: var(--pro-color); }
+
+/* ===== BOTÃO ===== */
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+.theme-cliente .btn { background: var(--cliente-color); }
+.theme-pro .btn { background: var(--pro-color); }
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 13px;
+  color: #7f8c8d;
+}
+
+.footer a {
+  text-decoration: none;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+#esqueci {
+  color: #95a5a6;
+  font-weight: normal;
+}
