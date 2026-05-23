@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - ReformaJA</title>
+
+ <link rel="stylesheet" href="./scriptlogin.js" />
+ <link rel="stylesheet" href="css/stylelogin.css" />
+
+</head>
+<body class="theme-cliente" id="body-context">
+
+    <div class="topo">
+
+        <h1 id="topocliente" class="topocliente">Transforme sua casa com profissionais de confiança</h1>
+        <p id="topoclientep" class="topoclientep">A plataforma que conecta sua obra aos melhores especialistas da sua região.</p>
+        <p id="topoprofissional" class="topoprofissional">A plataforma que conecta o especialista com o cliene.</p>
+
+    <br>
+
+    <!--<a href="#" class="btn-main" style="background: var(--accent);">Solicitar Orçamento Grátis</a>-->
+
+
+    </div>        
+
+    <div class="container">
+        <div class="logo">🏗️ ReformaJá</div><br>
+
+            <div class="tabs">
+                <div class="tab active" data-type="cliente" onclick="switchTab('cliente')">SOU CLIENTE</div>
+                <div class="tab" data-type="pro" onclick="switchTab('pro')">SOU PROFISSIONAL</div>
+            </div>
+ 
+            <div class="form-content">
+                <div class="header-text">
+                    <h2 id="title">Olá, Morador!</h2>
+                    <p id="subtitle">Acompanhe a evolução da sua obra em tempo real.</p>
+                </div>
+ 
+    <form>
+        <div class="input-group">
+            <label>E-MAIL OU CPF</label>
+            <input type="text" id="usuario" placeholder="Digite seus dados">
+        </div>
+        <div class="input-group">
+            <label>SENHA</label>
+            <input type="password" id="senha" placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn" id="btn-text">ACESSAR MINHA OBRA</button>
+    </form>
+ 
+        <div class="footer">
+            <a href="./esqueci.html" id="esqueci">Esqueci minha senha</a><br><br>
+            <span id="footer-invite">Quer reformar? <a href="cadastroPessoa.html">Peça um orçamento</a></span>
+        </div>
+        </div>
+</div>
+ 
+<script src="codigo/scriptlogin.js"></script>
+ 
+</body>
+</html>
