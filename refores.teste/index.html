@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal de Reformas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+  :root {
+    --cliente: #27ae60;
+    --pro: #2c3e50;
+    --accent: #e67e22;
+    --sidebar-w: 260px;
+    --nav-h: 56px;
+    --bg: #f0f2f5;
+    --white: #ffffff;
+    --gray-1: #f8f9fa;
+    --gray-2: #e9ecef;
+    --gray-3: #ced4da;
+    --gray-5: #adb5bd;
+    --gray-7: #495057;
+    --gray-9: #212529;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.07);
+    --shadow: 0 4px 20px rgba(0,0,0,0.09);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.15);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --ease: cubic-bezier(.4,0,.2,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    height: var(--nav-h);
+    background: var(--pro);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 16px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    z-index: 200;
+  }
+  .topbar-brand {
+    display: flex; align-items: center; gap: 10px;
+    color: white; font-weight: 700; font-size: 17px; letter-spacing: -0.3px;
+    flex-shrink: 0;
+  }
+  .topbar-brand .logo {
+    width: 32px; height: 32px; background: var(--accent); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+  }
+  .topbar-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.15); margin: 0 4px; }
+  .topbar-page-title {
+    color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 500;
+    flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .topbar-pill {
+    padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.4px; border: none; cursor: pointer; transition: .2s var(--ease);
+    flex-shrink: 0;
+  }
+  .pill-cliente { background: var(--cliente); color: white; }
+  .pill-cliente:hover { background: #1e8449; }
+  .pill-pro { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.25); }
+  .pill-pro:hover { background: rgba(255,255,255,0.25); }
+  .topbar-avatar {
+    width: 34px; height: 34px; border-radius: 50%; background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: white; font-size: 13px; cursor: pointer; flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.2);
+  }
+
+  /* ── BODY LAYOUT ── */
+  .body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--white);
+    border-right: 1px solid var(--gray-2);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+    transition: width .3s var(--ease);
+    z-index: 100;
+  }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--gray-2); border-radius: 2px; }
+
+  .sidebar-section { padding: 18px 12px 6px; }
+  .sidebar-section-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--gray-5); padding: 0 8px; margin-bottom: 4px;
+  }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 11px;
+    padding: 10px 12px; border-radius: var(--radius-sm);
+    cursor: pointer; transition: .18s var(--ease);
+    color: var(--gray-7); text-decoration: none;
+    font-size: 14px; font-weight: 500;
+    position: relative; border: none; background: none; width: 100%; text-align: left;
+  }
+  .nav-item:hover { background: var(--gray-1); color: var(--gray-9); }
+  .nav-item.active { background: #eaf0f6; color: var(--pro); font-weight: 700; }
+  .nav-item.active::before {
+    content: ''; position: absolute; left: 0; top: 20%; bottom: 20%;
+    width: 3px; border-radius: 2px; background: var(--pro);
+  }
+  .nav-item.active-cliente { background: #eafaf1; color: var(--cliente); font-weight: 700; }
+  .nav-item.active-cliente::before { background: var(--cliente); }
+
+  .nav-icon { font-size: 18px; width: 22px; text-align: center; flex-shrink: 0; }
+  .nav-label { flex: 1; }
+  .nav-badge {
+    background: var(--accent); color: white; font-size: 10px;
+    font-weight: 700; padding: 2px 7px; border-radius: 10px;
+  }
+  .nav-tag {
+    font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px;
+  }
+  .tag-new { background: #fff3e0; color: #e65100; }
+  .tag-pro { background: var(--pro); color: white; }
+
+  /* ── CONTENT / IFRAME ── */
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .iframe-wrap {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #main-frame {
+    width: 100%; height: 100%;
+    border: none;
+    display: block;
+    transition: opacity .25s var(--ease);
+  }
+
+  /* Loading overlay */
+  .loader {
+    position: absolute; inset: 0;
+    background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; z-index: 50; opacity: 0; pointer-events: none;
+    transition: opacity .2s;
+  }
+  .loader.show { opacity: 1; pointer-events: all; }
+  .loader-spinner {
+    width: 40px; height: 40px; border: 3px solid var(--gray-2);
+    border-top-color: var(--pro); border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader-text { font-size: 13px; color: var(--gray-5); font-weight: 500; }
+
+  /* ── WELCOME SCREEN ── */
+  .welcome {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 40px; text-align: center; gap: 10px;
+    animation: fadeIn .4s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+  .welcome-icon { font-size: 64px; margin-bottom: 8px; }
+  .welcome h2 { font-size: 26px; font-weight: 700; color: var(--gray-9); }
+  .welcome p { color: var(--gray-5); font-size: 15px; max-width: 420px; line-height: 1.6; }
+
+  .quick-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 14px; margin-top: 28px; max-width: 660px; width: 100%;
+  }
+  .quick-card {
+    background: var(--white); border-radius: var(--radius); padding: 20px 16px;
+    box-shadow: var(--shadow-sm); cursor: pointer; border: 2px solid transparent;
+    transition: .2s var(--ease); text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .quick-card:hover { border-color: var(--accent); box-shadow: var(--shadow); transform: translateY(-2px); }
+  .quick-card .qc-icon { font-size: 30px; }
+  .quick-card .qc-label { font-size: 13px; font-weight: 700; color: var(--gray-9); }
+  .quick-card .qc-desc { font-size: 11px; color: var(--gray-5); line-height: 1.4; }
+
+  /* ── BREADCRUMB ── */
+  .breadcrumb {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 20px; background: var(--white);
+    border-bottom: 1px solid var(--gray-2);
+    font-size: 12px; color: var(--gray-5);
+    flex-shrink: 0;
+  }
+  .breadcrumb .bc-home { cursor: pointer; color: var(--pro); font-weight: 600; }
+  .breadcrumb .bc-home:hover { text-decoration: underline; }
+  .breadcrumb .bc-sep { opacity: .5; }
+  .breadcrumb .bc-current { font-weight: 600; color: var(--gray-9); }
+
+  /* ── TOGGLE SIDEBAR BUTTON ── */
+  .toggle-sidebar {
+    background: none; border: none; cursor: pointer; font-size: 20px;
+    color: rgba(255,255,255,0.7); padding: 6px; border-radius: 6px;
+    transition: .2s; flex-shrink: 0;
+  }
+  .toggle-sidebar:hover { background: rgba(255,255,255,0.1); color: white; }
+
+  .sidebar.collapsed { width: 56px; }
+  .sidebar.collapsed .nav-label,
+  .sidebar.collapsed .nav-badge,
+  .sidebar.collapsed .nav-tag,
+  .sidebar.collapsed .sidebar-section-label { display: none; }
+  .sidebar.collapsed .nav-item { justify-content: center; padding: 10px; }
+  .sidebar.collapsed .nav-item::before { display: none; }
+  .sidebar.collapsed .sidebar-section { padding: 14px 6px 4px; }
+
+  /* responsive */
+  @media (max-width: 700px) {
+    .sidebar { position: fixed; left: -260px; top: var(--nav-h); bottom: 0; transition: left .3s var(--ease); z-index: 300; }
+    .sidebar.mobile-open { left: 0; box-shadow: var(--shadow-lg); }
+    .quick-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <button class="toggle-sidebar" onclick="toggleSidebar()" title="Menu">☰</button>
+  <div class="topbar-brand">
+    <div class="logo">🔨</div>
+    Portal de Reformas
+  </div>
+  <div class="topbar-divider"></div>
+  <div class="topbar-page-title" id="topbar-title">Selecione uma tela</div>
+
+  <button class="topbar-pill pill-cliente" onclick="setMode('cliente')">🏠 Cliente</button>
+  <button class="topbar-pill pill-pro" id="pill-pro" onclick="setMode('pro')">👷 Profissional</button>
+  <div class="topbar-avatar" id="user-avatar">MS</div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- ACESSO -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Acesso</div>
+      <button class="nav-item" onclick="navigate('login.html', 'Login', this)">
+        <span class="nav-icon">🔑</span><span class="nav-label">Login</span>
+      </button>
+      <button class="nav-item" onclick="navigate('cadastro.html', 'Cadastro', this)">
+        <span class="nav-icon">📝</span><span class="nav-label">Cadastro</span>
+        <span class="nav-tag tag-new">NOVO</span>
+      </button>
+    </div>
+
+    <!-- CLIENTE -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Área do Cliente</div>
+      <button class="nav-item" onclick="navigate('perfil-cliente.html', 'Perfil do Cliente', this)">
+        <span class="nav-icon">👤</span><span class="nav-label">Meu Perfil</span>
+      </button>
+      <button class="nav-item" onclick="navigate('obras-cliente.html', 'Minhas Obras', this)">
+        <span class="nav-icon">🏗️</span><span class="nav-label">Minhas Obras</span>
+        <span class="nav-badge">3</span>
+      </button>
+      <button class="nav-item" onclick="navigate('obra-detalhe.html', 'Detalhe da Obra', this)">
+        <span class="nav-icon">🔍</span><span class="nav-label">Detalhe da Obra</span>
+      </button>
+      <button class="nav-item" onclick="navigate('orcamento.html', 'Orçamento / Contrato', this)">
+        <span class="nav-icon">📄</span><span class="nav-label">Orçamento</span>
+      </button>
+    </div>
+
+    <!-- PROFISSIONAL -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Área do Profissional</div>
+      <button class="nav-item" onclick="navigate('perfil-profissional.html', 'Perfil Profissional', this)">
+        <span class="nav-icon">👷</span><span class="nav-label">Meu Perfil Pro</span>
+        <span class="nav-tag tag-pro">PRO</span>
+      </button>
+      <button class="nav-item" onclick="navigate('financeiro-pro.html', 'Financeiro', this)">
+        <span class="nav-icon">💰</span><span class="nav-label">Financeiro</span>
+      </button>
+      <button class="nav-item" onclick="navigate('equipe-pro.html', 'Gestão de Equipe', this)">
+        <span class="nav-icon">👥</span><span class="nav-label">Minha Equipe</span>
+      </button>
+    </div>
+
+    <!-- GERAL -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Geral</div>
+      <button class="nav-item" onclick="navigate('mensagens.html', 'Mensagens', this)">
+        <span class="nav-icon">💬</span><span class="nav-label">Mensagens</span>
+        <span class="nav-badge">2</span>
+      </button>
+    </div>
+
+    <!-- spacer -->
+    <div style="flex:1"></div>
+
+    <!-- rodapé sidebar -->
+    <div style="padding:14px 12px;border-top:1px solid var(--gray-2)">
+      <div class="nav-item" id="user-info-row">
+        <span class="nav-icon">🟢</span>
+        <div class="nav-label" style="font-size:13px">
+          <div style="font-weight:700;color:#212529" id="sidebar-user-name">Maria Silva</div>
+          <div style="font-size:11px;color:#adb5bd" id="sidebar-user-role">Cliente</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content" id="content">
+
+    <!-- Breadcrumb (hidden on welcome) -->
+    <div class="breadcrumb" id="breadcrumb" style="display:none">
+      <span class="bc-home" onclick="goHome()">🏠 Início</span>
+      <span class="bc-sep">›</span>
+      <span class="bc-current" id="breadcrumb-label">—</span>
+    </div>
+
+    <!-- Welcome screen -->
+    <div class="welcome" id="welcome-screen">
+      <div class="welcome-icon">🏠</div>
+      <h2>Bem-vinda ao Portal de Reformas</h2>
+      <p>Selecione uma tela no menu ao lado, ou clique em um acesso rápido abaixo para começar.</p>
+
+      <div class="quick-grid">
+        <div class="quick-card" onclick="navigate('login.html','Login', null)">
+          <div class="qc-icon">🔑</div>
+          <div class="qc-label">Login</div>
+          <div class="qc-desc">Acesso cliente e profissional</div>
+        </div>
+        <div class="quick-card" onclick="navigate('obras-cliente.html','Minhas Obras', null)">
+          <div class="qc-icon">🏗️</div>
+          <div class="qc-label">Minhas Obras</div>
+          <div class="qc-desc">Lista e progresso das reformas</div>
+        </div>
+        <div class="quick-card" onclick="navigate('obra-detalhe.html','Detalhe da Obra', null)">
+          <div class="qc-icon">🔍</div>
+          <div class="qc-label">Detalhe da Obra</div>
+          <div class="qc-desc">Etapas, fotos e atualizações</div>
+        </div>
+        <div class="quick-card" onclick="navigate('orcamento.html','Orçamento', null)">
+          <div class="qc-icon">📄</div>
+          <div class="qc-label">Orçamento</div>
+          <div class="qc-desc">Contrato e parcelas</div>
+        </div>
+        <div class="quick-card" onclick="navigate('financeiro-pro.html','Financeiro', null)">
+          <div class="qc-icon">💰</div>
+          <div class="qc-label">Financeiro</div>
+          <div class="qc-desc">Receitas, despesas e extrato</div>
+        </div>
+        <div class="quick-card" onclick="navigate('mensagens.html','Mensagens', null)">
+          <div class="qc-icon">💬</div>
+          <div class="qc-label">Mensagens</div>
+          <div class="qc-desc">Chat com cliente / profissional</div>
+        </div>
+        <div class="quick-card" onclick="navigate('equipe-pro.html','Equipe', null)">
+          <div class="qc-icon">👥</div>
+          <div class="qc-label">Equipe</div>
+          <div class="qc-desc">Membros, escala e alocação</div>
+        </div>
+        <div class="quick-card" onclick="navigate('perfil-cliente.html','Perfil Cliente', null)">
+          <div class="qc-icon">👤</div>
+          <div class="qc-label">Perfil Cliente</div>
+          <div class="qc-desc">Dados, histórico e notificações</div>
+        </div>
+        <div class="quick-card" onclick="navigate('perfil-profissional.html','Perfil Profissional', null)">
+          <div class="qc-icon">👷</div>
+          <div class="qc-label">Perfil Pro</div>
+          <div class="qc-desc">Portfólio, avaliações e config.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- iframe area (hidden until navigate) -->
+    <div class="iframe-wrap" id="iframe-wrap" style="display:none">
+      <iframe id="main-frame" src="about:blank" title="Tela do Portal"></iframe>
+      <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text" id="loader-text">Carregando…</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  let currentItem = null;
+  let sidebarCollapsed = false;
+
+  function navigate(file, label, item) {
+    // highlight sidebar item
+    document.querySelectorAll('.nav-item').forEach(el => {
+      el.classList.remove('active', 'active-cliente');
+    });
+
+    const isCliente = ['login','cadastro','perfil-cliente','obras-cliente','obra-detalhe','orcamento','mensagens'].some(k => file.includes(k));
+
+    if (item) {
+      item.classList.add(isCliente ? 'active-cliente' : 'active');
+    }
+
+    // update topbar title
+    document.getElementById('topbar-title').textContent = label;
+
+    // breadcrumb
+    const bc = document.getElementById('breadcrumb');
+    bc.style.display = 'flex';
+    document.getElementById('breadcrumb-label').textContent = label;
+
+    // hide welcome, show iframe
+    document.getElementById('welcome-screen').style.display = 'none';
+    const wrap = document.getElementById('iframe-wrap');
+    wrap.style.display = 'block';
+
+    // show loader
+    const loader = document.getElementById('loader');
+    const frame = document.getElementById('main-frame');
+    loader.classList.add('show');
+    frame.style.opacity = '0';
+    document.getElementById('loader-text').textContent = 'Carregando ' + label + '…';
+
+    // load iframe
+    frame.onload = () => {
+      loader.classList.remove('show');
+      frame.style.opacity = '1';
+    };
+    frame.src = file;
+
+    // mobile: close sidebar
+    if (window.innerWidth <= 700) {
+      document.getElementById('sidebar').classList.remove('mobile-open');
+    }
+  }
+
+  function goHome() {
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active','active-cliente'));
+    document.getElementById('topbar-title').textContent = 'Selecione uma tela';
+    document.getElementById('breadcrumb').style.display = 'none';
+    document.getElementById('welcome-screen').style.display = 'flex';
+    document.getElementById('iframe-wrap').style.display = 'none';
+    const frame = document.getElementById('main-frame');
+    frame.src = 'about:blank';
+  }
+
+  function toggleSidebar() {
+    const sb = document.getElementById('sidebar');
+    if (window.innerWidth <= 700) {
+      sb.classList.toggle('mobile-open');
+    } else {
+      sidebarCollapsed = !sidebarCollapsed;
+      sb.classList.toggle('collapsed', sidebarCollapsed);
+    }
+  }
+
+  function setMode(mode) {
+    const avatar = document.getElementById('user-avatar');
+    const name = document.getElementById('sidebar-user-name');
+    const role = document.getElementById('sidebar-user-role');
+    const pillPro = document.getElementById('pill-pro');
+
+    if (mode === 'cliente') {
+      avatar.textContent = 'MS';
+      avatar.style.background = 'var(--accent)';
+      name.textContent = 'Maria Silva';
+      role.textContent = 'Cliente';
+      pillPro.style.background = 'rgba(255,255,255,0.15)';
+      pillPro.style.border = '1px solid rgba(255,255,255,0.25)';
+    } else {
+      avatar.textContent = 'CM';
+      avatar.style.background = '#27ae60';
+      name.textContent = 'Carlos Mendes';
+      role.textContent = 'Profissional';
+      pillPro.style.background = 'var(--cliente)';
+      pillPro.style.border = 'none';
+    }
+  }
+
+  // keyboard shortcut ESC to go home
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') goHome();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil Profissional — Portal de Reformas</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+.hero-banner { background: linear-gradient(135deg, var(--pro-dark), var(--pro)); border-radius: var(--radius); padding: 32px; margin-bottom: 22px; color: white; display: flex; align-items: flex-start; gap: 24px; position: relative; overflow: hidden; }
+.hero-banner::before { content: '🔨'; position: absolute; right: 30px; top: 50%; transform: translateY(-50%); font-size: 120px; opacity: 0.07; pointer-events: none; }
+.prof-avatar-lg { width: 90px; height: 90px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 700; color: var(--pro); flex-shrink: 0; border: 4px solid rgba(255,255,255,0.3); position: relative; }
+.avatar-edit { position: absolute; bottom: 0; right: 0; width: 28px; height: 28px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; border: 2px solid white; }
+.hero-name { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+.hero-role { font-size: 14px; opacity: 0.8; margin-bottom: 12px; }
+.hero-stats { display: flex; gap: 24px; margin-top: 14px; }
+.hero-stat .hv { font-size: 22px; font-weight: 700; }
+.hero-stat .hl { font-size: 11px; opacity: 0.7; margin-top: 2px; }
+.hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.hero-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); }
+.layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+.tab-nav { display: flex; gap: 4px; background: var(--gray-200); border-radius: 10px; padding: 4px; margin-bottom: 20px; }
+.tab-nav button { flex: 1; padding: 9px 10px; border: none; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; background: transparent; color: var(--gray-700); transition: var(--transition); }
+.tab-nav button.active { background: white; color: var(--pro); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.portfolio-item { border-radius: var(--radius-sm); overflow: hidden; position: relative; cursor: pointer; }
+.portfolio-thumb { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 40px; transition: var(--transition); }
+.portfolio-item:hover .portfolio-thumb { transform: scale(1.06); }
+.portfolio-label { background: var(--pro); color: white; font-size: 11px; font-weight: 600; padding: 6px 10px; text-align: center; }
+.avaliacao-item { padding: 16px 0; border-bottom: 1px solid var(--gray-200); }
+.avaliacao-item:last-child { border-bottom: none; }
+.aval-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.aval-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: white; flex-shrink: 0; }
+.aval-name { font-weight: 600; font-size: 14px; }
+.aval-date { font-size: 11px; color: var(--gray-500); }
+.stars { color: var(--warning); font-size: 14px; }
+.aval-text { font-size: 13px; color: var(--gray-700); line-height: 1.6; }
+.servico-tag { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 20px; background: var(--pro-light); color: var(--pro); font-size: 13px; font-weight: 600; margin: 4px; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cert-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); }
+.cert-icon { font-size: 24px; }
+.cert-info .cn { font-weight: 600; font-size: 14px; }
+.cert-info .cd { font-size: 12px; color: var(--gray-600); }
+.rating-bar { display: flex; align-items: center; gap: 10px; font-size: 13px; margin-bottom: 8px; }
+.rating-bar .stars-label { width: 30px; font-size: 11px; color: var(--gray-600); }
+.rating-bar .r-bar { flex: 1; height: 8px; background: var(--gray-200); border-radius: 4px; overflow: hidden; }
+.rating-bar .r-fill { height: 100%; background: var(--warning); border-radius: 4px; }
+.rating-bar .r-count { width: 24px; text-align: right; font-size: 11px; color: var(--gray-600); }
+.notify-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--gray-200); }
+.notify-row:last-child { border-bottom: none; }
+.toggle { position: relative; width: 44px; height: 24px; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; inset: 0; background: var(--gray-300); border-radius: 12px; cursor: pointer; transition: 0.3s; }
+.toggle input:checked + .toggle-slider { background: var(--pro); }
+.toggle-slider::before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+.toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" href="#"><div class="logo-icon">🔨</div> Portal de Reformas</a>
+  <div style="display:flex;gap:8px;align-items:center;font-size:14px">
+    <a href="obras-cliente.html" style="color:var(--gray-600);text-decoration:none;padding:6px 12px;border-radius:8px">Obras</a>
+    <a href="equipe-pro.html" style="color:var(--gray-600);text-decoration:none;padding:6px 12px;border-radius:8px">Equipe</a>
+    <a href="financeiro-pro.html" style="color:var(--gray-600);text-decoration:none;padding:6px 12px;border-radius:8px">Financeiro</a>
+    <a href="mensagens.html" style="color:var(--gray-600);text-decoration:none;padding:6px 12px;border-radius:8px">Mensagens</a>
+  </div>
+  <div class="navbar-actions">
+    <button class="nav-icon-btn">🔔</button>
+    <div class="avatar" style="background:var(--pro)">CM</div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+
+  <!-- Hero Banner -->
+  <div class="hero-banner">
+    <div class="prof-avatar-lg">
+      CM
+      <div class="avatar-edit">✏️</div>
+    </div>
+    <div style="flex:1">
+      <div class="hero-name">Carlos Mendes</div>
+      <div class="hero-role">🏗️ Carlos Mendes Construções • CNPJ 12.345.678/0001-99</div>
+      <div class="hero-badges">
+        <span class="hero-badge">✅ Verificado</span>
+        <span class="hero-badge">🥇 Pro Premium</span>
+        <span class="hero-badge">📍 São Paulo, SP</span>
+        <span class="hero-badge">⏱️ Responde em ~1h</span>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hv">4.9⭐</div><div class="hl">Avaliação</div></div>
+        <div class="hero-stat"><div class="hv">47</div><div class="hl">Obras feitas</div></div>
+        <div class="hero-stat"><div class="hv">8 anos</div><div class="hl">Experiência</div></div>
+        <div class="hero-stat"><div class="hv">98%</div><div class="hl">No prazo</div></div>
+      </div>
+    </div>
+    <button class="btn btn-outline" style="color:white;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.1)">✏️ Editar Perfil</button>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="tab-nav">
+        <button class="active" onclick="showTab('perfil', this)">📋 Perfil</button>
+        <button onclick="showTab('portfolio', this)">🖼️ Portfólio</button>
+        <button onclick="showTab('avaliacoes', this)">⭐ Avaliações</button>
+        <button onclick="showTab('config', this)">⚙️ Config.</button>
+      </div>
+
+      <!-- ABA PERFIL -->
+      <div id="tab-perfil" class="tab-content active section-gap">
+        <div class="card">
+          <div class="card-title">👤 Dados da Empresa</div>
+          <div class="info-grid">
+            <div class="input-group"><label>Nome / Razão Social</label><input value="Carlos Mendes Construções"></div>
+            <div class="input-group"><label>CNPJ</label><input value="12.345.678/0001-99" readonly style="background:var(--gray-50)"></div>
+            <div class="input-group"><label>E-mail Profissional</label><input type="email" value="carlos@cmendes.com.br"></div>
+            <div class="input-group"><label>Telefone / WhatsApp</label><input value="(11) 98765-4321"></div>
+            <div class="input-group"><label>CREA</label><input value="SP-123456/D"></div>
+            <div class="input-group"><label>Cidade de Atuação</label><input value="São Paulo, SP"></div>
+          </div>
+          <div class="input-group"><label>Sobre / Bio</label>
+            <textarea rows="3" style="resize:vertical">Especialista em reformas residenciais com 8 anos de experiência. Atendo São Paulo e Grande SP. Qualidade, pontualidade e transparência são nossos pilares.</textarea>
+          </div>
+          <div style="display:flex;gap:10px;justify-content:flex-end">
+            <button class="btn btn-outline">Cancelar</button>
+            <button class="btn btn-pro">💾 Salvar</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🛠️ Serviços Oferecidos</div>
+          <div style="margin-bottom:14px">
+            <span class="servico-tag">🏗️ Reforma Geral</span>
+            <span class="servico-tag">⚡ Elétrica</span>
+            <span class="servico-tag">🚰 Hidráulica</span>
+            <span class="servico-tag">🎨 Pintura</span>
+            <span class="servico-tag">🪟 Azulejamento</span>
+            <span class="servico-tag">🚪 Gesso / Drywall</span>
+          </div>
+          <button class="btn btn-outline btn-sm">➕ Adicionar Serviço</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🎓 Certificações e Registros</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="cert-item"><span class="cert-icon">🏅</span><div class="cert-info"><div class="cn">CREA-SP Ativo</div><div class="cd">Conselho Regional de Engenharia • Válido 2025</div></div></div>
+            <div class="cert-item"><span class="cert-icon">📜</span><div class="cert-info"><div class="cn">NR-10 — Segurança Elétrica</div><div class="cd">Certificado válido até Dez/2025</div></div></div>
+            <div class="cert-item"><span class="cert-icon">🏢</span><div class="cert-info"><div class="cn">MEI / CNPJ Ativo</div><div class="cd">Microempreendedor Individual</div></div></div>
+          </div>
+          <button class="btn btn-outline btn-sm" style="margin-top:12px">➕ Adicionar Certificação</button>
+        </div>
+      </div>
+
+      <!-- ABA PORTFÓLIO -->
+      <div id="tab-portfolio" class="tab-content">
+        <div class="card">
+          <div class="card-title" style="justify-content:space-between">
+            🖼️ Portfólio de Obras
+            <button class="btn btn-pro btn-sm">➕ Adicionar Projeto</button>
+          </div>
+          <div class="portfolio-grid">
+            <div class="portfolio-item"><div class="portfolio-thumb" style="background:linear-gradient(135deg,#ffe0b2,#ffcc80)">🍳</div><div class="portfolio-label">Reforma Cozinha</div></div>
+            <div class="portfolio-item"><div class="portfolio-thumb" style="background:linear-gradient(135deg,#bbdefb,#90caf9)">🚿</div><div class="portfolio-label">Banheiro Luxo</div></div>
+            <div class="portfolio-item"><div class="portfolio-thumb" style="background:linear-gradient(135deg,#c8e6c9,#a5d6a7)">🛋️</div><div class="portfolio-label">Sala Moderna</div></div>
+            <div class="portfolio-item"><div class="portfolio-thumb" style="background:linear-gradient(135deg,#f8bbd0,#f48fb1)">🛏️</div><div class="portfolio-label">Quarto Master</div></div>
+            <div class="portfolio-item"><div class="portfolio-thumb" style="background:linear-gradient(135deg,#d1c4e9,#b39ddb)">🏠</div><div class="portfolio-label">Fachada</div></div>
+            <div class="portfolio-item" style="border:2px dashed var(--gray-300);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;min-height:110px;background:white" onclick="alert('Adicionar foto')">
+              <div style="text-align:center;color:var(--gray-500)"><div style="font-size:28px">➕</div><div style="font-size:12px;margin-top:4px">Adicionar</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA AVALIAÇÕES -->
+      <div id="tab-avaliacoes" class="tab-content">
+        <div class="card">
+          <div class="card-title">⭐ Avaliações dos Clientes</div>
+          <!-- Resumo gráfico -->
+          <div style="display:flex;gap:24px;margin-bottom:20px;align-items:flex-start">
+            <div style="text-align:center;flex-shrink:0">
+              <div style="font-size:48px;font-weight:700;line-height:1;color:var(--pro)">4.9</div>
+              <div style="color:var(--warning);font-size:20px;margin:4px 0">★★★★★</div>
+              <div style="font-size:12px;color:var(--gray-600)">47 avaliações</div>
+            </div>
+            <div style="flex:1">
+              <div class="rating-bar"><span class="stars-label">5★</span><div class="r-bar"><div class="r-fill" style="width:85%"></div></div><span class="r-count">40</span></div>
+              <div class="rating-bar"><span class="stars-label">4★</span><div class="r-bar"><div class="r-fill" style="width:13%"></div></div><span class="r-count">6</span></div>
+              <div class="rating-bar"><span class="stars-label">3★</span><div class="r-bar"><div class="r-fill" style="width:2%"></div></div><span class="r-count">1</span></div>
+              <div class="rating-bar"><span class="stars-label">2★</span><div class="r-bar"><div class="r-fill" style="width:0%"></div></div><span class="r-count">0</span></div>
+              <div class="rating-bar"><span class="stars-label">1★</span><div class="r-bar"><div class="r-fill" style="width:0%"></div></div><span class="r-count">0</span></div>
+            </div>
+          </div>
+          <!-- Lista de avaliações -->
+          <div class="avaliacao-item">
+            <div class="aval-header">
+              <div class="aval-avatar" style="background:var(--cliente)">MS</div>
+              <div>
+                <div class="aval-name">Maria Silva</div>
+                <div class="aval-date">Reforma Cozinha • Abr/2025</div>
+              </div>
+              <div class="stars" style="margin-left:auto">★★★★★</div>
+            </div>
+            <div class="aval-text">Excelente profissional! Pontual, organizado e o resultado ficou perfeito. A cozinha ficou melhor do que imaginei. Recomendo muito!</div>
+          </div>
+          <div class="avaliacao-item">
+            <div class="aval-header">
+              <div class="aval-avatar" style="background:#1565c0">PA</div>
+              <div>
+                <div class="aval-name">Pedro Alves</div>
+                <div class="aval-date">Banheiro Master • Mar/2025</div>
+              </div>
+              <div class="stars" style="margin-left:auto">★★★★★</div>
+            </div>
+            <div class="aval-text">Carlos e a equipe são top! Entregaram antes do prazo e sem nenhum imprevisto. O banheiro ficou incrível. Já contratei para a próxima reforma.</div>
+          </div>
+          <div class="avaliacao-item">
+            <div class="aval-header">
+              <div class="aval-avatar" style="background:#bf360c">AR</div>
+              <div>
+                <div class="aval-name">Ana Rodrigues</div>
+                <div class="aval-date">Sala e Quartos • Jan/2025</div>
+              </div>
+              <div class="stars" style="margin-left:auto">★★★★☆</div>
+            </div>
+            <div class="aval-text">Muito bom serviço, apenas um pequeno atraso no início mas que foi compensado depois. Qualidade do acabamento excelente.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA CONFIGURAÇÕES -->
+      <div id="tab-config" class="tab-content section-gap">
+        <div class="card">
+          <div class="card-title">🔔 Notificações</div>
+          <div class="notify-row"><div><div style="font-weight:600;font-size:14px">Novas solicitações de orçamento</div><div style="font-size:12px;color:var(--gray-600)">Alerta quando um cliente solicitar proposta</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="notify-row"><div><div style="font-weight:600;font-size:14px">Mensagens de clientes</div><div style="font-size:12px;color:var(--gray-600)">Push e e-mail ao receber mensagem</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="notify-row"><div><div style="font-weight:600;font-size:14px">Parcelas aprovadas</div><div style="font-size:12px;color:var(--gray-600)">Confirmação de recebimento</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="notify-row"><div><div style="font-weight:600;font-size:14px">Avaliações recebidas</div><div style="font-size:12px;color:var(--gray-600)">Quando um cliente avaliar você</div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔒 Segurança</div>
+          <div class="info-grid">
+            <div class="input-group"><label>Senha Atual</label><input type="password" placeholder="••••••••"></div>
+            <div class="input-group"><label>Nova Senha</label><input type="password" placeholder="••••••••"></div>
+          </div>
+          <button class="btn btn-outline btn-sm">🔑 Alterar Senha</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="section-gap">
+      <div class="card">
+        <div class="card-title">📊 Desempenho</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>Taxa de conclusão</span><strong style="color:var(--cliente)">98%</strong></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:98%;background:var(--cliente)"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>Entregas no prazo</span><strong style="color:var(--pro)">92%</strong></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:92%;background:var(--pro)"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>Satisfação geral</span><strong style="color:var(--warning)">96%</strong></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:96%;background:var(--warning)"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💼 Obras Atuais</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px">
+            <span>🍳 Cozinha Silva</span>
+            <span class="badge-status badge-andamento">68%</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px">
+            <span>🚿 Banheiro Alves</span>
+            <span class="badge-status badge-andamento">40%</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px">
+            <span>🏗️ Ampliação Ana</span>
+            <span class="badge-status badge-andamento">15%</span>
+          </div>
+        </div>
+        <a href="obras-cliente.html" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:12px">Ver todas as obras</a>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💰 Financeiro Rápido</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+          <div style="display:flex;justify-content:space-between"><span>Receita do mês</span><strong style="color:var(--cliente)">R$ 38.400</strong></div>
+          <div style="display:flex;justify-content:space-between"><span>A receber</span><strong style="color:var(--accent)">R$ 16.600</strong></div>
+          <div style="display:flex;justify-content:space-between"><span>Obras ativas</span><strong>3</strong></div>
+        </div>
+        <a href="financeiro-pro.html" class="btn btn-pro btn-sm" style="width:100%;justify-content:center;margin-top:12px">Ver Financeiro</a>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🚪 Conta</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button class="btn btn-outline" style="justify-content:center">📥 Exportar Dados</button>
+          <button class="btn btn-outline" style="justify-content:center;color:var(--danger);border-color:var(--danger)">🚪 Sair</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

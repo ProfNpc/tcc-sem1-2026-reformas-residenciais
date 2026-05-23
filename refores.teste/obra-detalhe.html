@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reforma da Cozinha — Portal de Reformas</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+.hero { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; margin-bottom: 22px; display: flex; gap: 24px; align-items: flex-start; }
+.hero-icon { width: 72px; height: 72px; background: linear-gradient(135deg,#ffe0b2,#ffcc80); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0; }
+.hero-info { flex: 1; }
+.hero-info h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.hero-info .meta { font-size: 13px; color: var(--gray-600); margin-bottom: 14px; display: flex; gap: 16px; flex-wrap: wrap; }
+.hero-info .meta span { display: flex; align-items: center; gap: 5px; }
+.hero-progress { margin-top: 10px; }
+.hero-progress .labels { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+.hero-progress strong { color: var(--accent); font-size: 18px; }
+.big-progress { height: 12px; background: var(--gray-200); border-radius: 6px; overflow: hidden; }
+.big-progress-fill { height: 100%; background: linear-gradient(90deg, var(--cliente), #52d68a); border-radius: 6px; transition: width 0.8s ease; }
+.layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+.etapas-list { display: flex; flex-direction: column; gap: 12px; }
+.etapa { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; border-left: 4px solid var(--gray-300); transition: var(--transition); }
+.etapa.concluida { border-left-color: var(--cliente); }
+.etapa.andamento { border-left-color: var(--accent); }
+.etapa.pendente { border-left-color: var(--gray-300); }
+.etapa-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.etapa-title { font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+.etapa-icon { font-size: 20px; }
+.etapa-dates { font-size: 12px; color: var(--gray-600); margin-bottom: 8px; }
+.fotos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.foto-thumb { height: 70px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; transition: var(--transition); }
+.foto-thumb:hover { transform: scale(1.05); }
+.sidebar { display: flex; flex-direction: column; gap: 16px; }
+.info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--gray-200); font-size: 14px; }
+.info-row:last-child { border-bottom: none; }
+.info-row .key { color: var(--gray-600); }
+.info-row .val { font-weight: 600; }
+.profissional-card { display: flex; align-items: center; gap: 14px; }
+.prof-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--pro); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: 700; }
+.prof-info .name { font-weight: 700; font-size: 15px; }
+.prof-info .role { font-size: 12px; color: var(--gray-600); }
+.stars { color: var(--warning); font-size: 13px; margin-top: 2px; }
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tl-item { display: flex; gap: 14px; padding-bottom: 16px; position: relative; }
+.tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--cliente); flex-shrink: 0; margin-top: 5px; position: relative; z-index: 1; }
+.tl-item:not(:last-child) .tl-dot::after { content:''; position: absolute; left: 50%; top: 100%; transform: translateX(-50%); width: 2px; height: calc(100% + 6px); background: var(--gray-200); z-index: 0; }
+.tl-content .date { font-size: 11px; color: var(--gray-500); }
+.tl-content .msg { font-size: 13px; margin-top: 2px; }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" href="obras-cliente.html">← Minhas Obras</a>
+  <div class="navbar-actions">
+    <button class="nav-icon-btn" onclick="location.href='mensagens.html'">💬<span class="notif-dot"></span></button>
+    <div class="avatar" style="background:var(--cliente)">MS</div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-icon">🍳</div>
+    <div class="hero-info">
+      <h1>Reforma da Cozinha</h1>
+      <div class="meta">
+        <span>👷 Carlos Mendes Construções</span>
+        <span>📍 Rua das Flores, 123 — Apto 42</span>
+        <span>📅 01/04 – 30/05/2025</span>
+        <span class="badge-status badge-andamento">Em Andamento</span>
+      </div>
+      <div class="hero-progress">
+        <div class="labels"><span>Progresso geral da obra</span><strong>68%</strong></div>
+        <div class="big-progress"><div class="big-progress-fill" style="width:68%"></div></div>
+      </div>
+    </div>
+    <a href="orcamento.html" class="btn btn-outline btn-sm">📄 Ver Contrato</a>
+  </div>
+
+  <div class="layout">
+    <!-- Coluna principal: etapas -->
+    <div>
+      <div class="card-title" style="font-size:16px;font-weight:700;margin-bottom:14px">📋 Etapas da Obra</div>
+      <div class="etapas-list">
+
+        <div class="etapa concluida">
+          <div class="etapa-header">
+            <div class="etapa-title"><span class="etapa-icon">🏗️</span> Demolição e Preparação</div>
+            <span class="badge-status badge-concluido">✔ Concluída</span>
+          </div>
+          <div class="etapa-dates">01/04/2025 – 05/04/2025</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--cliente)"></div></div>
+          <div class="fotos-grid">
+            <div class="foto-thumb" style="background:#e8f5e9">📸</div>
+            <div class="foto-thumb" style="background:#f3e5f5">📸</div>
+            <div class="foto-thumb" style="background:#e3f2fd">📸</div>
+          </div>
+        </div>
+
+        <div class="etapa concluida">
+          <div class="etapa-header">
+            <div class="etapa-title"><span class="etapa-icon">⚡</span> Instalações Elétricas</div>
+            <span class="badge-status badge-concluido">✔ Concluída</span>
+          </div>
+          <div class="etapa-dates">06/04/2025 – 12/04/2025</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--cliente)"></div></div>
+        </div>
+
+        <div class="etapa andamento">
+          <div class="etapa-header">
+            <div class="etapa-title"><span class="etapa-icon">🪟</span> Azulejamento e Piso</div>
+            <span class="badge-status badge-andamento">Em Andamento</span>
+          </div>
+          <div class="etapa-dates">13/04/2025 – 25/04/2025</div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span>Progresso</span><strong>60%</strong></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:60%;background:var(--accent)"></div></div>
+          <div class="fotos-grid">
+            <div class="foto-thumb" style="background:#fff3e0">📸</div>
+            <div class="foto-thumb" style="background:#fce4ec">📸</div>
+            <div class="foto-thumb" style="background:#e8eaf6">➕</div>
+          </div>
+        </div>
+
+        <div class="etapa pendente">
+          <div class="etapa-header">
+            <div class="etapa-title"><span class="etapa-icon">🚰</span> Instalação dos Móveis</div>
+            <span class="badge-status" style="background:var(--gray-200);color:var(--gray-600)">Pendente</span>
+          </div>
+          <div class="etapa-dates">Previsto: 26/04 – 10/05/2025</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0%;background:var(--gray-300)"></div></div>
+        </div>
+
+        <div class="etapa pendente">
+          <div class="etapa-header">
+            <div class="etapa-title"><span class="etapa-icon">🎨</span> Pintura e Acabamento</div>
+            <span class="badge-status" style="background:var(--gray-200);color:var(--gray-600)">Pendente</span>
+          </div>
+          <div class="etapa-dates">Previsto: 11/05 – 30/05/2025</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:0%;background:var(--gray-300)"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Profissional -->
+      <div class="card">
+        <div class="card-title">👷 Profissional Responsável</div>
+        <div class="profissional-card">
+          <div class="prof-avatar">CM</div>
+          <div class="prof-info">
+            <div class="name">Carlos Mendes</div>
+            <div class="role">Construção e Reforma Geral</div>
+            <div class="stars">★★★★★ 4.9</div>
+          </div>
+        </div>
+        <a href="mensagens.html" class="btn btn-outline btn-sm" style="width:100%;margin-top:14px;justify-content:center">💬 Enviar Mensagem</a>
+      </div>
+
+      <!-- Financeiro resumo -->
+      <div class="card">
+        <div class="card-title">💰 Financeiro</div>
+        <div class="info-row"><span class="key">Valor total</span><span class="val">R$ 22.000</span></div>
+        <div class="info-row"><span class="key">Pago até agora</span><span class="val" style="color:var(--cliente)">R$ 14.960</span></div>
+        <div class="info-row"><span class="key">Pendente</span><span class="val" style="color:var(--danger)">R$ 7.040</span></div>
+        <div class="info-row"><span class="key">Próximo pagamento</span><span class="val">30/04/2025</span></div>
+        <div class="progress-bar" style="margin-top:10px"><div class="progress-fill" style="width:68%;background:var(--cliente)"></div></div>
+        <a href="orcamento.html" class="btn btn-primary btn-sm" style="width:100%;margin-top:12px;justify-content:center">Ver Orçamento Completo</a>
+      </div>
+
+      <!-- Timeline de atualizações -->
+      <div class="card">
+        <div class="card-title">📣 Atualizações Recentes</div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <div class="date">Hoje, 09:30</div>
+              <div class="msg">Azulejos do rodapé instalados. Faltam 2 paredes.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:var(--accent)"></div>
+            <div class="tl-content">
+              <div class="date">Ontem, 16:45</div>
+              <div class="msg">Piso da cozinha 100% assentado! ✅</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:var(--gray-400)"></div>
+            <div class="tl-content">
+              <div class="date">18/04, 11:00</div>
+              <div class="msg">Elétrica aprovada pela vistoria do condomínio.</div>
+            </div>
+          </div>
+        </div>
+        <a href="mensagens.html" class="btn btn-cliente btn-sm" style="width:100%;justify-content:center;margin-top:8px">Ver todas as atualizações</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orçamento — Portal de Reformas</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+.orcamento-header { background: var(--pro); color: white; border-radius: var(--radius); padding: 28px; margin-bottom: 22px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+.orcamento-header h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.orcamento-header .meta { font-size: 13px; opacity: 0.8; display: flex; flex-direction: column; gap: 4px; }
+.orcamento-num { font-size: 28px; font-weight: 700; opacity: 0.3; }
+.layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+.item-table { width: 100%; }
+.item-table th { text-align: left; font-size: 11px; font-weight: 700; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 12px; background: var(--gray-50); }
+.item-table td { padding: 14px 12px; border-top: 1px solid var(--gray-200); font-size: 14px; }
+.item-table tr:last-child td { font-weight: 700; background: var(--gray-50); }
+.totais { margin-top: 16px; border-top: 2px solid var(--gray-200); padding-top: 16px; }
+.total-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; }
+.total-row.final { font-size: 18px; font-weight: 700; color: var(--pro); border-top: 1px solid var(--gray-300); margin-top: 8px; padding-top: 12px; }
+.parcelas-list { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.parcela { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-300); font-size: 14px; }
+.parcela.paga { border-color: var(--cliente); background: var(--cliente-light); }
+.parcela.pendente { border-color: var(--gray-300); }
+.parcela .p-num { font-weight: 700; }
+.parcela .p-status { font-size: 11px; font-weight: 700; }
+.parcela.paga .p-status { color: var(--cliente); }
+.parcela.pendente .p-status { color: var(--gray-500); }
+.assinaturas { display: flex; gap: 16px; margin-top: 6px; }
+.assin-box { flex: 1; border: 1.5px dashed var(--gray-300); border-radius: var(--radius-sm); padding: 20px; text-align: center; font-size: 13px; color: var(--gray-600); }
+.assin-box.signed { border-style: solid; border-color: var(--cliente); color: var(--cliente); }
+.assin-box .icon { font-size: 24px; display: block; margin-bottom: 6px; }
+.btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+.clauses { display: flex; flex-direction: column; gap: 10px; }
+.clause { padding: 12px 14px; background: var(--gray-50); border-radius: var(--radius-sm); font-size: 13px; line-height: 1.6; border-left: 3px solid var(--pro); }
+.clause strong { display: block; font-size: 12px; font-weight: 700; color: var(--pro); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" href="obra-detalhe.html">← Reforma da Cozinha</a>
+  <div class="navbar-actions">
+    <button class="nav-icon-btn">🖨️</button>
+    <button class="nav-icon-btn">📥</button>
+    <div class="avatar" style="background:var(--cliente)">MS</div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="orcamento-header">
+    <div>
+      <h2>Orçamento / Contrato</h2>
+      <div class="meta">
+        <span>👷 Carlos Mendes Construções</span>
+        <span>🏠 Reforma da Cozinha — Apto 42</span>
+        <span>📅 Emitido em: 25/03/2025 • Válido por: 15 dias</span>
+      </div>
+    </div>
+    <div>
+      <div class="orcamento-num">#ORC-2025-042</div>
+      <span class="badge-status badge-aprovado" style="float:right;margin-top:8px">✔ Aprovado</span>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="section-gap">
+      <!-- Itens do orçamento -->
+      <div class="card">
+        <div class="card-title">📋 Itens do Orçamento</div>
+        <table class="item-table">
+          <thead>
+            <tr><th>Descrição</th><th>Qtd</th><th>Unid.</th><th style="text-align:right">Valor Unit.</th><th style="text-align:right">Total</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Demolição e descarte</td><td>1</td><td>sv</td><td style="text-align:right">R$ 1.500</td><td style="text-align:right">R$ 1.500</td></tr>
+            <tr><td>Instalação elétrica completa</td><td>1</td><td>sv</td><td style="text-align:right">R$ 3.200</td><td style="text-align:right">R$ 3.200</td></tr>
+            <tr><td>Azulejos (material + mão de obra)</td><td>24</td><td>m²</td><td style="text-align:right">R$ 280</td><td style="text-align:right">R$ 6.720</td></tr>
+            <tr><td>Piso porcelanato</td><td>12</td><td>m²</td><td style="text-align:right">R$ 220</td><td style="text-align:right">R$ 2.640</td></tr>
+            <tr><td>Instalação de móveis planejados</td><td>1</td><td>sv</td><td style="text-align:right">R$ 4.500</td><td style="text-align:right">R$ 4.500</td></tr>
+            <tr><td>Pintura e acabamento</td><td>30</td><td>m²</td><td style="text-align:right">R$ 48</td><td style="text-align:right">R$ 1.440</td></tr>
+            <tr><td>Limpeza final</td><td>1</td><td>sv</td><td style="text-align:right">R$ 500</td><td style="text-align:right">R$ 500</td></tr>
+          </tbody>
+        </table>
+        <div class="totais">
+          <div class="total-row"><span>Subtotal de materiais</span><span>R$ 10.500</span></div>
+          <div class="total-row"><span>Subtotal de mão de obra</span><span>R$ 10.000</span></div>
+          <div class="total-row"><span>Taxa de administração (5%)</span><span>R$ 1.025</span></div>
+          <div class="total-row final"><span>TOTAL DO CONTRATO</span><span>R$ 22.000</span></div>
+        </div>
+      </div>
+
+      <!-- Cláusulas -->
+      <div class="card">
+        <div class="card-title">📜 Condições do Contrato</div>
+        <div class="clauses">
+          <div class="clause"><strong>Prazo de Execução</strong>Início em 01/04/2025 e conclusão estimada em 30/05/2025, totalizando 60 dias corridos.</div>
+          <div class="clause"><strong>Garantia</strong>Garantia de 12 meses sobre mão de obra para todos os serviços executados.</div>
+          <div class="clause"><strong>Alterações</strong>Qualquer alteração no escopo deve ser formalizada por escrito e pode gerar revisão de prazo e valor.</div>
+          <div class="clause"><strong>Materiais</strong>Materiais incluídos no valor total. Alterações de especificação pelo cliente podem gerar custos adicionais.</div>
+        </div>
+      </div>
+
+      <!-- Assinaturas -->
+      <div class="card">
+        <div class="card-title">✍️ Assinaturas</div>
+        <div class="assinaturas">
+          <div class="assin-box signed"><span class="icon">✅</span>Carlos Mendes<br><small>Profissional — 25/03/2025</small></div>
+          <div class="assin-box signed"><span class="icon">✅</span>Maria Silva<br><small>Cliente — 27/03/2025</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="section-gap">
+      <div class="card">
+        <div class="card-title">💳 Plano de Pagamento</div>
+        <div class="parcelas-list">
+          <div class="parcela paga">
+            <div><div class="p-num">1ª Parcela</div><small>01/04/2025 — Sinal</small></div>
+            <div style="text-align:right"><div>R$ 6.600</div><div class="p-status">✔ PAGO</div></div>
+          </div>
+          <div class="parcela paga">
+            <div><div class="p-num">2ª Parcela</div><small>15/04/2025 — 50% obra</small></div>
+            <div style="text-align:right"><div>R$ 8.800</div><div class="p-status">✔ PAGO</div></div>
+          </div>
+          <div class="parcela pendente">
+            <div><div class="p-num">3ª Parcela</div><small>30/05/2025 — Conclusão</small></div>
+            <div style="text-align:right"><div>R$ 6.600</div><div class="p-status">⏳ PENDENTE</div></div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding:14px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:13px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Total pago</span><strong style="color:var(--cliente)">R$ 15.400</strong></div>
+          <div style="display:flex;justify-content:space-between"><span>A pagar</span><strong style="color:var(--danger)">R$ 6.600</strong></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚡ Ações</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button class="btn btn-outline" style="justify-content:center">🖨️ Imprimir Contrato</button>
+          <button class="btn btn-outline" style="justify-content:center">📥 Baixar PDF</button>
+          <button class="btn btn-outline" style="justify-content:center">📤 Enviar por E-mail</button>
+          <button class="btn btn-primary" style="justify-content:center">💬 Negociar Alteração</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

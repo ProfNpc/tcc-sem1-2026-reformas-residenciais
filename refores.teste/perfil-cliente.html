@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil — Portal de Reformas</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+.profile-hero { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 32px; margin-bottom: 22px; display: flex; align-items: center; gap: 24px; }
+.profile-avatar { width: 88px; height: 88px; border-radius: 50%; background: var(--cliente); display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 700; color: white; flex-shrink: 0; position: relative; }
+.avatar-edit { position: absolute; bottom: 0; right: 0; width: 28px; height: 28px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; border: 2px solid white; }
+.profile-name { font-size: 24px; font-weight: 700; }
+.profile-sub { font-size: 14px; color: var(--gray-600); margin-top: 4px; }
+.profile-badges { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.profile-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: var(--cliente-light); color: var(--cliente); }
+.layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+.tab-nav { display: flex; gap: 4px; background: var(--gray-200); border-radius: 10px; padding: 4px; margin-bottom: 20px; }
+.tab-nav button { flex: 1; padding: 9px 14px; border: none; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; background: transparent; color: var(--gray-700); transition: var(--transition); }
+.tab-nav button.active { background: white; color: var(--pro); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.historico-card { display: flex; align-items: center; gap: 14px; padding: 14px; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); margin-bottom: 10px; transition: var(--transition); }
+.historico-card:hover { border-color: var(--cliente); }
+.h-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.h-info { flex: 1; }
+.h-title { font-weight: 600; font-size: 14px; }
+.h-sub { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+.h-val { text-align: right; }
+.h-price { font-weight: 700; font-size: 15px; }
+.h-date { font-size: 11px; color: var(--gray-500); }
+.notify-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--gray-200); }
+.notify-row:last-child { border-bottom: none; }
+.notify-info .nl { font-size: 14px; font-weight: 600; }
+.notify-info .nd { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+.toggle { position: relative; width: 44px; height: 24px; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--gray-300); border-radius: 12px; cursor: pointer; transition: 0.3s; }
+.toggle input:checked + .toggle-slider { background: var(--cliente); }
+.toggle-slider::before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+.toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" href="obras-cliente.html">← Minhas Obras</a>
+  <div class="navbar-actions">
+    <button class="nav-icon-btn" onclick="location.href='mensagens.html'">💬<span class="notif-dot"></span></button>
+    <div class="avatar" style="background:var(--cliente)">MS</div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <!-- Hero -->
+  <div class="profile-hero">
+    <div class="profile-avatar">
+      MS
+      <div class="avatar-edit">✏️</div>
+    </div>
+    <div style="flex:1">
+      <div class="profile-name">Maria Silva</div>
+      <div class="profile-sub">📍 São Paulo, SP • Cliente desde Jan/2024</div>
+      <div class="profile-badges">
+        <span class="profile-badge">✔ Verificado</span>
+        <span class="profile-badge">3 Obras Realizadas</span>
+        <span class="profile-badge">R$ 28.700 investidos</span>
+      </div>
+    </div>
+    <button class="btn btn-outline">✏️ Editar Perfil</button>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="tab-nav">
+        <button class="active" onclick="showTab('dados', this)">👤 Dados Pessoais</button>
+        <button onclick="showTab('historico', this)">🏗️ Histórico</button>
+        <button onclick="showTab('notif', this)">🔔 Notificações</button>
+      </div>
+
+      <!-- Dados Pessoais -->
+      <div id="tab-dados" class="tab-content active">
+        <div class="card">
+          <div class="card-title">👤 Dados Pessoais</div>
+          <div class="info-grid">
+            <div class="input-group"><label>Nome completo</label><input value="Maria Aparecida Silva"></div>
+            <div class="input-group"><label>CPF</label><input value="***.***.456-78" readonly style="background:var(--gray-50)"></div>
+            <div class="input-group"><label>E-mail</label><input type="email" value="maria.silva@email.com"></div>
+            <div class="input-group"><label>Telefone</label><input value="(11) 99876-5432"></div>
+          </div>
+          <div class="card-title" style="margin-top:8px">🏠 Endereço Principal</div>
+          <div class="input-group"><label>Endereço</label><input value="Rua das Flores, 123 — Apto 42"></div>
+          <div class="info-grid">
+            <div class="input-group"><label>Cidade</label><input value="São Paulo"></div>
+            <div class="input-group"><label>CEP</label><input value="01310-100"></div>
+          </div>
+          <div style="display:flex;gap:10px;justify-content:flex-end">
+            <button class="btn btn-outline">Cancelar</button>
+            <button class="btn btn-cliente">💾 Salvar Alterações</button>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-title">🔒 Segurança</div>
+          <div class="info-grid">
+            <div class="input-group"><label>Senha Atual</label><input type="password" placeholder="••••••••"></div>
+            <div class="input-group"><label>Nova Senha</label><input type="password" placeholder="••••••••"></div>
+          </div>
+          <button class="btn btn-outline btn-sm">🔑 Alterar Senha</button>
+        </div>
+      </div>
+
+      <!-- Histórico -->
+      <div id="tab-historico" class="tab-content">
+        <div class="card">
+          <div class="card-title">🏗️ Histórico de Obras</div>
+          <div class="historico-card">
+            <div class="h-icon" style="background:#fff3e0">🍳</div>
+            <div class="h-info"><div class="h-title">Reforma da Cozinha</div><div class="h-sub">👷 Carlos Mendes • Em andamento • 68%</div></div>
+            <div class="h-val"><div class="h-price" style="color:var(--accent)">R$ 22.000</div><div class="h-date">Jan/2025</div></div>
+          </div>
+          <div class="historico-card">
+            <div class="h-icon" style="background:#e8f5e9">🎨</div>
+            <div class="h-info"><div class="h-title">Pintura Geral</div><div class="h-sub">✅ João Pinturas • Concluída</div></div>
+            <div class="h-val"><div class="h-price" style="color:var(--cliente)">R$ 3.200</div><div class="h-date">Mar/2025</div></div>
+          </div>
+          <div class="historico-card">
+            <div class="h-icon" style="background:#e3f2fd">🔌</div>
+            <div class="h-info"><div class="h-title">Instalação Elétrica</div><div class="h-sub">✅ ElétricaFácil • Concluída</div></div>
+            <div class="h-val"><div class="h-price" style="color:var(--cliente)">R$ 3.500</div><div class="h-date">Nov/2024</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notificações -->
+      <div id="tab-notif" class="tab-content">
+        <div class="card">
+          <div class="card-title">🔔 Preferências de Notificação</div>
+          <div class="notify-row"><div class="notify-info"><div class="nl">Atualizações da obra</div><div class="nd">Fotos, registros e progresso</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="notify-row"><div class="notify-info"><div class="nl">Mensagens do profissional</div><div class="nd">Notificar quando receber mensagem</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="notify-row"><div class="notify-info"><div class="nl">Vencimento de parcelas</div><div class="nd">Lembrete 3 dias antes</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="notify-row"><div class="notify-info"><div class="nl">Novos orçamentos</div><div class="nd">Quando um profissional enviar proposta</div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+          <div class="notify-row"><div class="notify-info"><div class="nl">Promoções e novidades</div><div class="nd">Conteúdo do Portal de Reformas</div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="section-gap">
+      <div class="card">
+        <div class="card-title">📊 Resumo Financeiro</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;font-size:14px"><span>Total investido</span><strong>R$ 28.700</strong></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px"><span>Em aberto</span><strong style="color:var(--danger)">R$ 7.040</strong></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px"><span>Obras concluídas</span><strong style="color:var(--cliente)">2</strong></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px"><span>Em andamento</span><strong style="color:var(--accent)">1</strong></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⭐ Avaliações Dadas</div>
+        <div style="font-size:13px;color:var(--gray-600);margin-bottom:10px">Você avaliou 2 profissionais</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:13px">João Pinturas</span>
+            <span style="color:var(--warning)">★★★★★</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:13px">ElétricaFácil</span>
+            <span style="color:var(--warning)">★★★★☆</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🚪 Conta</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button class="btn btn-outline" style="justify-content:center">📥 Exportar Dados</button>
+          <button class="btn btn-danger btn-sm" style="justify-content:center">🗑️ Excluir Conta</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
