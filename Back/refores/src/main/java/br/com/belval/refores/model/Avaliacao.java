@@ -1,14 +1,21 @@
-package br.com.belval.refores;
+package br.com.belval.refores.model;
 
 import java.util.Objects;
+
+import jakarta.persistence.Column;
+
+
+
+
+
 
 public class Avaliacao {
 	private Integer id;
 	private String data;
 	private String nota;
-	private Integer comentario;
-
-
+	private String comentario;
+	
+	
 	public Avaliacao() {
 		
 	}
@@ -21,11 +28,11 @@ public class Avaliacao {
 		this.id = id;
 	}
 	
-	public Integer getcomentario() {
+	public String getcomentario() {
 		return this.comentario;
 	  }
 	
-	public void setComentario(Integer comentario) {
+	public void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
 	

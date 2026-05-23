@@ -1,8 +1,6 @@
 package br.com.belval.refores.model;
 
-//Add import com Ctrl+SHIFT+O
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -13,78 +11,38 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 /**
- * Corresponde à tabela produto
+<<<<<<< HEAD
+ * Corresponde à tabela pessoa
  */
 @Entity
-@Table (name = "tb_Pessoa")
+@Table(name = "tb_pessoa")
 public class Pessoa {
 	
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-    
+	
+	@Column(name = "nome", nullable = false, length = 150)
 	private String nome;
 	
-	private String descricao;
+	@Column(name = "cpf", nullable = false, unique = true, length = 14)
+	private String cpf;
 	
-	private BigDecimal preco;//valores decimais como 12.34
+	@Column(name = "telefone", length = 20)
+	private String telefone;
 	
-	private LocalDateTime dataCriacao;*/
+	@Column(name = "endereco", length = 255)
+	private String endereco;
 	
-	
-	  	@Id
-	  	@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private Integer id;
-		
-		@Column(name = "nometeste", nullable = false, length = 100)
-		private String nome;
-		
-		@Column(name = "email", length = 100)
-		private String email;
-		
-		@Column(name = "cpf", length = 11)
-		private String cpf;
-		
-		@Column(name = "telefone", length = 15)
-		private String telefone;
-		
-		@Column(name = "data_criacao")
-		private LocalDateTime dataCriacao;
+	@Column(name = "email", length = 100)
+	private String email;
 	
 	
-	/**
-	 * Precisamos criar:
-	 * 1 - Construtor padrão(sem parâmetros) e publico - OK
-	 * 2 - Métodos getters e setters - OK
-	 * 3 - Criar os métodos hashCode() e equals()
-	 * 4 - Método toString() : representação textual do conteúdo do objeto
-	 */
-
-	/*
-	 // método qualquer
-	public int calcularQQcoisa(String param1, String param2) {
-	   ^    ^       ^          ^---------------------------^
-	   |    |       |                      |----------Lista de parâmetros
-	   |    |       |------nome do método
-	   |    |------- tipo de retorno
-	   |--------visibilidade     
-		return 0;
-	}
-	*/
-	
-	/**
-	 * Método construtor é aquele que:
-	 * 1 - Tem o mesmo nome da classe
-	 * 2 - Não tem tipo de retorno(nem void)
-	 * 
-	 * Método construtor padrão
-	 * 3 - Lista de parâmetros vazia 
-	 */
 	public Pessoa() {
-		
+		super();
 	}
 	
-	//Método que recupera o valor do atributo id
+	
 	public Integer getId() {
 		return this.id;
 	}
@@ -97,6 +55,7 @@ public class Pessoa {
 	//Para criar os getters e os setters podemos utilizar o atalho da IDE
 	//Alt + SHIFT + S >> "Generate getters and setters"
 	
+
 	public String getNome() {
 		return nome;
 	}
@@ -105,39 +64,40 @@ public class Pessoa {
 		this.nome = nome;
 	}
 
-	
-	public String getemail() {
-		return email;
-	}
-
-	public void setemail(String email) {
-		this.email = email;
-	}
-	
-	
-	public String getcpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setcpf(String cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 
-	public String gettelefone() {
+
+
+	public String getTelefone() {
 		return telefone;
 	}
 
-	public void settelefone(String telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	
-	public void setDataCriacao(LocalDateTime dataCriacao) {
-		this.dataCriacao = dataCriacao;
+
+	public String getEndereco() {
+		return endereco;
 	}
 
-	//Para criar o hashCode() e o equals() também temo um atalho
-	//Alt + SHIFT + S >> "Generate hashCode() and equals()"
-	
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -156,17 +116,11 @@ public class Pessoa {
 	}
 
 	
-	//Para facilitar a identificação do objeto em um momento de 
-	//debug, precisamos de uma representação textual que nos permita 
-	//identificar qual objeto é aquele, para isso vamos sobreescrever
-	//o método toString()
-	
-	//Atalho:Alt + SHIFT + S >> Generate toString()
-	
 	@Override
 	public String toString() {
-		return "Produto [id=" + id + ", nome=" + nome + ", email=" + email + ", cpf=" + cpf
-				+ ", dataCriacao=" + dataCriacao + "]";
+		return "Pessoa [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + ", endereco="
+				+ endereco + ", email=" + email + "]";
 	}
-	
+
+
 }
