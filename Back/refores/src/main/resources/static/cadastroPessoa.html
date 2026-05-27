@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   
+    <link rel="stylesheet" href="css/cadastro.css" />
+
+    <title>ReformaJá | Reformas Residenciais</title>
+
+      
+</head>
+
+<body>
+
+<div class="form-container">
+
+  <h2>Cadastro de Pessoa</h2>
+
+  <div class="input-group">
+    <label>Nome completo</label>
+    <input id="nomeCad" type="text" placeholder="Digite seu nome completo" />
+  </div>
+
+  <!--<div class="input-group">
+    <label>Email</label>
+    <input type="email" placeholder="Digite seu email" />
+  </div>-->
+
+  <div class="input-group">
+    <label>Telefone</label>
+    <input type="tel" placeholder="(00) 00000-0000" />
+  </div>
+
+  <div class="input-group">
+    <label>Descrição</label>
+    <input type="text" placeholder="Descrição do servico" />
+  </div>
+
+  
+
+  <div class="input-group">
+    <label>Cidade</label>
+    <input type="text" placeholder="Sua cidade" />
+  </div>
+
+  <div class="input-group">
+    <label>Senha</label>
+    <input type="password" placeholder="Crie uma senha" />
+  </div>
+
+<div class="input-groupesolha">
+  <label>Escolha uma opção</label>
+
+  <div class="radio-group">
+    <label><input id="escolhacliente" type="radio" name="opcao"> Cliente</label>
+    <label><input id="escolhaespe" type="radio" name="opcao"> Profissional</label>
+
+  </div>
+</div>
+
+
+
+
+  <button type="button" id="btn-submit-avancar" class="btn-submit-avancar">Avançar</button>
+  <button type="button" id="btn-submit-cad" class="btn-submit-cad">Salvar informações</button>
+
+
+  <script src="codigo/cadastro.js"></script>
+
+</div>
+</body>
+</html>

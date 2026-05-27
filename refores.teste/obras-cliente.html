@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minhas Obras — Portal de Reformas</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+.obra-card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; transition: var(--transition); cursor: pointer; }
+.obra-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.obra-thumb { height: 140px; background: linear-gradient(135deg, #c8e6c9, #a5d6a7); display: flex; align-items: center; justify-content: center; font-size: 48px; position: relative; }
+.obra-thumb .status-tag { position: absolute; top: 12px; right: 12px; }
+.obra-body { padding: 18px; }
+.obra-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.obra-sub { font-size: 13px; color: var(--gray-600); margin-bottom: 14px; }
+.obra-progress-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
+.obra-progress-label strong { color: var(--cliente); }
+.obra-meta { display: flex; justify-content: space-between; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-200); font-size: 12px; color: var(--gray-600); }
+.obra-meta span { display: flex; align-items: center; gap: 4px; }
+.filter-bar { display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+.filter-btn { padding: 8px 16px; border: 1.5px solid var(--gray-300); border-radius: 20px; background: white; font-size: 13px; font-weight: 600; cursor: pointer; transition: var(--transition); color: var(--gray-700); }
+.filter-btn.active { background: var(--cliente); color: white; border-color: var(--cliente); }
+.summary-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.s-card { background: white; border-radius: var(--radius); padding: 16px 20px; box-shadow: var(--shadow); border-left: 4px solid transparent; }
+.s-card.c1 { border-left-color: var(--accent); }
+.s-card.c2 { border-left-color: var(--cliente); }
+.s-card.c3 { border-left-color: var(--warning); }
+.s-card.c4 { border-left-color: var(--pro); }
+.s-card .sv { font-size: 24px; font-weight: 700; }
+.s-card .sl { font-size: 12px; color: var(--gray-600); margin-top: 3px; }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" href="#"><div class="logo-icon">🔨</div> Portal de Reformas</a>
+  <div class="navbar-actions">
+    <button class="nav-icon-btn" onclick="location.href='mensagens.html'">💬<span class="notif-dot"></span></button>
+    <button class="nav-icon-btn">🔔</button>
+    <div class="avatar" style="background:var(--cliente)" onclick="location.href='perfil-cliente.html'">MS</div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="page-header">
+    <div>
+      <h1>Minhas Obras</h1>
+      <p>Acompanhe todas as suas reformas e projetos</p>
+    </div>
+    <a href="orcamento.html" class="btn btn-cliente">➕ Solicitar Orçamento</a>
+  </div>
+
+  <div class="summary-bar">
+    <div class="s-card c1"><div class="sv">3</div><div class="sl">Obras Totais</div></div>
+    <div class="s-card c2"><div class="sv">1</div><div class="sl">Em Andamento</div></div>
+    <div class="s-card c3"><div class="sv">1</div><div class="sl">Em Orçamento</div></div>
+    <div class="s-card c4"><div class="sv">1</div><div class="sl">Concluída</div></div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active">Todas</button>
+    <button class="filter-btn">Em Andamento</button>
+    <button class="filter-btn">Orçamento</button>
+    <button class="filter-btn">Concluídas</button>
+  </div>
+
+  <div class="grid-3">
+    <!-- Obra 1 -->
+    <div class="obra-card" onclick="location.href='obra-detalhe.html'">
+      <div class="obra-thumb" style="background:linear-gradient(135deg,#ffe0b2,#ffcc80)">
+        🏠
+        <span class="status-tag badge-status badge-andamento">Em Andamento</span>
+      </div>
+      <div class="obra-body">
+        <div class="obra-title">Reforma da Cozinha</div>
+        <div class="obra-sub">👷 Carlos Mendes Construções • Apto 42</div>
+        <div class="obra-progress-label">
+          <span>Progresso geral</span>
+          <strong>68%</strong>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:68%;background:var(--cliente)"></div></div>
+        <div class="obra-meta">
+          <span>📅 Início: 01/04/2025</span>
+          <span>🏁 Prazo: 30/05/2025</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Obra 2 -->
+    <div class="obra-card" onclick="location.href='obra-detalhe.html'">
+      <div class="obra-thumb" style="background:linear-gradient(135deg,#bbdefb,#90caf9)">
+        🚿
+        <span class="status-tag badge-status badge-orcamento">Orçamento</span>
+      </div>
+      <div class="obra-body">
+        <div class="obra-title">Banheiro Suite</div>
+        <div class="obra-sub">⏳ Aguardando aprovação do orçamento</div>
+        <div class="obra-progress-label">
+          <span>Progresso geral</span>
+          <strong>0%</strong>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%;background:var(--accent)"></div></div>
+        <div class="obra-meta">
+          <span>📅 Solicitado: 12/05/2025</span>
+          <span>💰 R$ 8.500</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Obra 3 -->
+    <div class="obra-card" onclick="location.href='obra-detalhe.html'">
+      <div class="obra-thumb" style="background:linear-gradient(135deg,#c8e6c9,#a5d6a7)">
+        🎨
+        <span class="status-tag badge-status badge-concluido">Concluída</span>
+      </div>
+      <div class="obra-body">
+        <div class="obra-title">Pintura Geral</div>
+        <div class="obra-sub">✅ João Pinturas • Sala e quartos</div>
+        <div class="obra-progress-label">
+          <span>Progresso geral</span>
+          <strong>100%</strong>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--cliente)"></div></div>
+        <div class="obra-meta">
+          <span>📅 Concluída: 10/03/2025</span>
+          <span>💰 R$ 3.200</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

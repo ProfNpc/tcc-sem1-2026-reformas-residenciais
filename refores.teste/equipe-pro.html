@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestão de Equipe — Portal de Reformas</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+.member-card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; display: flex; flex-direction: column; gap: 14px; transition: var(--transition); }
+.member-card:hover { box-shadow: var(--shadow-md); }
+.member-top { display: flex; align-items: center; gap: 14px; }
+.member-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; color: white; flex-shrink: 0; }
+.member-name { font-size: 16px; font-weight: 700; }
+.member-role { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+.member-status { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; }
+.status-dot.ativo { background: var(--cliente); }
+.status-dot.folga { background: var(--warning); }
+.status-dot.ferias { background: var(--gray-400); }
+.member-stats { display: flex; gap: 0; border-top: 1px solid var(--gray-200); margin-top: 4px; }
+.m-stat { flex: 1; text-align: center; padding: 10px 6px; }
+.m-stat:not(:last-child) { border-right: 1px solid var(--gray-200); }
+.m-stat .mv { font-size: 16px; font-weight: 700; }
+.m-stat .ml { font-size: 10px; color: var(--gray-600); margin-top: 2px; }
+.member-actions { display: flex; gap: 8px; }
+.obra-assoc { display: flex; flex-direction: column; gap: 6px; }
+.obra-tag { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: var(--pro-light); border-radius: 6px; font-size: 12px; }
+.obra-tag strong { font-size: 13px; }
+.schedule-grid { display: grid; grid-template-columns: auto repeat(7, 1fr); gap: 4px; font-size: 12px; }
+.sched-header { background: var(--pro); color: white; border-radius: 4px; padding: 6px; text-align: center; font-weight: 700; }
+.sched-name { padding: 6px 8px; font-weight: 600; display: flex; align-items: center; }
+.sched-cell { border-radius: 4px; padding: 6px; text-align: center; font-size: 11px; font-weight: 600; }
+.sched-cell.work { background: var(--pro-light); color: var(--pro); }
+.sched-cell.off { background: var(--gray-100); color: var(--gray-400); }
+.sched-cell.today { background: var(--pro); color: white; }
+.add-member-card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; border: 2px dashed var(--gray-300); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: var(--transition); min-height: 220px; }
+.add-member-card:hover { border-color: var(--pro); }
+.add-member-card .plus { font-size: 36px; color: var(--gray-400); }
+.add-member-card span { font-size: 14px; color: var(--gray-600); font-weight: 600; }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" href="#"><div class="logo-icon">🔨</div> Portal de Reformas</a>
+  <div style="display:flex;gap:8px;align-items:center;font-size:14px">
+    <a href="obras-cliente.html" style="color:var(--gray-600);text-decoration:none;padding:6px 12px;border-radius:8px">Obras</a>
+    <a href="equipe-pro.html" style="color:var(--pro);font-weight:700;text-decoration:none;padding:6px 12px;border-radius:8px;background:var(--pro-light)">Equipe</a>
+    <a href="financeiro-pro.html" style="color:var(--gray-600);text-decoration:none;padding:6px 12px;border-radius:8px">Financeiro</a>
+    <a href="mensagens.html" style="color:var(--gray-600);text-decoration:none;padding:6px 12px;border-radius:8px">Mensagens</a>
+  </div>
+  <div class="navbar-actions">
+    <div class="avatar" style="background:var(--pro)">CM</div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="page-header">
+    <div>
+      <h1>👷 Gestão de Equipe</h1>
+      <p>Carlos Mendes Construções — 4 membros ativos</p>
+    </div>
+    <button class="btn btn-pro" onclick="alert('Adicionar membro')">➕ Adicionar Membro</button>
+  </div>
+
+  <!-- Resumo -->
+  <div class="grid-4" style="margin-bottom:24px">
+    <div class="stat-card"><div style="font-size:24px;margin-bottom:8px">👥</div><div class="stat-value">4</div><div class="stat-label">Membros Totais</div></div>
+    <div class="stat-card"><div style="font-size:24px;margin-bottom:8px">✅</div><div class="stat-value" style="color:var(--cliente)">3</div><div class="stat-label">Em Serviço Hoje</div></div>
+    <div class="stat-card"><div style="font-size:24px;margin-bottom:8px">🏗️</div><div class="stat-value">3</div><div class="stat-label">Obras em Andamento</div></div>
+    <div class="stat-card"><div style="font-size:24px;margin-bottom:8px">💰</div><div class="stat-value">R$ 18k</div><div class="stat-label">Folha do Mês</div></div>
+  </div>
+
+  <!-- Cards de membros -->
+  <div class="grid-3" style="margin-bottom:28px">
+    <!-- Membro 1 -->
+    <div class="member-card">
+      <div class="member-top">
+        <div class="member-avatar" style="background:#1565c0">RJ</div>
+        <div>
+          <div class="member-name">Roberto Jorge</div>
+          <div class="member-role">Pedreiro Oficial</div>
+          <div class="member-status"><span class="status-dot ativo"></span><span style="font-size:11px;color:var(--cliente);font-weight:600">Ativo — Cozinha Silva</span></div>
+        </div>
+      </div>
+      <div class="obra-assoc">
+        <div class="obra-tag"><span>🍳 Reforma Cozinha</span><span class="badge-status badge-andamento">Ativo</span></div>
+      </div>
+      <div class="member-stats">
+        <div class="m-stat"><div class="mv">87%</div><div class="ml">Assiduidade</div></div>
+        <div class="m-stat"><div class="mv">4.8⭐</div><div class="ml">Avaliação</div></div>
+        <div class="m-stat"><div class="mv">R$4.5k</div><div class="ml">Salário</div></div>
+      </div>
+      <div class="member-actions">
+        <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center" onclick="location.href='mensagens.html'">💬 Msg</button>
+        <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center">📋 Ver</button>
+      </div>
+    </div>
+
+    <!-- Membro 2 -->
+    <div class="member-card">
+      <div class="member-top">
+        <div class="member-avatar" style="background:#6a1572">FS</div>
+        <div>
+          <div class="member-name">Felipe Santos</div>
+          <div class="member-role">Eletricista</div>
+          <div class="member-status"><span class="status-dot ativo"></span><span style="font-size:11px;color:var(--cliente);font-weight:600">Ativo — Banheiro Alves</span></div>
+        </div>
+      </div>
+      <div class="obra-assoc">
+        <div class="obra-tag"><span>🚿 Banheiro Alves</span><span class="badge-status badge-andamento">Ativo</span></div>
+      </div>
+      <div class="member-stats">
+        <div class="m-stat"><div class="mv">95%</div><div class="ml">Assiduidade</div></div>
+        <div class="m-stat"><div class="mv">4.9⭐</div><div class="ml">Avaliação</div></div>
+        <div class="m-stat"><div class="mv">R$5.2k</div><div class="ml">Salário</div></div>
+      </div>
+      <div class="member-actions">
+        <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center" onclick="location.href='mensagens.html'">💬 Msg</button>
+        <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center">📋 Ver</button>
+      </div>
+    </div>
+
+    <!-- Membro 3 -->
+    <div class="member-card">
+      <div class="member-top">
+        <div class="member-avatar" style="background:#bf360c">TM</div>
+        <div>
+          <div class="member-name">Thiago Moura</div>
+          <div class="member-role">Pintor / Azulejista</div>
+          <div class="member-status"><span class="status-dot ativo"></span><span style="font-size:11px;color:var(--cliente);font-weight:600">Ativo — Cozinha Silva</span></div>
+        </div>
+      </div>
+      <div class="obra-assoc">
+        <div class="obra-tag"><span>🍳 Reforma Cozinha</span><span class="badge-status badge-andamento">Ativo</span></div>
+      </div>
+      <div class="member-stats">
+        <div class="m-stat"><div class="mv">91%</div><div class="ml">Assiduidade</div></div>
+        <div class="m-stat"><div class="mv">4.7⭐</div><div class="ml">Avaliação</div></div>
+        <div class="m-stat"><div class="mv">R$3.8k</div><div class="ml">Salário</div></div>
+      </div>
+      <div class="member-actions">
+        <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center">💬 Msg</button>
+        <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center">📋 Ver</button>
+      </div>
+    </div>
+
+    <!-- Membro 4 -->
+    <div class="member-card">
+      <div class="member-top">
+        <div class="member-avatar" style="background:#2e7d32">LR</div>
+        <div>
+          <div class="member-name">Lucas Reis</div>
+          <div class="member-role">Servente</div>
+          <div class="member-status"><span class="status-dot folga"></span><span style="font-size:11px;color:var(--warning);font-weight:600">De Folga</span></div>
+        </div>
+      </div>
+      <div class="obra-assoc">
+        <div class="obra-tag" style="background:var(--gray-100)"><span style="color:var(--gray-500)">— Sem obra atribuída</span></div>
+      </div>
+      <div class="member-stats">
+        <div class="m-stat"><div class="mv">78%</div><div class="ml">Assiduidade</div></div>
+        <div class="m-stat"><div class="mv">4.3⭐</div><div class="ml">Avaliação</div></div>
+        <div class="m-stat"><div class="mv">R$2.8k</div><div class="ml">Salário</div></div>
+      </div>
+      <div class="member-actions">
+        <button class="btn btn-outline btn-sm" style="flex:1;justify-content:center">💬 Msg</button>
+        <button class="btn btn-pro btn-sm" style="flex:1;justify-content:center">📌 Alocar</button>
+      </div>
+    </div>
+
+    <!-- Adicionar -->
+    <div class="add-member-card" onclick="alert('Adicionar membro')">
+      <div class="plus">➕</div>
+      <span>Adicionar Membro</span>
+    </div>
+  </div>
+
+  <!-- Escala da semana -->
+  <div class="card">
+    <div class="card-title">📅 Escala da Semana</div>
+    <div class="schedule-grid">
+      <div></div>
+      <div class="sched-header">Seg<br>21</div>
+      <div class="sched-header today">Ter<br>22</div>
+      <div class="sched-header">Qua<br>23</div>
+      <div class="sched-header">Qui<br>24</div>
+      <div class="sched-header">Sex<br>25</div>
+      <div class="sched-header">Sáb<br>26</div>
+      <div class="sched-header">Dom<br>27</div>
+
+      <div class="sched-name">Roberto</div>
+      <div class="sched-cell work">Coz.</div><div class="sched-cell today work">Coz.</div>
+      <div class="sched-cell work">Coz.</div><div class="sched-cell work">Coz.</div>
+      <div class="sched-cell work">Coz.</div><div class="sched-cell off">—</div><div class="sched-cell off">—</div>
+
+      <div class="sched-name">Felipe</div>
+      <div class="sched-cell work">Ban.</div><div class="sched-cell today work">Ban.</div>
+      <div class="sched-cell work">Ban.</div><div class="sched-cell off">—</div>
+      <div class="sched-cell work">Amp.</div><div class="sched-cell off">—</div><div class="sched-cell off">—</div>
+
+      <div class="sched-name">Thiago</div>
+      <div class="sched-cell work">Coz.</div><div class="sched-cell today work">Coz.</div>
+      <div class="sched-cell work">Coz.</div><div class="sched-cell work">Coz.</div>
+      <div class="sched-cell work">Coz.</div><div class="sched-cell work">Coz.</div><div class="sched-cell off">—</div>
+
+      <div class="sched-name">Lucas</div>
+      <div class="sched-cell off">Folga</div><div class="sched-cell today off">Folga</div>
+      <div class="sched-cell off">Folga</div><div class="sched-cell work">—</div>
+      <div class="sched-cell work">—</div><div class="sched-cell off">—</div><div class="sched-cell off">—</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

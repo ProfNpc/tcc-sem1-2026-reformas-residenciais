@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — Portal de Reformas</title>
+<style>
+:root {
+  --cliente: #27ae60; --pro: #2c3e50; --accent: #e67e22;
+  --gray-100: #f4f7f6; --gray-200: #eee; --gray-300: #dcdde1;
+  --gray-500: #95a5a6; --gray-600: #7f8c8d; --gray-800: #34495e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: var(--gray-100); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+.container { background: white; width: 100%; max-width: 420px; border-radius: 16px; box-shadow: 0 15px 50px rgba(0,0,0,0.12); overflow: hidden; }
+.tabs { display: flex; background: var(--gray-200); }
+.tab { flex: 1; padding: 16px; text-align: center; cursor: pointer; font-weight: 700; font-size: 13px; color: var(--gray-600); transition: 0.3s; letter-spacing: 0.5px; border-top: 4px solid transparent; }
+.tab.active[data-type="cliente"] { background: white; color: var(--cliente); border-top-color: var(--cliente); }
+.tab.active[data-type="pro"] { background: white; color: var(--pro); border-top-color: var(--pro); }
+.form-content { padding: 40px 34px; }
+.header-icon { font-size: 36px; margin-bottom: 12px; }
+.header-text h2 { font-size: 24px; font-weight: 700; }
+.header-text p { font-size: 13px; color: var(--gray-600); margin-top: 6px; margin-bottom: 28px; line-height: 1.5; }
+.input-group { margin-bottom: 18px; }
+.input-group label { display: block; font-size: 11px; font-weight: 700; color: var(--gray-800); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.5px; }
+.input-group input { width: 100%; padding: 13px 14px; border: 1.5px solid var(--gray-300); border-radius: 9px; font-size: 14px; outline: none; font-family: inherit; transition: 0.25s; }
+.input-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(230,126,34,0.12); }
+.btn { width: 100%; padding: 14px; border: none; border-radius: 9px; color: white; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.3s; letter-spacing: 0.5px; }
+.theme-cliente .btn { background: var(--cliente); }
+.theme-cliente .btn:hover { background: #1e8449; }
+.theme-pro .btn { background: var(--pro); }
+.theme-pro .btn:hover { background: #1a252f; }
+.footer-links { text-align: center; margin-top: 22px; font-size: 13px; color: var(--gray-600); }
+.footer-links a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.footer-links a:hover { text-decoration: underline; }
+.divider { margin: 12px 0; color: var(--gray-500); font-size: 12px; }
+.brand-bar { background: var(--gray-100); padding: 16px 34px; display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--gray-200); }
+.brand-bar .logo { width: 28px; height: 28px; background: var(--accent); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: white; font-size: 15px; }
+.brand-bar span { font-weight: 700; font-size: 14px; color: var(--gray-800); }
+.brand-bar small { font-size: 11px; color: var(--gray-500); display: block; }
+</style>
+</head>
+<body class="theme-cliente" id="body-context">
+<div class="container">
+  <div class="tabs">
+    <div class="tab active" data-type="cliente" onclick="switchTab('cliente', this)">🏠 SOU CLIENTE</div>
+    <div class="tab" data-type="pro" onclick="switchTab('pro', this)">👷 SOU PROFISSIONAL</div>
+  </div>
+  <div class="form-content">
+    <div class="header-icon" id="header-icon">🏡</div>
+    <div class="header-text">
+      <h2 id="title">Olá, Morador!</h2>
+      <p id="subtitle">Acompanhe a evolução da sua obra em tempo real, de onde estiver.</p>
+    </div>
+    <form onsubmit="return false">
+      <div class="input-group">
+        <label>E-mail ou CPF</label>
+        <input type="text" placeholder="Digite seus dados de acesso">
+      </div>
+      <div class="input-group">
+        <label>Senha</label>
+        <input type="password" placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn" id="btn-text">ACESSAR MINHA OBRA</button>
+    </form>
+    <div class="footer-links">
+      <a href="#">Esqueci minha senha</a>
+      <div class="divider">—</div>
+      <span id="footer-invite">Quer reformar? <a href="cadastro.html">Crie sua conta</a></span>
+    </div>
+  </div>
+  <div class="brand-bar">
+    <div class="logo">🔨</div>
+    <div>
+      <span>Portal de Reformas</span>
+      <small>Conectando clientes e profissionais</small>
+    </div>
+  </div>
+</div>
+<script>
+function switchTab(type, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const body = document.getElementById('body-context');
+  body.className = type === 'cliente' ? 'theme-cliente' : 'theme-pro';
+  if (type === 'cliente') {
+    document.getElementById('header-icon').innerText = '🏡';
+    document.getElementById('title').innerText = 'Olá, Morador!';
+    document.getElementById('subtitle').innerText = 'Acompanhe a evolução da sua obra em tempo real, de onde estiver.';
+    document.getElementById('btn-text').innerText = 'ACESSAR MINHA OBRA';
+    document.getElementById('footer-invite').innerHTML = 'Quer reformar? <a href="cadastro.html">Crie sua conta</a>';
+  } else {
+    document.getElementById('header-icon').innerText = '👷';
+    document.getElementById('title').innerText = 'Painel do Profissional';
+    document.getElementById('subtitle').innerText = 'Gerencie seus projetos, orçamentos e equipes com eficiência.';
+    document.getElementById('btn-text').innerText = 'ENTRAR NO PAINEL';
+    document.getElementById('footer-invite').innerHTML = 'Ainda não é parceiro? <a href="cadastro.html">Cadastre sua empresa</a>';
+  }
+}
+</script>
+</body>
+</html>

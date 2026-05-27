@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mensagens — Portal de Reformas</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+body { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+.chat-layout { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 64px); }
+.conv-list { width: 320px; flex-shrink: 0; background: white; border-right: 1px solid var(--gray-200); display: flex; flex-direction: column; }
+.conv-search { padding: 14px 16px; border-bottom: 1px solid var(--gray-200); }
+.conv-search input { width: 100%; padding: 9px 14px; border: 1.5px solid var(--gray-300); border-radius: 20px; font-size: 13px; outline: none; font-family: inherit; }
+.conv-search input:focus { border-color: var(--accent); }
+.conv-items { overflow-y: auto; flex: 1; }
+.conv-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; border-bottom: 1px solid var(--gray-100); transition: var(--transition); position: relative; }
+.conv-item:hover { background: var(--gray-50); }
+.conv-item.active { background: var(--pro-light); border-right: 3px solid var(--pro); }
+.conv-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: 15px; flex-shrink: 0; position: relative; }
+.conv-online { position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border-radius: 50%; background: var(--cliente); border: 2px solid white; }
+.conv-info { flex: 1; min-width: 0; }
+.conv-name { font-weight: 600; font-size: 14px; }
+.conv-preview { font-size: 12px; color: var(--gray-600); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.conv-time { font-size: 11px; color: var(--gray-500); flex-shrink: 0; }
+.conv-unread { position: absolute; top: 14px; right: 12px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); color: white; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.chat-main { flex: 1; display: flex; flex-direction: column; }
+.chat-header { background: white; padding: 14px 22px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; gap: 14px; }
+.chat-header .avatar { width: 40px; height: 40px; }
+.chat-header-info .name { font-weight: 700; font-size: 15px; }
+.chat-header-info .status { font-size: 12px; color: var(--cliente); }
+.chat-header-actions { margin-left: auto; display: flex; gap: 8px; }
+.messages-area { flex: 1; overflow-y: auto; padding: 22px; display: flex; flex-direction: column; gap: 14px; background: var(--gray-50); }
+.msg-group { display: flex; flex-direction: column; gap: 4px; }
+.msg-group.mine { align-items: flex-end; }
+.msg-group.theirs { align-items: flex-start; }
+.msg-bubble { max-width: 72%; padding: 11px 16px; border-radius: 16px; font-size: 14px; line-height: 1.5; }
+.msg-group.theirs .msg-bubble { background: white; color: var(--gray-900); border-bottom-left-radius: 4px; box-shadow: var(--shadow); }
+.msg-group.mine .msg-bubble { background: var(--pro); color: white; border-bottom-right-radius: 4px; }
+.msg-time { font-size: 11px; color: var(--gray-500); padding: 0 4px; }
+.msg-sender { font-size: 11px; font-weight: 700; color: var(--pro); padding: 0 4px; }
+.msg-photo { width: 200px; height: 130px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 36px; background: var(--gray-200); cursor: pointer; }
+.msg-update { align-self: center; background: white; border: 1px solid var(--gray-200); border-radius: 20px; padding: 6px 16px; font-size: 12px; color: var(--gray-600); box-shadow: var(--shadow); }
+.chat-input-area { background: white; padding: 14px 22px; border-top: 1px solid var(--gray-200); display: flex; align-items: center; gap: 10px; }
+.chat-input { flex: 1; padding: 12px 16px; border: 1.5px solid var(--gray-300); border-radius: 24px; font-family: inherit; font-size: 14px; outline: none; resize: none; }
+.chat-input:focus { border-color: var(--pro); }
+.send-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--pro); border: none; color: white; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); flex-shrink: 0; }
+.send-btn:hover { background: var(--pro-dark); transform: scale(1.05); }
+.attach-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--gray-500); padding: 4px; border-radius: 8px; }
+.attach-btn:hover { background: var(--gray-100); }
+.obra-context { background: var(--pro-light); border-left: 3px solid var(--pro); border-radius: 0 8px 8px 0; padding: 10px 14px; margin: 0 22px 0; font-size: 12px; }
+.obra-context strong { display: block; color: var(--pro); font-size: 13px; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" href="#"><div class="logo-icon">🔨</div> Portal de Reformas</a>
+  <div class="navbar-actions">
+    <button class="nav-icon-btn">🔔</button>
+    <div class="avatar" style="background:var(--cliente)">MS</div>
+  </div>
+</nav>
+
+<div class="chat-layout">
+  <!-- Lista de conversas -->
+  <div class="conv-list">
+    <div class="conv-search">
+      <input type="text" placeholder="🔍 Buscar conversa...">
+    </div>
+    <div class="conv-items">
+      <div class="conv-item active" onclick="selectConv(this, 'Carlos Mendes', '#2c3e50', 'CM', true)">
+        <div class="conv-avatar" style="background:var(--pro)">CM<span class="conv-online"></span></div>
+        <div class="conv-info">
+          <div class="conv-name">Carlos Mendes</div>
+          <div class="conv-preview">✅ Azulejo do rodapé pronto!</div>
+        </div>
+        <div class="conv-time">09:30</div>
+      </div>
+      <div class="conv-item" onclick="selectConv(this, 'João Pinturas', '#1565c0', 'JP', false)">
+        <div class="conv-avatar" style="background:#1565c0">JP</div>
+        <div class="conv-info">
+          <div class="conv-name">João Pinturas</div>
+          <div class="conv-preview">Tudo certo com a pintura!</div>
+        </div>
+        <div class="conv-time">Seg</div>
+        <div class="conv-unread">2</div>
+      </div>
+      <div class="conv-item" onclick="selectConv(this, 'Suporte Portal', '#e67e22', 'SP', false)">
+        <div class="conv-avatar" style="background:var(--accent)">SP</div>
+        <div class="conv-info">
+          <div class="conv-name">Suporte Portal</div>
+          <div class="conv-preview">Como podemos ajudar?</div>
+        </div>
+        <div class="conv-time">Sex</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat principal -->
+  <div class="chat-main">
+    <div class="chat-header">
+      <div class="avatar" style="background:var(--pro);width:40px;height:40px">CM</div>
+      <div class="chat-header-info">
+        <div class="name" id="chat-name">Carlos Mendes</div>
+        <div class="status">🟢 Online agora</div>
+      </div>
+      <div class="chat-header-actions">
+        <button class="btn btn-outline btn-sm" onclick="location.href='obra-detalhe.html'">🏗️ Ver Obra</button>
+        <button class="btn btn-outline btn-sm">📞 Ligar</button>
+      </div>
+    </div>
+
+    <div class="obra-context">
+      <strong>🍳 Contexto: Reforma da Cozinha — Etapa 3: Azulejamento</strong>
+      Prazo: 25/04/2025 • Progresso: 60%
+    </div>
+
+    <div class="messages-area" id="messages">
+      <div class="msg-update">📅 Hoje</div>
+
+      <div class="msg-group theirs">
+        <div class="msg-sender">Carlos Mendes</div>
+        <div class="msg-bubble">Bom dia, Sra. Maria! Acabamos de chegar na obra. Hoje vamos terminar as duas últimas paredes do azulejo.</div>
+        <div class="msg-time">08:15</div>
+      </div>
+
+      <div class="msg-group mine">
+        <div class="msg-bubble">Bom dia, Carlos! Tudo bem. Vou passar lá por volta do meio-dia para ver o andamento.</div>
+        <div class="msg-time">08:22</div>
+      </div>
+
+      <div class="msg-group theirs">
+        <div class="msg-sender">Carlos Mendes</div>
+        <div class="msg-bubble">Perfeito! Vou tirar umas fotos para você acompanhar também pelo aplicativo 📸</div>
+        <div class="msg-time">08:24</div>
+      </div>
+
+      <div class="msg-group theirs">
+        <div class="msg-sender">Carlos Mendes</div>
+        <div class="msg-photo">📸<br><span style="font-size:12px;margin-top:4px;display:block">Parede Leste — 09:00</span></div>
+        <div class="msg-time">09:02</div>
+      </div>
+
+      <div class="msg-group theirs">
+        <div class="msg-sender">Carlos Mendes</div>
+        <div class="msg-bubble">✅ Azulejo do rodapé concluído! Ficou exatamente como o projeto. Passando para a última parede agora.</div>
+        <div class="msg-time">09:30</div>
+      </div>
+
+      <div class="msg-group mine">
+        <div class="msg-bubble">Que ótimo! Ficou lindo nas fotos 😊 Mais ou menos quanto tempo até terminar tudo?</div>
+        <div class="msg-time">09:45</div>
+      </div>
+
+      <div class="msg-group theirs">
+        <div class="msg-sender">Carlos Mendes</div>
+        <div class="msg-bubble">Estimativa: mais 2 dias para terminar o azulejo por completo. Depois entramos na etapa de instalação dos móveis. Está tudo dentro do prazo! 💪</div>
+        <div class="msg-time">09:52</div>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <button class="attach-btn" title="Enviar foto">📎</button>
+      <button class="attach-btn" title="Enviar foto da obra">📷</button>
+      <input type="text" class="chat-input" id="msg-input" placeholder="Digite uma mensagem..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="send-btn" onclick="sendMsg()">➤</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function sendMsg() {
+  const input = document.getElementById('msg-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const msgs = document.getElementById('messages');
+  const group = document.createElement('div');
+  group.className = 'msg-group mine';
+  group.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">Agora</div>`;
+  msgs.appendChild(group);
+  input.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function selectConv(el, name, color, initials, online) {
+  document.querySelectorAll('.conv-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('chat-name').textContent = name;
+  el.querySelector('.conv-unread') && el.querySelector('.conv-unread').remove();
+}
+</script>
+</body>
+</html>

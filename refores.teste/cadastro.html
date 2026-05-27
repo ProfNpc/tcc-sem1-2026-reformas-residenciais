@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro — Portal de Reformas</title>
+<link rel="stylesheet" href="_shared.css">
+<style>
+body { display: flex; justify-content: center; align-items: flex-start; padding: 30px 20px; min-height: 100vh; }
+.wrapper { width: 100%; max-width: 560px; }
+.brand { text-align: center; margin-bottom: 28px; }
+.brand .logo { width: 48px; height: 48px; background: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; margin: 0 auto 10px; }
+.brand h1 { font-size: 22px; font-weight: 700; }
+.brand p { color: var(--gray-600); font-size: 14px; margin-top: 4px; }
+.type-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.type-btn { padding: 18px; border: 2px solid var(--gray-300); border-radius: var(--radius); background: white; cursor: pointer; text-align: center; transition: 0.25s; }
+.type-btn .icon { font-size: 28px; margin-bottom: 8px; }
+.type-btn .label { font-weight: 700; font-size: 14px; }
+.type-btn .desc { font-size: 12px; color: var(--gray-600); margin-top: 4px; }
+.type-btn.active-cliente { border-color: var(--cliente); background: var(--cliente-light); }
+.type-btn.active-pro { border-color: var(--pro); background: var(--pro-light); }
+.form-card { background: white; border-radius: var(--radius); box-shadow: var(--shadow-md); padding: 32px; }
+.section-title { font-size: 13px; font-weight: 700; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; margin-top: 24px; border-bottom: 1px solid var(--gray-200); padding-bottom: 8px; }
+.section-title:first-child { margin-top: 0; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.btn-full { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; border: none; border-radius: var(--radius-sm); cursor: pointer; color: white; margin-top: 8px; transition: 0.25s; letter-spacing: 0.5px; }
+.btn-cliente-full { background: var(--cliente); }
+.btn-pro-full { background: var(--pro); }
+.terms { font-size: 12px; color: var(--gray-600); text-align: center; margin-top: 14px; }
+.terms a { color: var(--accent); }
+.login-link { text-align: center; margin-top: 20px; font-size: 13px; }
+.login-link a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.extra-field { display: none; }
+.extra-field.visible { display: block; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="brand">
+    <div class="logo">🔨</div>
+    <h1>Portal de Reformas</h1>
+    <p>Crie sua conta e comece agora</p>
+  </div>
+
+  <div class="type-selector">
+    <div class="type-btn active-cliente" id="btn-cliente" onclick="selectType('cliente')">
+      <div class="icon">🏡</div>
+      <div class="label">Sou Cliente</div>
+      <div class="desc">Quero contratar e acompanhar obras</div>
+    </div>
+    <div class="type-btn" id="btn-pro" onclick="selectType('pro')">
+      <div class="icon">👷</div>
+      <div class="label">Sou Profissional</div>
+      <div class="desc">Quero oferecer meus serviços</div>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <div class="section-title">Dados Pessoais</div>
+    <div class="row-2">
+      <div class="input-group"><label>Nome</label><input type="text" placeholder="João"></div>
+      <div class="input-group"><label>Sobrenome</label><input type="text" placeholder="Silva"></div>
+    </div>
+    <div class="input-group"><label>E-mail</label><input type="email" placeholder="joao@email.com"></div>
+    <div class="row-2">
+      <div class="input-group"><label>CPF</label><input type="text" placeholder="000.000.000-00"></div>
+      <div class="input-group"><label>Telefone</label><input type="text" placeholder="(11) 99999-9999"></div>
+    </div>
+
+    <div class="extra-field visible" id="fields-cliente">
+      <div class="section-title">Endereço da Obra</div>
+      <div class="input-group"><label>Endereço</label><input type="text" placeholder="Rua, número"></div>
+      <div class="row-2">
+        <div class="input-group"><label>Cidade</label><input type="text" placeholder="São Paulo"></div>
+        <div class="input-group"><label>Estado</label>
+          <select><option>SP</option><option>RJ</option><option>MG</option><option>RS</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="extra-field" id="fields-pro">
+      <div class="section-title">Dados Profissionais</div>
+      <div class="row-2">
+        <div class="input-group"><label>CNPJ ou CPF Prof.</label><input type="text" placeholder="00.000.000/0001-00"></div>
+        <div class="input-group"><label>CREA / CAU (se houver)</label><input type="text" placeholder="Registro profissional"></div>
+      </div>
+      <div class="input-group"><label>Especialidade</label>
+        <select><option>Reforma Geral</option><option>Elétrica</option><option>Hidráulica</option><option>Acabamento</option><option>Engenharia Civil</option><option>Arquitetura</option></select>
+      </div>
+      <div class="input-group"><label>Cidade de Atuação</label><input type="text" placeholder="São Paulo, SP"></div>
+    </div>
+
+    <div class="section-title">Segurança</div>
+    <div class="row-2">
+      <div class="input-group"><label>Senha</label><input type="password" placeholder="Mínimo 8 caracteres"></div>
+      <div class="input-group"><label>Confirmar Senha</label><input type="password" placeholder="Repita a senha"></div>
+    </div>
+
+    <button class="btn-full btn-cliente-full" id="btn-submit" onclick="return false">CRIAR MINHA CONTA</button>
+    <div class="terms">Ao cadastrar, você concorda com os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a></div>
+  </div>
+
+  <div class="login-link">Já tem conta? <a href="login.html">Faça login</a></div>
+</div>
+<script>
+function selectType(type) {
+  const btnC = document.getElementById('btn-cliente');
+  const btnP = document.getElementById('btn-pro');
+  const fieldsC = document.getElementById('fields-cliente');
+  const fieldsP = document.getElementById('fields-pro');
+  const submit = document.getElementById('btn-submit');
+  btnC.className = 'type-btn'; btnP.className = 'type-btn';
+  if (type === 'cliente') {
+    btnC.classList.add('active-cliente');
+    fieldsC.className = 'extra-field visible';
+    fieldsP.className = 'extra-field';
+    submit.className = 'btn-full btn-cliente-full';
+    submit.innerText = 'CRIAR MINHA CONTA';
+  } else {
+    btnP.classList.add('active-pro');
+    fieldsC.className = 'extra-field';
+    fieldsP.className = 'extra-field visible';
+    submit.className = 'btn-full btn-pro-full';
+    submit.innerText = 'CADASTRAR EMPRESA / PROFISSIONAL';
+  }
+}
+</script>
+</body>
+</html>
