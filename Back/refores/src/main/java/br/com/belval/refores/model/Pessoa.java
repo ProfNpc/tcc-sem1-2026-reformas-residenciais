@@ -97,8 +97,6 @@ public class Pessoa {
 		return "Pessoa [id=" + id + ", cpf=" + cpf + ", nome=" + nome + ", telefone=" + telefone + ", email=" + email
 				+ "]";
 	}
-
-	
 	
 	
 }
