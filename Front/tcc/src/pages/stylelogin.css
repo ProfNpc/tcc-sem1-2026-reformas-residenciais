@@ -2,7 +2,7 @@
 :root {
   --cliente-color: #27ae60;
   --pro-color: #2c3e50;
-  --accent: #e67e22;
+  --accent: #252524;
 }
 
 /* ===== GLOBAL ===== */
@@ -177,18 +177,19 @@
   text-align: center;
   margin-top: 25px;
   font-size: 13px;
-  color: #7f8c8d;
+  color: #363838;
 }
 
 .footer a {
-  text-decoration: none;
-  color: var(--accent);
+  /*text-decoration: none;*/
+  color: var(--pro-color);
+  color: #34495e;
   font-weight: bold;
 }
 
-.footer a:hover {
+/*.footer a:hover {
   text-decoration: underline;
-}
+}*/
 
 #esqueci {
   color: #95a5a6;

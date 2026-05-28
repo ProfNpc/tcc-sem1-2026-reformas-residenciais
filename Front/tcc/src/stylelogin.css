@@ -1,262 +1,149 @@
-
-
-        :root {
-
-            --cliente-color: #27ae60; /* Verde Lar */
-
-            --pro-color: #2c3e50;     /* Azul Gestão */
-
-            --accent: #e67e22;        /* Laranja Ação */
-
-        }
- 
-        body {
-
-            font-family: 'Segoe UI', sans-serif;
-
-            background: #9da09f;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            height: 100vh;
-
-            margin: 0;
-
-        }
- 
-        .container {
-
-            background: white;
-
-            width: 100%;
-
-            max-width: 400px;
-
-            border-radius: 15px;
-
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-
-            overflow: hidden;
-
-        }
- 
-        /* Abas de Seleção */
-
-        .tabs {
-
-            display: flex;
-
-            background: #eee;
-            margin: -15px;
-
-        }
- 
-        .tab {
-
-            flex: 1;
-
-            padding: 15px;
-
-            text-align: center;
-
-            cursor: pointer;
-
-            font-weight: bold;
-
-            color: #7f8c8d;
-
-            transition: 0.3s;
-          
-
-        }
- 
-        .tab.active[data-type="cliente"] {
-
-            background: white;
-
-            color: var(--cliente-color);
-
-            border-top: 4px solid var(--cliente-color);
-
-      
-
-        }
- 
-        .tab.active[data-type="pro"] {
-
-            background: white;
-
-            color: var(--pro-color);
-
-            border-top: 4px solid var(--pro-color);
-
-              
-
-        }
- 
-        .form-content {
-
-            padding: 40px 30px;
-
-        }
- 
-        .header-text h2 {
-
-            margin: 0;
-
-            font-size: 22px;
-
-        }
- 
-        .header-text p {
-
-            font-size: 14px;
-
-            color: #95a5a6;
-
-            margin-bottom: 25px;
-
-        }
- 
-        .input-group {
-
-            margin-bottom: 20px;
-
-        }
- 
-        .input-group label {
-
-            display: block;
-
-            font-size: 12px;
-
-            margin-bottom: 8px;
-
-            font-weight: bold;
-
-            color: #34495e;
-
-        }
- 
-        .input-group input {
-
-            width: 100%;
-
-            padding: 12px;
-
-            border: 1.5px solid #dcdde1;
-
-            border-radius: 8px;
-
-            box-sizing: border-box;
-
-            outline: none;
-
-        }
- 
-        .btn {
-
-            width: 100%;
-
-            padding: 14px;
-
-            border: none;
-
-            border-radius: 8px;
-
-            color: white;
-
-            font-weight: bold;
-
-            font-size: 16px;
-
-            cursor: pointer;
-
-            transition: 0.3s;
-
-        }
- 
-        /* Estilos Dinâmicos */
-
-        .theme-cliente .btn { background: var(--cliente-color); }
-
-        .theme-pro .btn { background: var(--pro-color); }
-
-        .footer {
-
-            text-align: center;
-
-            margin-top: 20px;
-
-            font-size: 13px;
-
-        }
- 
-        .footer a { text-decoration: none; color: var(--accent); }
-
-        .logo{
-
-          
-            justify-self: center;
-            background-color: #dfdee7;
-            width: 30%;
-            padding: 12px 150px;
-          
-            justify-content: center; /* centraliza horizontal */
-            align-items: center;     /* centraliza vertical */
-        
-            font-size: 22px;
-            font-weight: bold;
-            color: #0b1b3b;
-        }
-
-        .emailEncaminhado{
-
-            display: none;
-
-        }
-
-        .topo{
-
-            padding: 1px 19%;
-
-            text-align: center;
-
-            background: linear-gradient(#f3faf8, #9aa09e), url('https://images.unsplash.com') no-repeat center/cover;
-
-            color: white;
-
-            position: fixed;
-            top: 1%;
-
-        }
-
-        .topo h1{
-             font-size: 3rem; 
-            margin-bottom: 10px; 
-            font-weight: bold;
-            color: #2c3e50;
-
-        }
-
-        .topo p{
-
-             font-size: 1rem; 
-            margin-bottom: 10px; 
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .topocliente{
-
-            display: block;
-        }
-
-        .topoprofissional{
-
-            display: none;
-        }
+/* RESET BÁSICO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* BODY TEMA */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TEMAS */
+.theme-cliente {
+  background: linear-gradient(135deg, #020e1f, #0ee64e);
+  color: white;
+}
+
+.theme-pro {
+  background: linear-gradient(135deg, #111827, #374151);
+  color: white;
+}
+
+/* TOPO */
+.topo {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.topocliente,
+.topoprofissional {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.topoclientep {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* CONTAINER LOGIN */
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  background: white;
+  color: #111;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* LOGO */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  background: #f3f4f6;
+  transition: 0.3s;
+}
+
+.tab.active {
+  background: #0ee962;
+  color: white;
+}
+
+/* FORM */
+.form-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-text h2 {
+  margin-bottom: 5px;
+}
+
+.header-text p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* INPUTS */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* BOTÃO */
+.btn {
+  width: 100%;
+  padding: 12px;
+  background: #0ea5e9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #109c46;
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer a {
+  color: #0c3bd6;
+  text-decoration: none;
+}

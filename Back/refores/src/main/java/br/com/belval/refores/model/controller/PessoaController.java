@@ -57,7 +57,7 @@ public class PessoaController {
 	}
 	
 	@GetMapping("/Pessoa/{id}")
-	public ResponseEntity<Object> buscarPorId(
+	public ResponseEntity<Object> buscarPorid(
 			@PathVariable(value = "id") Integer id){
 		
 		Optional<Pessoa> PessoaOpt = repository.findById(id);

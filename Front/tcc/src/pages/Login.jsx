@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import '../stylelogin.css'
 
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
-import cadastro from './cadastro'
+/*import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'*/
+import PesID from './PesID'
 
 
 function Login() {
@@ -27,10 +27,11 @@ function Login() {
 
   return (
     <div
-      className={`login-page ${
-        tipo === 'cliente' ? 'theme-cliente' : 'theme-pro'
-      }`}
-    >
+    
+
+    id="body-context"
+    className={`login-page ${tipo === 'cliente' ? 'theme-cliente' : 'theme-pro'}`}
+  >
 
       {/* TOPO DINÂMICO */}
       <div className="topo">
@@ -142,17 +143,20 @@ function Login() {
           {/* FOOTER */}
           <div className="footer">
 
-            <a href="/esqueci" id="esqueci">
-              Esqueci minha senha
-            </a>
+            <span>
+              Quer reformar?{' '}
+              <Link to="/Cadastro">
+                Peça seu orçamento
+              </Link>
+            </span>
 
             <br />
             <br />
 
             <span>
               Quer reformar?{' '}
-              <Link to="/cadastro">
-                Peça um orçamentooooooooo
+              <Link to="/PesID">
+                Verificar seu cadastro
               </Link>
             </span>
 

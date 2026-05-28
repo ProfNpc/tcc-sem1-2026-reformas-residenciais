@@ -81,6 +81,9 @@ import Login from './pages/Login'
 
 
 import Cadastro from './pages/cadastro'
+import PesID from './pages/PesID'
+
+
 
 function Home() {
   const navigate = useNavigate()
@@ -188,7 +191,12 @@ export default function App() {
       
 
         <Route
-      path="/cadastro"
+      path="/PesID"
+      element={<PesID />}
+    />
+
+        <Route
+      path="/Cadastro"
       element={<Cadastro />}
     />
 

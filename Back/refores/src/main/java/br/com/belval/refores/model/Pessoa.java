@@ -38,6 +38,9 @@ public class Pessoa {
 	@Column(name = "email", length = 100)
 	private String email;
 	
+	@Column(name = "senha", length = 20)
+	private String senha;
+	
 	@Column(name = "data_criacao")
 	private LocalDateTime dataCriacao;
 	
@@ -67,11 +70,14 @@ public class Pessoa {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	
 
 	public String getCpf() {
 		return cpf;
 	}
-
+	
+	//Método que define/altera o valor do atributo id
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
@@ -81,7 +87,6 @@ public class Pessoa {
 	public String getTelefone() {
 		return telefone;
 	}
-
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
@@ -100,6 +105,14 @@ public class Pessoa {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getsenha() {
+		return senha;
+	}
+
+	public void setsenha(String senha) {
+		this.senha = senha;
 	}
 	
 	public LocalDateTime getDataCriacao() {
@@ -132,7 +145,7 @@ public class Pessoa {
 	@Override
 	public String toString() {
 		return "Pessoa [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + ", endereco="
-				+ endereco + ", email=" + email + ", dataCriacao=" + dataCriacao + "]";
+				+ endereco + ", email=" + email  + ", senha=" + senha + ", dataCriacao=" + dataCriacao + "]";
 	}
 
 }

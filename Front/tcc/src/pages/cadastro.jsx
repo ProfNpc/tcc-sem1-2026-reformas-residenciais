@@ -1,7 +1,5 @@
-import { useState } from 'react'
-import '../cadastro.css'
 
-function Cadastro() {
+/*function Cadastro() {
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [cpf, setcpf] = useState('')
@@ -90,4 +88,240 @@ function Cadastro() {
   )
 }
 
+export default Cadastro*/
+/*import { useState } from 'react'*/
+
+/*daqui em diante e como estava 25/05
+*
+*
+*
+
+import '../cadastro.css'
+import axios from "axios"
+import { useEffect, useState } from "react"
+
+
+
+function Cadastro() {
+
+  const [pessoas, setPessoas] = useState([])
+
+  useEffect(() => {
+
+    axios.get("http://localhost:8080/Pessoas")
+      .then((response) => {
+
+        console.log(response.data)
+
+        setPessoas(response.data)
+      })
+      .catch((error) => {
+
+        console.log(error)
+      })
+
+  }, [])
+
+  return (
+    <div>
+
+      <h1>Backend conectado</h1>
+
+      {pessoas.map((pessoas) => (
+        <div key={pessoas.id}>
+          <p>{pessoas.nome}</p>
+        </div>
+      ))}
+
+    </div>
+  )
+}
+
 export default Cadastro
+
+**************************/
+
+
+
+
+
+
+
+ 
+import '../cadastro.css'
+import React, { useState } from 'react';
+
+function Cadastro() {
+
+  // FORMULÁRIO (sempre vazio no início)
+  const [form, setForm] = useState({
+    nome: '',
+    cpf: '',
+    telefone: '',
+    email: '',
+    senha: ''
+  });
+
+  const [erro, setErro] = useState('');
+  const [sucesso, setSucesso] = useState('');
+
+  // Atualiza campos
+  const handleChange = (campo, valor) => {
+    setForm({
+      ...form,
+      [campo]: valor
+    });
+  };
+
+  // FUNÇÃO POST
+  const salvarPessoa = () => {
+
+    fetch('http://localhost:8080/pessoa', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(form)
+    })
+
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Erro ao salvar pessoa');
+        }
+        return response.json();
+      })
+
+      .then(() => {
+        setSucesso('Pessoa cadastrada com sucesso!');
+        setErro('');
+
+        // limpa formulário
+        setForm({
+          nome: '',
+          cpf: '',
+          telefone: '',
+          email: '',
+          senha: ''
+        });
+      })
+
+      .catch((error) => {
+        setErro(error.message);
+        setSucesso('');
+      });
+  };
+
+  return (
+
+    <main>
+
+      <div className="container-form">
+
+        <h2>Novo Cadastro</h2>
+
+      </div>
+
+      {erro && <h3 style={{ color: 'red' }}>{erro}</h3>}
+      {sucesso && <h3 style={{ color: 'green' }}>{sucesso}</h3>}
+
+      <div>
+
+        <table>
+
+          <tbody>
+
+            <tr>
+
+              <td>
+                <label>Nome:</label>
+                <input
+                  type="text"
+                  value={form.nome}
+                  onChange={(e) => handleChange('nome', e.target.value)}
+                />
+              </td>
+
+              <td>
+                <label>CPF:</label>
+                <input
+                  type="text"
+                  value={form.cpf}
+                  onChange={(e) => handleChange('cpf', e.target.value)}
+                />
+              </td>
+
+              <td>
+                <label>Telefone:</label>
+                <input
+                  type="text"
+                  value={form.telefone}
+                  onChange={(e) => handleChange('telefone', e.target.value)}
+                />
+              </td>
+
+            
+
+              <td>
+                <label>Email:</label>
+                <input
+                  type="text"
+                  value={form.email}
+                  onChange={(e) => handleChange('email', e.target.value)}
+                />
+              </td>
+
+                <td>
+               
+              <input
+  type="password"
+  value={form.senha}
+  onChange={(e) => handleChange('senha', e.target.value)}
+
+/>
+
+              </td> 
+            </tr>
+
+          </tbody>
+
+        </table>
+
+        <button onClick={salvarPessoa}>
+          Salvar
+        </button>
+        <input type="password" />
+      </div>
+
+    </main>
+
+  );
+}
+
+export default Cadastro;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
