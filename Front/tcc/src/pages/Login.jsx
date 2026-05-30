@@ -4,6 +4,7 @@ import '../stylelogin.css'
 
 /*import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'*/
 import PesID from './PesID'
+import Footer from '../components/footer'
 
 
 function Login() {
@@ -12,11 +13,17 @@ function Login() {
   const [tipo, setTipo] = useState('cliente')
   const [usuario, setUsuario] = useState('')
   const [senha, setSenha] = useState('')
+  const [pegausu, setpegausu] = useState('')
 
   function handleLogin(e) {
     e.preventDefault()
 
-    console.log({
+     if (usuario ==="teste") {
+    setpegausu(alert('É necessário digitar usuário e senha' + usuario))
+    return
+  }
+
+    console.log({ // limpa erro se estiver ok
       tipo,
       usuario,
       senha,
@@ -87,6 +94,13 @@ function Login() {
 
         </div>
 
+
+        {pegausu && (
+          <p style={{ color: 'red', marginBottom: '10px' }}>
+          {pegausu}
+          </p>
+        )}
+
         {/* FORM */}
         <div className="form-content">
 
@@ -143,7 +157,7 @@ function Login() {
           {/* FOOTER */}
           <div className="footer">
 
-            <span>
+            {/*<span>
               Quer reformar?{' '}
               <Link to="/Cadastro">
                 Peça seu orçamento
@@ -158,13 +172,22 @@ function Login() {
               <Link to="/PesID">
                 Verificar seu cadastro
               </Link>
-            </span>
+            </span>*/}
 
           </div>
 
+    
         </div>
+    
       </div>
+          <Footer />
     </div>
+    
+
+        
+     
+      
+    
   )
 }
 

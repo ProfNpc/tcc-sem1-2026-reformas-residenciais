@@ -150,6 +150,7 @@ export default Cadastro
  
 import '../cadastro.css'
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
 function Cadastro() {
 
@@ -176,7 +177,7 @@ function Cadastro() {
   // FUNÇÃO POST
   const salvarPessoa = () => {
 
-    fetch('http://localhost:8080/pessoa', {
+    fetch('http://localhost:8089/pessoa', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -201,7 +202,8 @@ function Cadastro() {
           cpf: '',
           telefone: '',
           email: '',
-          senha: ''
+          senha: '',
+          endereco: ''
         });
       })
 
@@ -270,27 +272,47 @@ function Cadastro() {
                 />
               </td>
 
-                <td>
-               
+                <td>    
+              <label>Endereço:</label>           
               <input
-  type="password"
-  value={form.senha}
-  onChange={(e) => handleChange('senha', e.target.value)}
-
-/>
-
+              type="text"
+              value={form.endereco}
+              onChange={(e) => handleChange('endereco', e.target.value)}/>            
               </td> 
+
+
+
+
+                <td>    
+              <label>Senha:</label>           
+              <input
+              type="password"
+              value={form.senha}
+              onChange={(e) => handleChange('senha', e.target.value)}/>            
+              </td> 
+
+
+
             </tr>
 
           </tbody>
 
         </table>
 
+      <br></br>
+
         <button onClick={salvarPessoa}>
           Salvar
-        </button>
-        <input type="password" />
+        </button>   
+        
       </div>
+      <br></br>
+
+      <span>             
+              <Link to="/Login">
+                Voltar para Login
+              </Link>
+            </span>
 
     </main>
 
