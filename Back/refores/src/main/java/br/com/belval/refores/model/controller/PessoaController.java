@@ -24,7 +24,7 @@ public class PessoaController {
 	private PessoaRepository repository;
 	
 	/**
-	 *retorna todos os produtos
+	 *retorna todas as pessoas
 	 * @return
 	 */
 	
@@ -38,7 +38,7 @@ public class PessoaController {
 	}
 	
 	
-	//curl POST http://localhost:8080/pessoa -H "Content-Type: application/json; Charset=utf-8" -d @produto-pao.json
+	//curl POST http://localhost:8080/pessoa -H "Content-Type: application/json; Charset=utf-8" -d @cadastro.json
 	
 		
 	
@@ -77,7 +77,7 @@ public class PessoaController {
 	
 	
 	
-	//curl -X PUT http://localhost:8080/Pessoa/1 -H "Content-Type: application/json; Charset=utf-8" -d @produto-pao2.json
+	//curl -X PUT http://localhost:8080/Pessoa/1 -H "Content-Type: application/json; Charset=utf-8" -d @cadastro.json
 	@PutMapping("/Pessoa/{id}")
 	public ResponseEntity<Object> atualizaPessoa(
 			

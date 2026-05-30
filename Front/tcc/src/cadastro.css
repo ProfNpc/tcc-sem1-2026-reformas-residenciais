@@ -15,9 +15,8 @@ main {
 
 /* Estilização da Tabela */
 table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 1px; /* Espaço entre as linhas */
+  width: 100%;
+  border-collapse: collapse;
 }
 
 tr {
@@ -38,7 +37,7 @@ td label {
     display: block;
     font-size: 12px;
     font-weight: bold;
-    color: #007bff;
+    color: #d17021;
     margin-bottom: 5px;
     text-transform: uppercase;
 }
@@ -46,8 +45,8 @@ td label {
 /* Estilo dos Inputs dentro da tabela */
 .input-tabela {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
+    padding: 1px;
+    border: 10px solid #ddd;
     border-radius: 4px;
     background-color: #f9f9f9;
    
@@ -55,7 +54,7 @@ td label {
 }
 
 input {
-    border: 2px solid red !important;
+    border: 2px solid rgb(226, 111, 3) !important;
     min-width: 120px;
 }
 
@@ -69,9 +68,53 @@ input {
 /* Estilo do ID (primeira coluna) */
 tr td:first-child {
     font-weight: bold;
-    color: #888;
+    color: #1a1919;
     width: 50px;
     text-align: center;
-    border-left: 5px solid #007bff; /* Detalhe azul na lateral */
+    border-left: 3px solid #ccdad1; 
     border-radius: 8px 0 0 8px;
+}
+
+th, td {
+  border: 3px solid #ccdad1;
+  padding: 2px;
+  text-align: left;
+}
+
+button{
+    
+    padding: 10px 20px;
+    background-color: #ccdad1;
+    color: #141414;
+    font-weight: bold;
+    border: 2px solid #0ea315;    
+    border-radius: 0px 15px 0 15px;
+    cursor: pointer;
+    margin-right: 12px;
+    
+}
+
+.delPut {
+  background-color: #9bb898;
+  color: white;
+  border: none;
+  padding: 5px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.delPut:hover {
+  background-color: #b91c1c;
+}
+
+.delPut:active {
+  transform: scale(0.98);
+}
+
+.delPut:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
