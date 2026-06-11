@@ -41,6 +41,9 @@ public class Pessoa {
 	@Column(name = "senha", length = 20)
 	private String senha;
 	
+	@Column(name = "deletado", length = 20)
+	private String deletado;
+	
 	@Column(name = "data_criacao")
 	private LocalDateTime dataCriacao;
 	
@@ -114,7 +117,7 @@ public class Pessoa {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+		
 	public LocalDateTime getDataCriacao() {
 		return dataCriacao;
 	}
@@ -122,6 +125,14 @@ public class Pessoa {
 
 	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
+	}
+	
+	public String getDeletado() {
+		return deletado;
+	}
+
+	public void setDeletado(String deletado) {
+		this.deletado = deletado;
 	}
 
 	@Override
@@ -145,7 +156,7 @@ public class Pessoa {
 	@Override
 	public String toString() {
 		return "Pessoa [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + ", endereco="
-				+ endereco + ", email=" + email  + ", senha=" + senha + ", dataCriacao=" + dataCriacao + "]";
+				+ endereco + ", email=" + email  + ", senha=" + senha + ", dataCriacao=" + dataCriacao + ",deletado =" + deletado + "]";
 	}
 
 

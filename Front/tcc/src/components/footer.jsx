@@ -20,7 +20,7 @@ const Footer = () => {
         {/* MENU */}
         <nav style={{ marginBottom: "2px" }}>
           <Link
-            to="/PesID"
+            to="/index.html"
             style={{
               color: "blue",
               textDecoration: "none",
@@ -28,7 +28,7 @@ const Footer = () => {
               marginRight: "15px"
             }}
           >
-            MANUTENÇÃO
+            HOME
           </Link>
         </nav>
 

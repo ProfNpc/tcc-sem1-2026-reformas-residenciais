@@ -1,27 +1,41 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import '../stylelogin.css'
+import './stylelogin.css'
 
 /*import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'*/
-import PesID from './PesID'
-import Footer from '../components/footer'
+import PesID from '../PesquisaGeral'
+import Footer from '../../components/footer'
+import { useNavigate } from "react-router-dom";
 
 
-function Login() {
+function index() {
 
 
   const [tipo, setTipo] = useState('cliente')
   const [usuario, setUsuario] = useState('')
   const [senha, setSenha] = useState('')
   const [pegausu, setpegausu] = useState('')
+  const navigate = useNavigate();
 
   function handleLogin(e) {
     e.preventDefault()
 
-     if (usuario ==="teste") {
-    setpegausu(alert('É necessário digitar usuário e senha' + usuario))
-    return
+     if (tipo === "adm" && usuario ==="admin" && senha === "refores") {
+
+      navigate("/PesquisaGeral"); // redireciona para a página
+    } else {
+      alert("Usuário ou senha inválidos");
+    
+
+    /*setpegausu(alert('É necessário digitar usuário e senha' + usuario))
+    return*/
   }
+
+
+            if (tipo === "adm") {
+
+}
+
 
     console.log({ // limpa erro se estiver ok
       tipo,
@@ -37,7 +51,8 @@ function Login() {
     
 
     id="body-context"
-    className={`login-page ${tipo === 'cliente' ? 'theme-cliente' : 'theme-pro'}`}
+    className={`login-page ${tipo === 'cliente' ? 'theme-cliente' :  tipo === 'pro'
+    ? 'theme-pro':'theme-adm'}`}
   >
 
       {/* TOPO DINÂMICO */}
@@ -92,6 +107,13 @@ function Login() {
             SOU PROFISSIONAL
           </div>
 
+           <div
+            className={`tab ${tipo === 'adm' ? 'active' : ''}`}
+            onClick={() => setTipo('adm')}
+          >
+            SOU ADMINISTRADOR
+          </div>
+
         </div>
 
 
@@ -106,21 +128,33 @@ function Login() {
 
           <div className="header-text">
 
-            {tipo === 'cliente' ? (
-              <>
-                <h2>Olá, Morador!</h2>
-                <p>Acompanhe a evolução da sua obra em tempo real.</p>
-              </>
-            ) : (
+           {tipo === 'cliente' ? (
+             <>
+               <h2>Olá, Morador!</h2>
+               <p>Acompanhe a evolução da sua obra em tempo real.</p>
+             </>
+          ) : tipo === 'pro' ? (
               <>
                 <h2>Olá, Profissional!</h2>
                 <p>Encontre novas oportunidades de trabalho.</p>
-              </>
-            )}
+             </>
+          ) : (  <>
+              <h2>Olá, Administrador!</h2>
+              <p>Gerencie seu sistema.</p>
+            </>
+          )}
 
           </div>
 
+
+
+     
+
+
           <form onSubmit={handleLogin}>
+
+      
+           
 
             <div className="input-group">
               <label>E-MAIL OU CPF</label>
@@ -149,10 +183,16 @@ function Login() {
             <button type="submit" className="btn">
               {tipo === 'cliente'
                 ? 'ACESSAR MINHA OBRA'
-                : 'ACESSAR PAINEL'}
+                : tipo === 'pro' 
+                ? 'ACESSAR PAINEL' : 'GERENCIAR O SISTEMA'}
             </button>
 
+       
+
+        
+
           </form>
+    
 
           {/* FOOTER */}
           <div className="footer">
@@ -191,4 +231,4 @@ function Login() {
   )
 }
 
-export default Login
+export default index;

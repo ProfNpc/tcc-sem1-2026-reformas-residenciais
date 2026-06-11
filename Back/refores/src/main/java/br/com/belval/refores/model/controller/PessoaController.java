@@ -46,6 +46,7 @@ public class PessoaController {
 	public ResponseEntity<Pessoa> criarPessoa(@RequestBody Pessoa Pessoa) {
 		
 		Pessoa.setDataCriacao(LocalDateTime.now());
+		Pessoa.setDeletado("NAO");
 		System.out.println("Chegou : " + Pessoa.toString());
 		
 		
@@ -70,7 +71,7 @@ public class PessoaController {
 		
 		return ResponseEntity
 				.status(HttpStatus.NOT_FOUND)
-				.body("produto não encontrado");	
+				.body("Pessoa não encontrado");	
 		
 	}
 	
@@ -89,7 +90,7 @@ public class PessoaController {
 		if(pessoaOpt.isEmpty()) {
 			return ResponseEntity
 					.status(HttpStatus.NOT_FOUND)
-					.body(" produto não encontrado!");				
+					.body(" Pessoa não encontrado!");				
 		}
 		
 		Pessoa.setId(id);
@@ -97,7 +98,7 @@ public class PessoaController {
 				repository.save(Pessoa);
 				return ResponseEntity
 						.status(HttpStatus.OK)
-						.body(" produto atualizado com sucesso");
+						.body(" Pessoa atualizado com sucesso");
 		
 	}
 	
@@ -110,14 +111,24 @@ public class PessoaController {
 	    if (PessoaOpt.isEmpty()) {
 	        return ResponseEntity
 	                .status(HttpStatus.NOT_FOUND)
-	                .body("Produto não encontrado!");
+	                .body("Pessoa não encontrada!");
 	    }
 
-	    repository.deleteById(id);
+	   /*///////////aqui esta o codigo original
+	    * 
+	    * repository.deleteById(id);
 
 	    return ResponseEntity
 	            .status(HttpStatus.OK)
-	            .body("Produto apagado com sucesso!");
+	            .body("Produto apagado com sucesso!");*/
+	    
+	    Pessoa pessoa = PessoaOpt.get();
+	    pessoa.setDeletado("SIM");
+	    repository.save(pessoa);
+	    
+	    return ResponseEntity
+	            .status(HttpStatus.OK)
+	            .body("Pessoa deletada com sucessoooo!");	    
 	}
 
 }

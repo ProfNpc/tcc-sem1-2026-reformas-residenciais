@@ -94,7 +94,7 @@ button{
     
 }
 
-.delPut {
+.btnAcao {
   background-color: #9bb898;
   color: white;
   border: none;
@@ -106,15 +106,15 @@ button{
   transition: all 0.2s ease;
 }
 
-.delPut:hover {
+.btnAcao:hover {
   background-color: #b91c1c;
 }
 
-.delPut:active {
+.btnAcao:active {
   transform: scale(0.98);
 }
 
-.delPut:disabled {
+.btnAcao:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }

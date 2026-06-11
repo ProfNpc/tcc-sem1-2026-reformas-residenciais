@@ -1,5 +1,3 @@
-
-
 package br.com.belval.refores;
 
 import org.springframework.context.annotation.Configuration;

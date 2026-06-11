@@ -1,0 +1,120 @@
+/* Estilo Geral */
+main {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.container-form h2 {
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Estilização da Tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+tr {
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+td {
+    padding: 15px;
+    vertical-align: top;
+}
+
+
+
+/* Estilo das Labels dentro da tabela */
+td label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: #d17021;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+/* Estilo dos Inputs dentro da tabela */
+.input-tabela {
+    width: 100%;
+    padding: 1px;
+    border: 10px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+   
+    box-sizing: border-box; /* Garante que o padding não quebre a largura */
+}
+
+input {
+    border: 2px solid rgb(226, 111, 3) !important;
+    min-width: 120px;
+}
+
+.input-tabela:focus {
+    /*outline: none;*/
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.2);
+}
+
+/* Estilo do ID (primeira coluna) */
+tr td:first-child {
+    font-weight: bold;
+    color: #1a1919;
+    width: 50px;
+    text-align: center;
+    border-left: 3px solid #ccdad1; 
+    border-radius: 8px 0 0 8px;
+}
+
+th, td {
+  border: 3px solid #ccdad1;
+  padding: 2px;
+  text-align: left;
+}
+
+button{
+    
+    padding: 10px 20px;
+    background-color: #ccdad1;
+    color: #141414;
+    font-weight: bold;
+    border: 2px solid #0ea315;    
+    border-radius: 0px 15px 0 15px;
+    cursor: pointer;
+    margin-right: 12px;
+    
+}
+
+.btnAcao {
+  background-color: #9bb898;
+  color: white;
+  border: none;
+  padding: 5px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnAcao:hover {
+  background-color: #b91c1c;
+}
+
+.btnAcao:active {
+  transform: scale(0.98);
+}
+
+.btnAcao:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

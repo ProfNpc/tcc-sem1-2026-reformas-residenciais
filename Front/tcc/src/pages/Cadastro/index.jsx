@@ -1,158 +1,8 @@
-
-/*function Cadastro() {
-  const [nome, setNome] = useState('')
-  const [email, setEmail] = useState('')
-  const [cpf, setcpf] = useState('')
-  const [telefone, settelefone] = useState('')
-
-  async function handleCadastro() {
-    try {
-      const response = await fetch('http://localhost:8080/usuarios', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          nome,
-          email,
-          cpf,
-          telefone
-        })
-      })
-
-      if (response.ok) {
-        alert('Cadastro realizado com sucesso')
-      } else {
-        alert('Erro ao cadastrar')
-      }
-
-    } catch (error) {
-      console.error(error)
-      alert('Erro na requisição')
-    }
-  }
-
-  return (
-    <div className="form-container">
-
-      <h2>Cadastro de Pessoas</h2>
-
-      <div className="input-group">
-        <label>Nome</label>
-        <input
-          placeholder="Nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-        />
-      </div>
-
-      <div className="input-group">
-        <label>Email</label>
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-
-      <div className="input-group">
-        <label>cpf</label>
-        <input
-          type="text"
-          placeholder="CPF"
-          value={cpf}
-          onChange={(e) => setcpf(e.target.value)}
-        />
-      </div>
-
-      <div className="input-group">
-        <label>telefone</label>
-        <input
-          type="text"
-          placeholder="telefone"
-          value={telefone}
-          onChange={(e) => settelefone(e.target.value)}
-        />
-      </div>
-
-
-
-      <button
-        className="btn-submit"
-        onClick={handleCadastro}
-      >
-        Cadastrar
-      </button>
-
-    </div>
-  )
-}
-
-export default Cadastro*/
-/*import { useState } from 'react'*/
-
-/*daqui em diante e como estava 25/05
-*
-*
-*
-
-import '../cadastro.css'
-import axios from "axios"
-import { useEffect, useState } from "react"
-
-
-
-function Cadastro() {
-
-  const [pessoas, setPessoas] = useState([])
-
-  useEffect(() => {
-
-    axios.get("http://localhost:8080/Pessoas")
-      .then((response) => {
-
-        console.log(response.data)
-
-        setPessoas(response.data)
-      })
-      .catch((error) => {
-
-        console.log(error)
-      })
-
-  }, [])
-
-  return (
-    <div>
-
-      <h1>Backend conectado</h1>
-
-      {pessoas.map((pessoas) => (
-        <div key={pessoas.id}>
-          <p>{pessoas.nome}</p>
-        </div>
-      ))}
-
-    </div>
-  )
-}
-
-export default Cadastro
-
-**************************/
-
-
-
-
-
-
-
- 
-import '../cadastro.css'
+import './cadastroPessoa.css'
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 
-function Cadastro() {
+function Index() {
 
   // FORMULÁRIO (sempre vazio no início)
   const [form, setForm] = useState({
@@ -309,8 +159,8 @@ function Cadastro() {
       <br></br>
 
       <span>             
-              <Link to="/Login">
-                Voltar para Login
+              <Link to="/PesquisaGeral">
+                Voltar
               </Link>
             </span>
 
@@ -319,7 +169,7 @@ function Cadastro() {
   );
 }
 
-export default Cadastro;
+export default Index;
 
 
 

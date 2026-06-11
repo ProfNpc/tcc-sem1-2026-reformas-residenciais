@@ -24,6 +24,10 @@
   color: white;
 }
 
+.theme-adm {
+  background: linear-gradient(135deg, #0d0ad1, #09cf45);
+  color: white;
+}
 /* TOPO */
 .topo {
   text-align: center;

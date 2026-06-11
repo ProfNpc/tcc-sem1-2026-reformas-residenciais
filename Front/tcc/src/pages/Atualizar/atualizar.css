@@ -1,0 +1,31 @@
+.atualizar input {
+    border: 2px solid rgb(186, 230, 169) !important;
+    min-width: 120px;
+}
+
+.atualizar button{
+    
+    padding: 10px 20px;
+    background-color: #ccdad1;
+    color: #141414;
+    font-weight: bold;
+    border: 2px solid #50c056;    
+    border-radius: 10px 10px 10px 10px;
+    cursor: pointer;
+    margin-right: 12px;
+    
+}
+
+.atualizar .btn-cancelarAtu{
+
+     padding: 10px 20px;
+    background-color: #d81212;
+    color: #f1ebeb;
+    font-weight: bold;
+    border: 2px solid #db1010;    
+    border-radius: 10px 10px 10px 10px;
+    cursor: pointer;
+    margin-right: 12px;
+
+
+}
