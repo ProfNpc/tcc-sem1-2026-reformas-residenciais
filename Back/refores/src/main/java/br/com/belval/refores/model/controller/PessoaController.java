@@ -42,7 +42,7 @@ public class PessoaController {
 	
 		
 	
-	@PostMapping("/pessoa")
+	@PostMapping("/Pessoa")
 	public ResponseEntity<Pessoa> criarPessoa(@RequestBody Pessoa Pessoa) {
 		
 		Pessoa.setDataCriacao(LocalDateTime.now());

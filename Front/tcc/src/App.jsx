@@ -1,14 +1,18 @@
 import './style.css'
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 
+import { BrowserRouter, useNavigate } from 'react-router-dom'
 
+import Rotas from './Rotas'
+
+{/*import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Cadastro from './pages/Cadastro'
 import PesquisaGeral from './pages/PesquisaGeral'
 import PesquisaDeletados from './pages/PesquisaDeletados'
 import Deletar from './pages/Deletar'
 import Atualizar from './pages/Atualizar'
-import Footer from './components/footer'
+import Footer from './components/footer'*/}
+
 
 
 
@@ -100,50 +104,12 @@ function Home() {
           )
   }
 
+
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-      
-
-        <Route
-      path="/PesquisaGeral"
-      element={<PesquisaGeral />}
-    />
-
-   <Route 
-   path="/PesquisaDeletados" 
-   element={<PesquisaDeletados />} />
-
-
-        <Route
-      path="/cadastro/"
-      element={<Cadastro />}
-    />
-
-    <Route
-      path="/deletar/:id"
-      element={<Deletar />}
-    />
-
-    <Route
-  path="/atualizar/:id"
-  element={<Atualizar />}
-/>
-  {/*  <Route
-      path="/index/:id"
-      element={<index />}
-    />
-*/}
-
-
-  </Routes>
-
+      <Rotas Home={Home} />
     </BrowserRouter>
   )
 }
-
-
 

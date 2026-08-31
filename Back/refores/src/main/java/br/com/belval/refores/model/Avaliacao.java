@@ -2,7 +2,7 @@ package br.com.belval.refores.model;
 
 import java.util.Objects;
 
-import jakarta.persistence.Column;
+//import jakarta.persistence.Column;
 
 
 

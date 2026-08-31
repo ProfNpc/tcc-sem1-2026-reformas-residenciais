@@ -1,120 +1,181 @@
-/* Estilo Geral */
+* {
+  box-sizing: border-box;
+}
+
 main {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 20px;
-    background-color: #f8f9fa;
-    min-height: 100vh;
+  min-height: 100vh;
+  background: #f4f6f8;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Título */
+.container-form {
+  max-width: 600px;
+  margin: 0 auto 15px;
+  text-align: center;
 }
 
 .container-form h2 {
-    color: #333;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+  margin: 0;
+  color: #333;
+  font-size: 28px;
 }
 
-/* Estilização da Tabela */
-table {
-  width: 100%;
-  border-collapse: collapse;
+/* Mensagens */
+main > h3 {
+  max-width: 600px;
+  margin: 10px auto;
+  padding: 10px;
+  text-align: center;
+  border-radius: 6px;
 }
 
-tr {
-    background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border-radius: 8px;
-}
-
-td {
-    padding: 15px;
-    vertical-align: top;
-}
-
-
-
-/* Estilo das Labels dentro da tabela */
-td label {
-    display: block;
-    font-size: 12px;
-    font-weight: bold;
-    color: #d17021;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-}
-
-/* Estilo dos Inputs dentro da tabela */
-.input-tabela {
-    width: 100%;
-    padding: 1px;
-    border: 10px solid #ddd;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-   
-    box-sizing: border-box; /* Garante que o padding não quebre a largura */
-}
-
-input {
-    border: 2px solid rgb(226, 111, 3) !important;
-    min-width: 120px;
-}
-
-.input-tabela:focus {
-    /*outline: none;*/
-    border-color: #007bff;
-    background-color: #fff;
-    box-shadow: 0 0 5px rgba(0,123,255,0.2);
-}
-
-/* Estilo do ID (primeira coluna) */
-tr td:first-child {
-    font-weight: bold;
-    color: #1a1919;
-    width: 50px;
-    text-align: center;
-    border-left: 3px solid #ccdad1; 
-    border-radius: 8px 0 0 8px;
-}
-
-th, td {
-  border: 3px solid #ccdad1;
-  padding: 2px;
-  text-align: left;
-}
-
-button{
-    
-    padding: 10px 20px;
-    background-color: #ccdad1;
-    color: #141414;
-    font-weight: bold;
-    border: 2px solid #0ea315;    
-    border-radius: 0px 15px 0 15px;
-    cursor: pointer;
-    margin-right: 12px;
-    
-}
-
-.btnAcao {
-  background-color: #9bb898;
+/* Título Cadastro de pessoa */
+.main-content {
+  max-width: 600px;
+  margin: 25px auto 0;
+  padding: 15px 20px;
+  background: #0dcf73;
   color: white;
-  border: none;
-  padding: 5px 18px;
-  border-radius: 8px;
-  font-size: 14px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+}
+
+/* Formulário */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 25px;
+  background: white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Campos */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+/* Labels */
+.form-group label {
+  display: block;
+  width: 100%;
+  margin-bottom: 7px;
+  color: #333;
+  font-size: 15px;
   font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Inputs e Select */
+.form-group input,
+.status-select {
+  width: 100%;
+  height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s;
+}
+
+/* Placeholder */
+.form-group input::placeholder {
+  color: #999;
+}
+
+/* Foco */
+.form-group input:focus,
+.status-select:focus {
+  border-color: #0dcf73;
+  box-shadow: 0 0 0 3px rgba(13, 207, 115, 0.15);
+}
+
+/* Select */
+.status-select {
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.btnAcao:hover {
-  background-color: #b91c1c;
+/* Botão FORA do form */
+
+
+
+
+/* Link Voltar */
+main > span {
+  display: block;
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: center;
 }
 
-.btnAcao:active {
-  transform: scale(0.98);
+main > span a {
+  color: #0a9f5a;
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none;
 }
 
-.btnAcao:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+main > span a:hover {
+  text-decoration: underline;
 }
+
+/* Celular */
+@media (max-width: 650px) {
+  main {
+    padding: 25px 15px;
+  }
+
+  form {
+    padding: 20px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .container-form h2 {
+    font-size: 24px;
+  }
+
+  .main-content {
+    font-size: 19px;
+  }
+}
+
+.button-container {
+  width: 600px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.button-container button {
+  display: block;
+  width: 100%;
+  height: 45px;
+  margin: 20px 0 0 0;
+
+  border: none;
+  border-radius: 6px;
+  background: #0dcf73;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button-container button:hover {
+  background: #0bb968;
+}
+

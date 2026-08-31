@@ -13,7 +13,7 @@ function index() {
 
   const carregarPessoas = () => {
     // Fetch data when the component mounts
-    fetch('http://localhost:8089/Pessoa')
+    fetch('http://127.0.0.1:8089/Pessoa')
       .then(response => response.json())
       .then(json => setData(json))
       .catch(error => console.error('Error carregar dados:', error));

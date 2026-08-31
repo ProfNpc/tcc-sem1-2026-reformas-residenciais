@@ -12,7 +12,9 @@ function index() {
     // Buscar pessoa pelo ID
     useEffect(() => {
         if (id) {
-            fetch(`http://localhost:8089/Pessoa/${id}`)
+            fetch(`http://127.0.0.1:8089/Pessoa/${id}`)
+
+            
                 .then(resp => resp.json())
                 .then(json => {
                     setItemSelecionado(json);
@@ -27,7 +29,7 @@ function index() {
 
     // Função para deletar
     const deletarPessoa = () => {
-        fetch(`http://localhost:8089/Pessoa/${id}`, {
+        fetch(`http://127.0.0.1:8089/Pessoa/${id}`, {
             method: 'DELETE'
         })
         .then(() => {

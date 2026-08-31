@@ -15,7 +15,9 @@ function PesquisaDeletados() {
 
   const [loading, setLoading] = useState(true);
     useEffect(() => {
-      fetch(`http://localhost:8089/Pessoa/${id}`)
+      fetch(`http://127.0.0.1:8089/Pessoa/${id}`)
+
+      
         .then(resp => resp.json())
         .then(json => {
           setItemSelecionado(json);
@@ -28,7 +30,7 @@ function PesquisaDeletados() {
     }, [id]);
 
   const atualizar = () => {
-    fetch(`http://localhost:8089/Pessoa/${id}`, {
+    fetch(`http://127.0.0.1:8089/Pessoa/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

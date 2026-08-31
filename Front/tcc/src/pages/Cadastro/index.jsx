@@ -27,7 +27,9 @@ function Index() {
   // FUNÇÃO POST
   const salvarPessoa = () => {
 
-    fetch('http://localhost:8089/pessoa', {
+    //fetch('http://localhost:8089/pessoa', {
+      fetch ('http://127.0.0.1:8089/Pessoa',{
+
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -38,13 +40,16 @@ function Index() {
       .then((response) => {
         if (!response.ok) {
           throw new Error('Erro ao salvar pessoa');
+         
         }
         return response.json();
       })
 
       .then(() => {
         setSucesso('Pessoa cadastrada com sucesso!');
-        setErro('');
+        alert("Pessoa cadastrada com sucesso");
+       
+      
 
         // limpa formulário
         setForm({
@@ -77,88 +82,100 @@ function Index() {
       {sucesso && <h3 style={{ color: 'green' }}>{sucesso}</h3>}
 
       <div>
+      <div className="main-content">Cadastro de pessoa</div>
+      <form>
+          <div className="form-group">
+            <label>Nome</label>
+            <input
+              type="text"
+              value={form.nome}
+              onChange={(e) =>
+                  setForm({ ...form, nome: e.target.value })
+               }
+              placeholder="Nome"            
+              required />
+          </div>
 
-        <table>
+          <div className="form-group">
+            <label>CPF</label>
+            <input
+              type="number"
+              value={form.cpf}
+             onChange={(e) =>
+                setForm({ ...form, cpf: e.target.value })
+              }
+              placeholder="CPF"/>
+          </div>
 
-          <tbody>
+          <div className="form-group">
+            <label>telefone</label>
+            <input
+              type="text"
+              value={form.telefone}
+             onChange={(e) =>
+                setForm({ ...form, telefone: e.target.value })
+              }
+              placeholder="TELEFONE"/>
+          </div>
 
-            <tr>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="text"
+              value={form.Email}
+             onChange={(e) =>
+                setForm({ ...form, email: e.target.value })
+              }
+              placeholder="EMAIL"
+              className="EMAIL"/>
+          </div>
 
-              <td>
-                <label>Nome:</label>
-                <input
-                  type="text"
-                  value={form.nome}
-                  onChange={(e) => handleChange('nome', e.target.value)}
-                />
-              </td>
-
-              <td>
-                <label>CPF:</label>
-                <input
-                  type="text"
-                  value={form.cpf}
-                  onChange={(e) => handleChange('cpf', e.target.value)}
-                />
-              </td>
-
-              <td>
-                <label>Telefone:</label>
-                <input
-                  type="text"
-                  value={form.telefone}
-                  onChange={(e) => handleChange('telefone', e.target.value)}
-                />
-              </td>
-
-            
-
-              <td>
-                <label>Email:</label>
-                <input
-                  type="text"
-                  value={form.email}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                />
-              </td>
-
-                <td>    
-              <label>Endereço:</label>           
-              <input
+          <div className="form-group">
+            <label>endereço</label>
+            <input
               type="text"
               value={form.endereco}
-              onChange={(e) => handleChange('endereco', e.target.value)}/>            
-              </td> 
+             onChange={(e) =>
+                setForm({ ...form, endereco: e.target.value })
+              }
+              placeholder="ENDEREÇO"
+              className="input-number"/>
+          </div>
 
-
-
-
-                <td>    
-              <label>Senha:</label>           
-              <input
+          <div className="form-group">
+            <label>senha</label>
+            <input
               type="password"
               value={form.senha}
-              onChange={(e) => handleChange('senha', e.target.value)}/>            
-              </td> 
+             onChange={(e) =>
+                setForm({ ...form, senha: e.target.value })
+              }
+              className="input-number"/>
+          </div>
 
+         {/* <div className="form-group">
+            <label>Status</label>
+            <select className="status-select">
+              <option value="true">Ativo</option>
+              <option value="false">Inativo</option>
+            </select>
+          </div>*/}
 
-
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      <br></br>
-
-        <button onClick={salvarPessoa}>
-          Salvar
-        </button>   
         
-      </div>
+
       <br></br>
 
-      <span>             
+        </form>
+
+       <div className="button-container">
+  <button type="button" onClick={salvarPessoa}>
+    Salvar
+  </button>
+</div>
+
+      </div>
+      
+        <span>             
               <Link to="/PesquisaGeral">
                 Voltar
               </Link>
