@@ -17,10 +17,10 @@ const Footer = () => {
     >
       <div>
 
-        {/* MENU */}
+        {/* MENU 
         <nav style={{ marginBottom: "2px" }}>
           <Link
-            to="/index.html"
+            to="/Cadastro"
             style={{
               color: "blue",
               textDecoration: "none",
@@ -28,9 +28,9 @@ const Footer = () => {
               marginRight: "15px"
             }}
           >
-            HOME
+            Cadastre - se
           </Link>
-        </nav>
+        </nav>*/}
 
         {/* TEXTO */}
         <div style={{ fontSize: "10px", color: "white" }}>

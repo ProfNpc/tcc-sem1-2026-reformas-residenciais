@@ -1,8 +1,11 @@
 import './cadastroPessoa.css'
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function Index() {
+
+   const { tipo } = useParams();
 
   // FORMULÁRIO (sempre vazio no início)
   const [form, setForm] = useState({
@@ -46,9 +49,9 @@ function Index() {
       })
 
       .then(() => {
-        setSucesso('Pessoa cadastrada com sucesso!');
-        alert("Pessoa cadastrada com sucesso");
-       
+        setSucesso('Pessoa cadastrada com sucesso!');        
+        
+        alert("Pessoa cadastrada com sucesso");    
       
 
         // limpa formulário
@@ -82,7 +85,7 @@ function Index() {
       {sucesso && <h3 style={{ color: 'green' }}>{sucesso}</h3>}
 
       <div>
-      <div className="main-content">Cadastro de pessoa</div>
+      <div className="main-content">Cadastro de Clientes</div>
       <form>
           <div className="form-group">
             <label>Nome</label>
@@ -142,7 +145,9 @@ function Index() {
               className="input-number"/>
           </div>
 
-          <div className="form-group">
+         
+
+          {/*<div className="form-group">
             <label>senha</label>
             <input
               type="password"
@@ -151,7 +156,7 @@ function Index() {
                 setForm({ ...form, senha: e.target.value })
               }
               className="input-number"/>
-          </div>
+          </div>*/}
 
          {/* <div className="form-group">
             <label>Status</label>
@@ -175,11 +180,21 @@ function Index() {
 
       </div>
       
-        <span>             
+        {/*<span>             
               <Link to="/PesquisaGeral">
                 Voltar
               </Link>
-            </span>
+            </span>*/}
+
+{tipo === 'adm' && (
+  <span>
+    <Link to="/PesquisaGeral">
+      Voltar
+    </Link>
+  </span>
+)}
+
+
 
     </main>
 

@@ -192,7 +192,56 @@ function index() {
         
 
           </form>
-    
+        {tipo == 'cliente' && (
+          <nav className='linkCadastro'
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "15px",
+              marginBottom: "2px",
+              color:"green",
+            }}
+          >
+            <Link
+              to="/Cadastro/cliente"
+              style={{
+                color: "blue",
+                textDecoration: "green",
+                fontSize: "15px",
+              }}
+            >  
+          
+            CADASTRE-SE
+          </Link>
+        </nav>
+      )}
+
+
+            {tipo == 'pro' && (
+          <nav className='linkCadastro'
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "15px",
+              marginBottom: "2px",
+              color:"green",
+            }}
+          >
+            <Link
+              to="/cadastro/prestador/pro"
+              style={{
+                color: "blue",
+                textDecoration: "green",
+                fontSize: "15px",
+              }}
+            >
+          
+            CADASTRE-SE
+          </Link>
+        </nav>
+      )}
 
           {/* FOOTER */}
           <div className="footer">

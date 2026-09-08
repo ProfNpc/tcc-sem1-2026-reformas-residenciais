@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 
 import Login from './pages/Login'
 import Cadastro from './pages/Cadastro'
+import CadastroPrestador from './pages/Cadastro/CadastroPrestador'
 import PesquisaGeral from './pages/PesquisaGeral'
 import PesquisaDeletados from './pages/PesquisaDeletados'
 import Deletar from './pages/Deletar'
@@ -25,8 +26,13 @@ export default function Rotas({ Home }) {
       />
 
       <Route
-        path="/cadastro"
+        path="/cadastro/:tipo"
         element={<Cadastro />}
+      />
+
+      <Route
+        path="/cadastro/prestador/:tipo"
+        element={<CadastroPrestador />}
       />
 
       <Route

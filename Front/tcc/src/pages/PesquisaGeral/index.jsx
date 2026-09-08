@@ -36,7 +36,7 @@ function index() {
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         <h2>Pessoas cadastradas</h2>
 
-        <Link to="/Cadastro">
+        <Link to="/Cadastro/adm">
           <button>
             + Novo Cadastro
           </button>
