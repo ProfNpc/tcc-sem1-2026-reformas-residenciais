@@ -4,11 +4,6 @@ import java.util.Objects;
 
 //import jakarta.persistence.Column;
 
-
-
-
-
-
 public class Avaliacao {
 	private Integer id;
 	private String data;

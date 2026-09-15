@@ -1,11 +1,13 @@
 import './cadastroPessoa.css'
 import React, { useState } from 'react';
 //import { Link } from "react-router-dom";
-import { Link, useParams } from "react-router-dom";
+//import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 function Index() {
 
    const { tipo } = useParams();
+   const navigate = useNavigate();
 
   // FORMULÁRIO (sempre vazio no início)
   const [form, setForm] = useState({
@@ -61,8 +63,10 @@ function Index() {
           telefone: '',
           email: '',
           senha: '',
-          endereco: ''
+          endereco: '',
+          cep:''
         });
+        navigate('/usuarios');
       })
 
       .catch((error) => {
@@ -121,6 +125,17 @@ function Index() {
               placeholder="TELEFONE"/>
           </div>
 
+                <div className="form-group">
+            <label>cep</label>
+            <input
+              type="text"
+              value={form.cep}
+             onChange={(e) =>
+                setForm({ ...form, cep: e.target.value })
+              }
+              placeholder="CEP"/>
+          </div>
+
           <div className="form-group">
             <label>Email</label>
             <input
@@ -174,7 +189,7 @@ function Index() {
 
        <div className="button-container">
   <button type="button" onClick={salvarPessoa}>
-    Salvar
+    Avançar
   </button>
 </div>
 

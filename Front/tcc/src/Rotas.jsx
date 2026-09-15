@@ -7,6 +7,10 @@ import PesquisaGeral from './pages/PesquisaGeral'
 import PesquisaDeletados from './pages/PesquisaDeletados'
 import Deletar from './pages/Deletar'
 import Atualizar from './pages/Atualizar'
+import cliente from './pages/Logados/cliente'
+import Usuarios from './pages/Cadastro/Usuarios'
+
+
 
 export default function Rotas({ Home }) {
   return (
@@ -34,6 +38,16 @@ export default function Rotas({ Home }) {
         path="/cadastro/prestador/:tipo"
         element={<CadastroPrestador />}
       />
+
+         <Route
+        path="/usuarios/:tipo"
+        element={<Usuarios />}
+      />
+
+     <Route
+  path="/Logados"
+  element={<cliente />}
+/>
 
       <Route
         path="/deletar/:id"

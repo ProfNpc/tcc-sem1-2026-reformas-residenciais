@@ -19,6 +19,9 @@ public class Prestador {
     @Column(name = "cpf", nullable = false, unique = true, length = 14)
     private String cpf;
 
+    @Column(name = "cep", nullable = false, unique = true, length = 14)
+    private String cep;
+
     @Column(name = "telefone", length = 20)
     private String telefone;
 
@@ -62,6 +65,14 @@ public class Prestador {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+     public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cpf = cep;
     }
 
     public String getTelefone() {
@@ -133,6 +144,7 @@ public class Prestador {
         return "Prestador [id=" + id +
                 ", nome=" + nome +
                 ", cpf=" + cpf +
+                ", cep=" + cep +
                 ", telefone=" + telefone +
                 ", endereco=" + endereco +
                 ", email=" + email +

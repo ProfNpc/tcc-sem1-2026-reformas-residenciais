@@ -28,6 +28,9 @@ public class Pessoa {
 	
 	@Column(name = "cpf", nullable = false, unique = true, length = 14)
 	private String cpf;
+
+	@Column(name = "cep", nullable = false, unique = true, length = 14)
+	private String cep;
 	
 	@Column(name = "telefone", length = 20)
 	private String telefone;
@@ -85,6 +88,15 @@ public class Pessoa {
 		this.cpf = cpf;
 	}
 
+	public String getCep() {
+		return cep;
+	}
+	
+	//Método que define/altera o valor do atributo id
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
 
 
 	public String getTelefone() {
@@ -110,13 +122,7 @@ public class Pessoa {
 		this.email = email;
 	}
 	
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+	
 		
 	public LocalDateTime getDataCriacao() {
 		return dataCriacao;
@@ -155,7 +161,7 @@ public class Pessoa {
 
 	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + ", endereco="
+		return "Pessoa [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ",cep=" + cep + ", telefone=" + telefone + ", endereco="
 				+ endereco + ", email=" + email  + ", senha=" + senha + ", dataCriacao=" + dataCriacao + ",deletado =" + deletado + "]";
 	}
 

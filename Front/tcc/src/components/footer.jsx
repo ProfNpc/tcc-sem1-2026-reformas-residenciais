@@ -32,6 +32,25 @@ const Footer = () => {
           </Link>
         </nav>*/}
 
+             <Link
+            to="/Logados"
+            style={{
+              color: "blue",
+              textDecoration: "none",
+              fontSize: "15px",
+              marginRight: "15px"
+            }}
+          >
+            Cliente
+          </Link>
+
+            <button
+  onClick={() => window.location.href = "pages/Logados"}
+>
+  Clientebotao
+</button>
+
+
         {/* TEXTO */}
         <div style={{ fontSize: "10px", color: "white" }}>
           © {new Date().getFullYear()} TCC FIEB. REFORMAS RESIDENCIAIS.
