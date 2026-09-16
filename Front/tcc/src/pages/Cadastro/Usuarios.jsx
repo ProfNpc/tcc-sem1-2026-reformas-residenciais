@@ -1,142 +1,120 @@
-import './cadastroPessoa.css'
-import React, { useState } from 'react';
-//import { Link } from "react-router-dom";
-import { Link, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import "./style.css";
 
-function Usuarios() {
+function Index() {
+  const [usuario, setUsuario] = useState("");
+  const [tipo, setTipo] = useState("cliente");
+  const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [foto, setFoto] = useState(null);
 
-  const { tipo } = useParams();
+  function handleFotoChange(e) {
+    const arquivo = e.target.files[0];
+    if (arquivo) {
+      setFoto(URL.createObjectURL(arquivo));
+    }
+  }
 
-  const [form, setForm] = useState({
+  function handleSalvar(e) {
+    e.preventDefault();
 
-    senha: '',
-    confirmaSenha: '',
-    tipousuario: tipo
-   
-  });
+    if (!usuario || !senha || !confirmarSenha) {
+      alert("Preencha todos os campos");
+      return;
+    }
 
-  const [erro, setErro] = useState('');
-  const [sucesso, setSucesso] = useState('');
+    if (senha !== confirmarSenha) {
+      alert("As senhas não coincidem");
+      return;
+    }
 
-  const salvarPrestador = () => {
-
-    fetch('http://127.0.0.1:8089/Usuarios', {
-
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form)
-
-    })
-
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Erro ao salvar usuarios');
-        }
-
-        return response.json();
-      })
-
-      .then(() => {
-
-        setSucesso('usuarios cadastrado com sucesso!');
-        alert('usuarios cadastrado com sucesso!');
-
-        setForm({
-          senha: '',
-          confirmaSenha: '',
-          tipousuario: tipo
-         
-        });
-
-      })
-
-      .catch((error) => {
-        setErro(error.message);
-        setSucesso('');
-      });
-  };
+    console.log({ usuario, tipo, senha });
+    // Aqui depois você liga na API
+  }
 
   return (
+    <div className="pagina">
+      <div className="card">
 
-    <main>
-
-      <div className="container-form">
-        <h2>NOVO CADASTRO</h2>
-      </div>
-
-      {erro && <h3 style={{ color: 'red' }}>{erro}</h3>}
-      {sucesso && <h3 style={{ color: 'green' }}>{sucesso}</h3>}
-
-      <div>
-
-        <div className="main-content">
-          Cadastro de Acesso
+        <div className="logo">
+          <span className="logo-icon">🏗️</span> ReformaJá
         </div>
 
-        <form>
+        <h2 className="titulo">Dados de Acesso</h2>
 
-          <div className="form-group">
-            <label>Senha</label>
+        <form onSubmit={handleSalvar}>
+
+          <label className="foto-label" htmlFor="foto-perfil">
+            <div className="foto-circulo">
+              {foto ? (
+                <img src={foto} alt="Foto de perfil" className="foto-img" />
+              ) : (
+                <span className="foto-placeholder">+</span>
+              )}
+            </div>
+            <span className="foto-texto">Adicionar foto</span>
+          </label>
+          <input
+            id="foto-perfil"
+            type="file"
+            accept="image/*"
+            onChange={handleFotoChange}
+            className="foto-input"
+          />
+
+          <div className="input-group">
+            <label>CRIAR USUÁRIO</label>
             <input
               type="text"
-              value={form.senha}
-              onChange={(e) =>
-                setForm({ ...form, senha: e.target.value })
-              }
-              placeholder="Senha"
+              placeholder="Digite seu usuário"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
               required
             />
           </div>
 
-          <div className="form-group">
-            <label>confirmaSenha</label>
+          <div className="input-group">
+            <label>TIPO DE USUÁRIO</label>
+            <select
+              value={tipo}
+              onChange={(e) => setTipo(e.target.value)}
+              required
+            >
+              <option value="cliente">Cliente</option>
+              <option value="prestador">Prestador</option>
+            </select>
+          </div>
+
+          <div className="input-group">
+            <label>CRIAR SENHA</label>
             <input
-              type="text"
-              value={form.confirmaSenha}
-              onChange={(e) =>
-                setForm({ ...form, confirmaSenha: e.target.value })
-              }
-              placeholder="Confirma Senha"
+              type="password"
+              placeholder="••••••••"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              required
             />
           </div>
 
-          <div className="form-group">
-            <label>Tipo Usuario</label>
+          <div className="input-group">
+            <label>CONFIRMAR SENHA</label>
             <input
-              type="text"
-              value={form.tipousuario}
-              onChange={(e) =>
-                setForm({ ...form, tipousuario: e.target.value })
-              }
-              placeholder="Tipo Usuario"
+              type="password"
+              placeholder="••••••••"
+              value={confirmarSenha}
+              onChange={(e) => setConfirmarSenha(e.target.value)}
+              required
             />
           </div>
 
- 
-
-         
+          <button type="submit" className="btn">
+            SALVAR
+          </button>
 
         </form>
-
-        <br />
-
-        <div className="button-container">
-          <button
-            type="button"
-            onClick={salvarPrestador}
-          >
-            salvar
-          </button>
-        </div>
-
       </div>
-
-      
-    </main>
-
+    </div>
   );
 }
 
-export default Usuarios;
+export default Index;

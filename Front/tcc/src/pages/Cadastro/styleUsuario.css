@@ -1,0 +1,133 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.pagina {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #0f5132, #14893a);
+}
+
+.card {
+  width: 100%;
+  max-width: 380px;
+  background: white;
+  color: #111;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #0f5132;
+}
+
+.foto-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.foto-circulo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 3px dashed #22a559;
+  background: #e6f4ea;
+  transition: border-color 0.2s ease;
+}
+
+.foto-label:hover .foto-circulo {
+  border-color: #0f5132;
+}
+
+.foto-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.foto-placeholder {
+  font-size: 34px;
+  color: #22a559;
+  font-weight: 700;
+}
+
+.foto-texto {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #0f5132;
+  font-weight: 600;
+}
+
+.foto-input {
+  display: none;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.input-group label {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.input-group input,
+.input-group select {
+  padding: 12px 14px;
+  border: 2px solid #22a559;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: white;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #14893a;
+  box-shadow: 0 0 0 3px rgba(34, 165, 89, 0.25);
+}
+
+.btn {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  background: #14893a;
+  color: white;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background: #0f5132;
+}
