@@ -2,9 +2,13 @@ import './atualizar.css';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 
-function PesquisaDeletados() {
-  const { id } = useParams();
+
+
+function Atualizar() {
+
+  const { id, tipo } = useParams();
   const navigate = useNavigate();
+
   const [itemSelecionado, setItemSelecionado] = useState({
     nome: "",
     cpf: "",
@@ -14,132 +18,205 @@ function PesquisaDeletados() {
   });
 
   const [loading, setLoading] = useState(true);
-    useEffect(() => {
-      fetch(`http://127.0.0.1:8089/Pessoa/${id}`)
 
-      
-        .then(resp => resp.json())
-        .then(json => {
-          setItemSelecionado(json);
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error("Erro ao buscar pessoa:", err);
-          setLoading(false);
-        });
-    }, [id]);
+  // Define qual tabela/API consultar
+  const url = tipo === "prestador"
+    ? `http://127.0.0.1:8089/Prestador/Prestador/${id}`
+    : `http://127.0.0.1:8089/Pessoa/${id}`;
+
+  useEffect(() => {
+
+    fetch(url)
+
+      .then(resp => {
+
+        if (!resp.ok) {
+          throw new Error("Erro ao buscar cadastro");
+        }
+
+        return resp.json();
+
+      })
+
+      .then(json => {
+
+        setItemSelecionado(json);
+        setLoading(false);
+
+      })
+
+      .catch(err => {
+
+        console.error("Erro ao buscar cadastro:", err);
+        setLoading(false);
+
+      });
+
+  }, [id, tipo]);
 
   const atualizar = () => {
-    fetch(`http://127.0.0.1:8089/Pessoa/${id}`, {
+
+    const urlAtualizar = tipo === "prestador"
+      ? `http://127.0.0.1:8089/Prestador/${id}`
+      : `http://127.0.0.1:8089/Pessoa/${id}`;
+
+    fetch(urlAtualizar, {
+
       method: 'PUT',
+
       headers: {
         'Content-Type': 'application/json'
       },
-        body: JSON.stringify(itemSelecionado)
-      })
+
+      body: JSON.stringify(itemSelecionado)
+
+    })
+
       .then(resp => {
+
         if (!resp.ok) {
           throw new Error("Erro ao atualizar");
         }
 
-          alert("Pessoa atualizada com sucesso!");
-          navigate("/PesquisaGeral");
+        alert(
+          tipo === "prestador"
+            ? "Prestador atualizado com sucesso!"
+            : "Pessoa atualizada com sucesso!"
+        );
+
+        navigate("/PesquisaGeral");
+
       })
-      .catch(err => console.error("Erro ao atualizar:", err));
-    };
 
-    if (loading) {
-        return <p>Carregando...</p>;
-    }
-    return (
-      <main className="atualizar">
+      .catch(err =>
+        console.error("Erro ao atualizar:", err)
+      );
 
-        <div className="container-form">
-          <h2>Atualizar Cadastro</h2>
-        </div>
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <label>Nome:</label>
-                <input
-                  value={itemSelecionado.nome}
-                    onChange={(e) =>
-                      setItemSelecionado({
-                      ...itemSelecionado,
-                      nome: e.target.value
-                    })
-                  }
-                />
-              </td>
+  };
 
-              <td>
-                <label>CPF:</label>
-                <input
-                  value={itemSelecionado.cpf}
-                  onChange={(e) =>
-                    setItemSelecionado({
-                      ...itemSelecionado,
-                      cpf: e.target.value
-                    })
-                  }
-                />
-              </td>
+  if (loading) {
+    return <p>Carregando...</p>;
+  }
 
-              <td>
-                <label>Telefone:</label>
-                <input
-                  value={itemSelecionado.telefone}
-                  onChange={(e) =>
-                    setItemSelecionado({
-                      ...itemSelecionado,
-                      telefone: e.target.value
-                    })
-                  }
-                />
-              </td>
-              <td>
-                <label>Email:</label>
-                <input
-                  value={itemSelecionado.email}
-                  onChange={(e) =>
-                    setItemSelecionado({
-                      ...itemSelecionado,
-                      email: e.target.value
-                    })
-                  }
-                />
-              </td>
+  return (
 
-              <td>
-                <label>Endereço:</label>
-                <input
-                  value={itemSelecionado.endereco}
-                  onChange={(e) =>
-                    setItemSelecionado({
-                      ...itemSelecionado,
-                      endereco: e.target.value
-                    })
-                  }
-                />
-              </td>
+    <main className="atualizar">
 
-            </tr>
-          </tbody>
-        </table>
+      <div className="container-form">
 
-  <br />
+        <h2>
+          Atualizar {tipo === "prestador" ? "Prestador" : "Cliente"}
+        </h2>
 
-        <button onClick={atualizar}>
-          Atualizar
-        </button>
+      </div>
 
-        <button className='btn-cancelarAtu' onClick={() => navigate(-1)}>
-          Cancelar
-        </button>
+      <table>
 
-      </main>
-    );
+        <tbody>
+
+          <tr>
+
+            <td>
+
+              <label>Nome:</label>
+
+              <input
+                value={itemSelecionado.nome || ""}
+                onChange={(e) =>
+                  setItemSelecionado({
+                    ...itemSelecionado,
+                    nome: e.target.value
+                  })
+                }
+              />
+
+            </td>
+
+            <td>
+
+              <label>CPF:</label>
+
+              <input
+                value={itemSelecionado.cpf || ""}
+                onChange={(e) =>
+                  setItemSelecionado({
+                    ...itemSelecionado,
+                    cpf: e.target.value
+                  })
+                }
+              />
+
+            </td>
+
+            <td>
+
+              <label>Telefone:</label>
+
+              <input
+                value={itemSelecionado.telefone || ""}
+                onChange={(e) =>
+                  setItemSelecionado({
+                    ...itemSelecionado,
+                    telefone: e.target.value
+                  })
+                }
+              />
+
+            </td>
+
+            <td>
+
+              <label>Email:</label>
+
+              <input
+                value={itemSelecionado.email || ""}
+                onChange={(e) =>
+                  setItemSelecionado({
+                    ...itemSelecionado,
+                    email: e.target.value
+                  })
+                }
+              />
+
+            </td>
+
+            <td>
+
+              <label>Endereço:</label>
+
+              <input
+                value={itemSelecionado.endereco || ""}
+                onChange={(e) =>
+                  setItemSelecionado({
+                    ...itemSelecionado,
+                    endereco: e.target.value
+                  })
+                }
+              />
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+      <br />
+
+      <button onClick={atualizar}>
+        Atualizar
+      </button>
+
+      <button
+        className='btn-cancelarAtu'
+        onClick={() => navigate(-1)}
+      >
+        Cancelar
+      </button>
+
+    </main>
+  );
 }
 
-export default PesquisaDeletados;
+export default Atualizar;

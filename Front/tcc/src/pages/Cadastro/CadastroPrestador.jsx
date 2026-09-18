@@ -1,11 +1,12 @@
 import './cadastroPessoa.css'
 import React, { useState } from 'react';
-//import { Link } from "react-router-dom";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 function CadastroPrestador() {
 
   const { tipo } = useParams();
+
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     nome: '',
@@ -13,7 +14,8 @@ function CadastroPrestador() {
     telefone: '',
     email: '',
     endereco: '',
-    CNPJ: ''
+    CNPJ: '',
+    cep: ''
   });
 
   const [erro, setErro] = useState('');
@@ -24,24 +26,42 @@ function CadastroPrestador() {
     fetch('http://127.0.0.1:8089/Prestador', {
 
       method: 'POST',
+
       headers: {
         'Content-Type': 'application/json'
       },
+
       body: JSON.stringify(form)
 
     })
 
       .then((response) => {
+
         if (!response.ok) {
           throw new Error('Erro ao salvar prestador');
         }
 
         return response.json();
+
       })
 
-      .then(() => {
+      .then((prestador) => {
+
+        // Pega o ID do prestador salvo no banco
+        const idPrestador = prestador.id;
+
+        console.log("Prestador salvo:", prestador);
+        console.log("ID do prestador:", idPrestador);
+        console.log("Tipo:", tipo);
+
+        if (!idPrestador) {
+          throw new Error(
+            'Prestador foi salvo, mas o ID não foi retornado pelo servidor.'
+          );
+        }
 
         setSucesso('Prestador cadastrado com sucesso!');
+
         alert('Prestador cadastrado com sucesso!');
 
         setForm({
@@ -50,14 +70,27 @@ function CadastroPrestador() {
           telefone: '',
           email: '',
           endereco: '',
-          CNPJ: ''
+          CNPJ: '',
+          cep: ''
+        });
+
+        // Vai para /usuarios/prestador
+        // levando o ID do prestador
+        navigate(`/usuarios/${tipo}`, {
+          state: {
+            idPrestador: idPrestador
+          }
         });
 
       })
 
       .catch((error) => {
+
+        console.error(error);
+
         setErro(error.message);
         setSucesso('');
+
       });
   };
 
@@ -69,8 +102,17 @@ function CadastroPrestador() {
         <h2>Novo Cadastro</h2>
       </div>
 
-      {erro && <h3 style={{ color: 'red' }}>{erro}</h3>}
-      {sucesso && <h3 style={{ color: 'green' }}>{sucesso}</h3>}
+      {erro && (
+        <h3 style={{ color: 'red' }}>
+          {erro}
+        </h3>
+      )}
+
+      {sucesso && (
+        <h3 style={{ color: 'green' }}>
+          {sucesso}
+        </h3>
+      )}
 
       <div>
 
@@ -82,11 +124,15 @@ function CadastroPrestador() {
 
           <div className="form-group">
             <label>Nome</label>
+
             <input
               type="text"
               value={form.nome}
               onChange={(e) =>
-                setForm({ ...form, nome: e.target.value })
+                setForm({
+                  ...form,
+                  nome: e.target.value
+                })
               }
               placeholder="Nome"
               required
@@ -95,11 +141,15 @@ function CadastroPrestador() {
 
           <div className="form-group">
             <label>CPF</label>
+
             <input
               type="text"
               value={form.cpf}
               onChange={(e) =>
-                setForm({ ...form, cpf: e.target.value })
+                setForm({
+                  ...form,
+                  cpf: e.target.value
+                })
               }
               placeholder="CPF"
             />
@@ -107,11 +157,15 @@ function CadastroPrestador() {
 
           <div className="form-group">
             <label>Telefone</label>
+
             <input
               type="text"
               value={form.telefone}
               onChange={(e) =>
-                setForm({ ...form, telefone: e.target.value })
+                setForm({
+                  ...form,
+                  telefone: e.target.value
+                })
               }
               placeholder="Telefone"
             />
@@ -119,11 +173,15 @@ function CadastroPrestador() {
 
           <div className="form-group">
             <label>Email</label>
+
             <input
               type="email"
               value={form.email}
               onChange={(e) =>
-                setForm({ ...form, email: e.target.value })
+                setForm({
+                  ...form,
+                  email: e.target.value
+                })
               }
               placeholder="Email"
             />
@@ -131,23 +189,47 @@ function CadastroPrestador() {
 
           <div className="form-group">
             <label>Endereço</label>
+
             <input
               type="text"
               value={form.endereco}
               onChange={(e) =>
-                setForm({ ...form, endereco: e.target.value })
+                setForm({
+                  ...form,
+                  endereco: e.target.value
+                })
               }
               placeholder="Endereço"
             />
           </div>
 
           <div className="form-group">
+            <label>CEP</label>
+
+            <input
+              type="text"
+              value={form.cep}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  cep: e.target.value
+                })
+              }
+              placeholder="CEP"
+            />
+          </div>
+
+          <div className="form-group">
             <label>CNPJ</label>
+
             <input
               type="text"
               value={form.CNPJ}
               onChange={(e) =>
-                setForm({ ...form, CNPJ: e.target.value })
+                setForm({
+                  ...form,
+                  CNPJ: e.target.value
+                })
               }
               placeholder="CNPJ"
             />
@@ -158,21 +240,17 @@ function CadastroPrestador() {
         <br />
 
         <div className="button-container">
+
           <button
             type="button"
             onClick={salvarPrestador}
           >
             Avançar
           </button>
+
         </div>
 
       </div>
-
-      {/*<span>
-        <Link to="/PesquisaGeral">
-          Voltar
-        </Link>
-      </span>*/}
 
     </main>
 

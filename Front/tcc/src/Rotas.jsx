@@ -55,9 +55,9 @@ export default function Rotas({ Home }) {
       />
 
       <Route
-        path="/atualizar/:id"
+        path="/atualizar/:tipo/:id"
         element={<Atualizar />}
-      />
+/>
     </Routes>
   )
 }

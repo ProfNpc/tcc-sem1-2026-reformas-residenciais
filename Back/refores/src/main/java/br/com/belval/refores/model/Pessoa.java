@@ -41,8 +41,7 @@ public class Pessoa {
 	@Column(name = "email", length = 100)
 	private String email;
 	
-	@Column(name = "senha", length = 20)
-	private String senha;
+	
 	
 	@Column(name = "deletado", length = 20)
 	private String deletado;
@@ -162,7 +161,7 @@ public class Pessoa {
 	@Override
 	public String toString() {
 		return "Pessoa [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ",cep=" + cep + ", telefone=" + telefone + ", endereco="
-				+ endereco + ", email=" + email  + ", senha=" + senha + ", dataCriacao=" + dataCriacao + ",deletado =" + deletado + "]";
+				+ endereco + ", email=" + email  +  ", dataCriacao=" + dataCriacao + ",deletado =" + deletado + "]";
 	}
 
 

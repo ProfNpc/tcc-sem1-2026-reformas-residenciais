@@ -19,7 +19,7 @@ public class Prestador {
     @Column(name = "cpf", nullable = false, unique = true, length = 14)
     private String cpf;
 
-    @Column(name = "cep", nullable = false, unique = true, length = 14)
+    @Column(name = "cep", nullable = false, unique = false, length = 14)
     private String cep;
 
     @Column(name = "telefone", length = 20)
@@ -72,7 +72,7 @@ public class Prestador {
     }
 
     public void setCep(String cep) {
-        this.cpf = cep;
+        this.cep = cep;
     }
 
     public String getTelefone() {
