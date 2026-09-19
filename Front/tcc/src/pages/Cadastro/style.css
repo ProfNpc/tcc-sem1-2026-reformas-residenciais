@@ -1,0 +1,5 @@
+/* Este arquivo existe só para o import "./style.css" que já está
+   dentro de Usuarios.jsx (em src/pages/Cadastro/) encontrar um arquivo
+   de verdade, sem precisar editar aquele arquivo.
+   Ele apenas repassa para o style.css principal do projeto. */
+@import '../../style.css';

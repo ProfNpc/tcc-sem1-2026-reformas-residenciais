@@ -251,3 +251,560 @@ footer {
     .btn-sol-orcamento { width: 100%; }
 }
 
+/* ===================== NOVO: Grade de serviços ===================== */
+/* Cole isto no final do seu style.css. Usa as variáveis que já existem
+   no projeto (--primary, --accent); se algum nome estiver diferente,
+   ajuste só as duas linhas de --sv-cor / --sv-destaque abaixo. */
+
+.servicos {
+  --sv-cor: var(--primary, #1a73e8);
+  --sv-destaque: var(--accent, #f0a500);
+  --sv-borda: #e2e8f0;
+  --sv-texto: #2d3748;
+
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 64px 20px;
+  box-sizing: border-box;
+}
+
+.servicos-titulo {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.servicos-subtitulo {
+  margin: 10px auto 40px;
+  max-width: 60ch;
+  text-align: center;
+  line-height: 1.5;
+  color: var(--sv-texto);
+}
+
+.servicos-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.servico-card {
+  width: 100%;
+  height: 100%;
+  min-height: 128px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 10px;
+  box-sizing: border-box;
+
+  background: #fff;
+  border: 1px solid var(--sv-borda);
+  border-radius: 10px;
+  color: var(--sv-cor);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.servico-card:hover,
+.servico-card:focus-visible {
+  border-color: var(--sv-cor);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  outline: none;
+}
+
+.servico-card.is-aberto {
+  border-color: var(--sv-cor);
+  box-shadow: inset 0 0 0 1px var(--sv-cor);
+}
+
+.servico-icone {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.servico-nome {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--sv-cor);
+}
+
+/* ----- painel com a descrição do serviço ----- */
+
+.servico-detalhe {
+  margin-top: 24px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid var(--sv-borda);
+  border-left: 4px solid var(--sv-destaque);
+  border-radius: 10px;
+}
+
+.servico-detalhe-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.servico-detalhe h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--sv-cor);
+}
+
+.servico-detalhe p {
+  margin: 10px 0 20px;
+  max-width: 70ch;
+  line-height: 1.6;
+  color: var(--sv-texto);
+}
+
+.servico-fechar {
+  border: 0;
+  background: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #718096;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.servico-fechar:hover,
+.servico-fechar:focus-visible {
+  color: var(--sv-texto);
+}
+
+.servico-cta {
+  border: 0;
+  border-radius: 8px;
+  background: var(--sv-destaque);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  padding: 12px 22px;
+  cursor: pointer;
+}
+
+.servico-cta:hover,
+.servico-cta:focus-visible {
+  filter: brightness(0.92);
+}
+
+/* ----- responsivo ----- */
+
+@media (max-width: 900px) {
+  .servicos-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .servicos-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .servico-card {
+    min-height: 110px;
+  }
+
+  .servico-icone {
+    width: 32px;
+    height: 32px;
+  }
+
+  .servico-nome {
+    font-size: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .servico-card {
+    transition: none;
+  }
+}
+
+/* ===================== NOVO: Grade de serviços ===================== */
+/* Cole isto no final do seu style.css. Usa as variáveis que já existem
+   no projeto (--primary, --accent); se algum nome estiver diferente,
+   ajuste só as duas linhas de --sv-cor / --sv-destaque abaixo. */
+
+.servicos {
+  --sv-cor: var(--primary, #1a73e8);
+  --sv-destaque: var(--accent, #f0a500);
+  --sv-borda: #e2e8f0;
+  --sv-texto: #2d3748;
+
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 64px 20px;
+  box-sizing: border-box;
+}
+
+.servicos-titulo {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.servicos-subtitulo {
+  margin: 10px auto 40px;
+  max-width: 60ch;
+  text-align: center;
+  line-height: 1.5;
+  color: var(--sv-texto);
+}
+
+.servicos-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.servico-card {
+  width: 100%;
+  height: 100%;
+  min-height: 128px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 10px;
+  box-sizing: border-box;
+
+  background: #fff;
+  border: 1px solid var(--sv-borda);
+  border-radius: 10px;
+  color: var(--sv-cor);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.servico-card:hover,
+.servico-card:focus-visible {
+  border-color: var(--sv-cor);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  outline: none;
+}
+
+.servico-card.is-aberto {
+  border-color: var(--sv-cor);
+  box-shadow: inset 0 0 0 1px var(--sv-cor);
+}
+
+.servico-icone {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.servico-nome {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--sv-cor);
+}
+
+/* ----- painel com a descrição do serviço ----- */
+
+.servico-detalhe {
+  margin-top: 24px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid var(--sv-borda);
+  border-left: 4px solid var(--sv-destaque);
+  border-radius: 10px;
+}
+
+.servico-detalhe-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.servico-detalhe h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--sv-cor);
+}
+
+.servico-detalhe p {
+  margin: 10px 0 20px;
+  max-width: 70ch;
+  line-height: 1.6;
+  color: var(--sv-texto);
+}
+
+.servico-fechar {
+  border: 0;
+  background: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #718096;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.servico-fechar:hover,
+.servico-fechar:focus-visible {
+  color: var(--sv-texto);
+}
+
+.servico-cta {
+  border: 0;
+  border-radius: 8px;
+  background: var(--sv-destaque);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  padding: 12px 22px;
+  cursor: pointer;
+}
+
+.servico-cta:hover,
+.servico-cta:focus-visible {
+  filter: brightness(0.92);
+}
+
+/* ----- responsivo ----- */
+
+@media (max-width: 900px) {
+  .servicos-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .servicos-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .servico-card {
+    min-height: 110px;
+  }
+
+  .servico-icone {
+    width: 32px;
+    height: 32px;
+  }
+
+  .servico-nome {
+    font-size: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .servico-card {
+    transition: none;
+  }
+}
+/* ===================== NOVO: Grade de serviços ===================== */
+/* Cole isto no final do seu style.css. Usa as variáveis que já existem
+   no projeto (--primary, --accent); se algum nome estiver diferente,
+   ajuste só as duas linhas de --sv-cor / --sv-destaque abaixo. */
+
+.servicos {
+  --sv-cor: var(--primary, #1a73e8);
+  --sv-destaque: var(--accent, #f0a500);
+  --sv-borda: #e2e8f0;
+  --sv-texto: #2d3748;
+
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 64px 20px;
+  box-sizing: border-box;
+}
+
+.servicos-titulo {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.servicos-subtitulo {
+  margin: 10px auto 40px;
+  max-width: 60ch;
+  text-align: center;
+  line-height: 1.5;
+  color: var(--sv-texto);
+}
+
+.servicos-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.servico-card {
+  width: 100%;
+  height: 100%;
+  min-height: 128px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 10px;
+  box-sizing: border-box;
+
+  background: #fff;
+  border: 1px solid var(--sv-borda);
+  border-radius: 10px;
+  color: var(--sv-cor);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.servico-card:hover,
+.servico-card:focus-visible {
+  border-color: var(--sv-cor);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  outline: none;
+}
+
+.servico-card.is-aberto {
+  border-color: var(--sv-cor);
+  box-shadow: inset 0 0 0 1px var(--sv-cor);
+}
+
+.servico-icone {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.servico-nome {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--sv-cor);
+}
+
+/* ----- painel com a descrição do serviço ----- */
+
+.servico-detalhe {
+  margin-top: 24px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid var(--sv-borda);
+  border-left: 4px solid var(--sv-destaque);
+  border-radius: 10px;
+}
+
+.servico-detalhe-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.servico-detalhe h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--sv-cor);
+}
+
+.servico-detalhe p {
+  margin: 10px 0 20px;
+  max-width: 70ch;
+  line-height: 1.6;
+  color: var(--sv-texto);
+}
+
+.servico-fechar {
+  border: 0;
+  background: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #718096;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.servico-fechar:hover,
+.servico-fechar:focus-visible {
+  color: var(--sv-texto);
+}
+
+.servico-cta {
+  border: 0;
+  border-radius: 8px;
+  background: var(--sv-destaque);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  padding: 12px 22px;
+  cursor: pointer;
+}
+
+.servico-cta:hover,
+.servico-cta:focus-visible {
+  filter: brightness(0.92);
+}
+
+/* ----- responsivo ----- */
+
+@media (max-width: 900px) {
+  .servicos-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .servicos-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .servico-card {
+    min-height: 110px;
+  }
+
+  .servico-icone {
+    width: 32px;
+    height: 32px;
+  }
+
+  .servico-nome {
+    font-size: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .servico-card {
+    transition: none;
+  }
+}
+/* ===================== Correção: espaço vazio em todas as seções ===================== */
+/* Substitua o bloco anterior (#modelo) por este, mais abrangente.
+   Cole no FINAL do style.css. Isso remove a altura mínima de tela
+   cheia de qualquer seção com a classe .container (Qualificações,
+   Dicas de contratação, Avaliações), sem afetar o .hero. */
+
+.container {
+  min-height: auto !important;
+  height: auto !important;
+}
