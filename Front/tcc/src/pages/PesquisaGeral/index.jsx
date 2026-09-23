@@ -58,11 +58,22 @@ function index() {
 
         <h2>Pessoas cadastradas</h2>
 
-        <Link to="/Cadastro/adm">
+        <Link  to="/Cadastro/cliente">
+        
           <button>
-            + Novo Cadastro
+            + Novo Cadastro Cliente
           </button>
         </Link>
+
+         <Link   to="/cadastro/prestador/pro">
+        
+          <button>
+            + Novo Cadastro Prestador
+          </button>
+        </Link>
+
+
+        
 
         <Link to="/PesquisaDeletados">
           <button>

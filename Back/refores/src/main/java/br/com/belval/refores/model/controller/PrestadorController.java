@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-//import br.com.belval.refores.model.Pessoa;
 import br.com.belval.refores.model.Prestador;
 import br.com.belval.refores.model.PessoaRepository.PrestadorRepository;
 
@@ -48,23 +47,7 @@ public class PrestadorController {
                 .body(prestador);
     }
 
-    /**
-     * Busca prestador por ID
-     */
-  /*  @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarPorId(
-            @PathVariable Integer id) {
-        Optional<Prestador> prestadorOpt = repository.findById(id);
-        if (prestadorOpt.isPresent()) {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(prestadorOpt.get());
-        }
-
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("Prestador nÃ£o encontrado");
-    }*/
+   
 
     	@GetMapping("/Prestador/{id}")
 	public ResponseEntity<Object> buscarPorid(

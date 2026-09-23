@@ -31,8 +31,8 @@ public class Prestador {
     @Column(name = "email", length = 100)
     private String email;
 
-    @Column(name = "CNPJ", length = 20)
-    private String CNPJ;
+    @Column(name = "cnpj", length = 20)
+    private String cnpj;
 
     @Column(name = "deletado", length = 20)
     private String deletado;
@@ -40,7 +40,21 @@ public class Prestador {
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
 
+    // NOVOS CAMPOS
+    @Column(name = "servico1", length = 100)
+    private String servico1;
+
+    @Column(name = "servico2", length = 100)
+    private String servico2;
+
+    @Column(name = "servico3", length = 100)
+    private String servico3;
+
+    @Column(name = "informacoes_complementares", length = 1000)
+    private String informacoesComplementares;
+
     public Prestador() {
+        super();
     }
 
     public Integer getId() {
@@ -67,7 +81,7 @@ public class Prestador {
         this.cpf = cpf;
     }
 
-     public String getCep() {
+    public String getCep() {
         return cep;
     }
 
@@ -100,11 +114,11 @@ public class Prestador {
     }
 
     public String getCnpj() {
-        return CNPJ;
+        return cnpj;
     }
 
-    public void setCnpj(String CNPJ) {
-        this.CNPJ = CNPJ;
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
     public String getDeletado() {
@@ -121,6 +135,39 @@ public class Prestador {
 
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    // NOVOS GETTERS E SETTERS
+    public String getServico1() {
+        return servico1;
+    }
+
+    public void setServico1(String servico1) {
+        this.servico1 = servico1;
+    }
+
+    public String getServico2() {
+        return servico2;
+    }
+
+    public void setServico2(String servico2) {
+        this.servico2 = servico2;
+    }
+
+    public String getServico3() {
+        return servico3;
+    }
+
+    public void setServico3(String servico3) {
+        this.servico3 = servico3;
+    }
+
+    public String getInformacoesComplementares() {
+        return informacoesComplementares;
+    }
+
+    public void setInformacoesComplementares(String informacoesComplementares) {
+        this.informacoesComplementares = informacoesComplementares;
     }
 
     @Override
@@ -148,8 +195,13 @@ public class Prestador {
                 ", telefone=" + telefone +
                 ", endereco=" + endereco +
                 ", email=" + email +
-                ", CNPJ=" + CNPJ +
+                ", CNPJ=" + cnpj +
+                ", servico1=" + servico1 +
+                ", servico2=" + servico2 +
+                ", servico3=" + servico3 +
+                ", informacoesComplementares=" + informacoesComplementares +
                 ", dataCriacao=" + dataCriacao +
                 ", deletado=" + deletado + "]";
     }
 }
+

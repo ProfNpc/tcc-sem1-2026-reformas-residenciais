@@ -1,12 +1,33 @@
-import './cadastroPessoa.css'
+import './cadastroPessoa.css';
 import React, { useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 
 function CadastroPrestador() {
 
   const { tipo } = useParams();
-
   const navigate = useNavigate();
+
+  const tiposServico = [
+    { valor: 'Eletricista', nome: 'Eletricista' },
+    { valor: 'Encanador', nome: 'Encanador' },
+    { valor: 'Gesseiro', nome: 'Gesseiro' },
+    { valor: 'Marceneiro', nome: 'Marceneiro' },
+    { valor: 'Marido de Aluguel', nome: 'Marido de Aluguel' },
+    { valor: 'Montador de Móveis', nome: 'Montador de Móveis' },
+    { valor: 'Mudanças e Carretos', nome: 'Mudanças e Carretos' },
+    { valor: 'Pedreiro', nome: 'Pedreiro' },
+    { valor: 'Pintor', nome: 'Pintor' },
+    { valor: 'Serralheiro', nome: 'Serralheiro' },
+    { valor: 'Tapeceiro', nome: 'Tapeceiro' },
+    { valor: 'Vidraceiro', nome: 'Vidraceiro' }
+  ];
+
+  const tipoInicial = tipo
+    ? tiposServico.find(
+        (servico) =>
+          servico.valor.toLowerCase() === tipo.toLowerCase()
+      )?.valor || ''
+    : '';
 
   const [form, setForm] = useState({
     nome: '',
@@ -15,13 +36,71 @@ function CadastroPrestador() {
     email: '',
     endereco: '',
     CNPJ: '',
-    cep: ''
+    cep: '',
+
+    // Novo
+    servicos: tipoInicial ? [tipoInicial] : [],
+    informacoesComplementares: ''
   });
+
+  const [novoServico, setNovoServico] = useState('');
 
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState('');
 
+  // Adiciona um serviço
+  const adicionarServico = () => {
+
+    if (!novoServico) {
+      setErro('Selecione um tipo de serviço.');
+      return;
+    }
+
+    if (form.servicos.includes(novoServico)) {
+      setErro('Esse serviço já foi adicionado.');
+      return;
+    }
+
+    if (form.servicos.length >= 3) {
+      setErro('Você pode cadastrar no máximo 3 tipos de serviço.');
+      return;
+    }
+
+    setForm({
+      ...form,
+      servicos: [...form.servicos, novoServico]
+    });
+
+    setNovoServico('');
+    setErro('');
+  };
+
+  // Remove um serviço
+  const removerServico = (servicoRemover) => {
+
+    setForm({
+      ...form,
+      servicos: form.servicos.filter(
+        (servico) => servico !== servicoRemover
+      )
+    });
+  };
+
   const salvarPrestador = () => {
+
+    setErro('');
+    setSucesso('');
+
+    // Validação
+    if (form.servicos.length === 0) {
+      setErro('Cadastre pelo menos um tipo de serviço.');
+      return;
+    }
+
+    if (form.servicos.length > 3) {
+      setErro('Você pode cadastrar no máximo 3 tipos de serviço.');
+      return;
+    }
 
     fetch('http://127.0.0.1:8089/Prestador', {
 
@@ -31,10 +110,15 @@ function CadastroPrestador() {
         'Content-Type': 'application/json'
       },
 
-      body: JSON.stringify(form)
+      body: JSON.stringify({
+  ...form,
+
+  servico1: form.servicos[0] || null,
+  servico2: form.servicos[1] || null,
+  servico3: form.servicos[2] || null
+})
 
     })
-
       .then((response) => {
 
         if (!response.ok) {
@@ -47,12 +131,12 @@ function CadastroPrestador() {
 
       .then((prestador) => {
 
-        // Pega o ID do prestador salvo no banco
         const idPrestador = prestador.id;
 
         console.log("Prestador salvo:", prestador);
         console.log("ID do prestador:", idPrestador);
-        console.log("Tipo:", tipo);
+        console.log("Serviços:", form.servicos);
+        console.log("Informações:", form.informacoesComplementares);
 
         if (!idPrestador) {
           throw new Error(
@@ -71,11 +155,11 @@ function CadastroPrestador() {
           email: '',
           endereco: '',
           CNPJ: '',
-          cep: ''
+          cep: '',
+          servicos: [],
+          informacoesComplementares: ''
         });
 
-        // Vai para /usuarios/prestador
-        // levando o ID do prestador
         navigate(`/usuarios/${tipo}`, {
           state: {
             idPrestador: idPrestador
@@ -122,6 +206,7 @@ function CadastroPrestador() {
 
         <form>
 
+          {/* NOME */}
           <div className="form-group">
             <label>Nome</label>
 
@@ -139,6 +224,7 @@ function CadastroPrestador() {
             />
           </div>
 
+          {/* CPF */}
           <div className="form-group">
             <label>CPF</label>
 
@@ -155,6 +241,7 @@ function CadastroPrestador() {
             />
           </div>
 
+          {/* TELEFONE */}
           <div className="form-group">
             <label>Telefone</label>
 
@@ -171,6 +258,7 @@ function CadastroPrestador() {
             />
           </div>
 
+          {/* EMAIL */}
           <div className="form-group">
             <label>Email</label>
 
@@ -187,6 +275,7 @@ function CadastroPrestador() {
             />
           </div>
 
+          {/* ENDEREÇO */}
           <div className="form-group">
             <label>Endereço</label>
 
@@ -203,6 +292,7 @@ function CadastroPrestador() {
             />
           </div>
 
+          {/* CEP */}
           <div className="form-group">
             <label>CEP</label>
 
@@ -219,6 +309,7 @@ function CadastroPrestador() {
             />
           </div>
 
+          {/* CNPJ */}
           <div className="form-group">
             <label>CNPJ</label>
 
@@ -235,6 +326,134 @@ function CadastroPrestador() {
             />
           </div>
 
+
+          {/* =============================== */}
+          {/* TIPOS DE SERVIÇO */}
+          {/* =============================== */}
+
+          <div className="form-group">
+
+            <label>
+              Tipos de serviço
+            </label>
+
+            <p>
+              Cadastre até 3 tipos de serviço que você oferece.
+            </p>
+
+            <div style={{
+              display: 'flex',
+              gap: '10px',
+              alignItems: 'center'
+            }}>
+
+              <select
+                value={novoServico}
+                onChange={(e) => setNovoServico(e.target.value)}
+                disabled={form.servicos.length >= 3}
+              >
+
+                <option value="">
+                  Selecione um serviço
+                </option>
+
+                {tiposServico.map((servico) => (
+                  <option
+                    key={servico.valor}
+                    value={servico.valor}
+                  >
+                    {servico.nome}
+                  </option>
+                ))}
+
+              </select>
+
+              <button
+                type="button"
+                onClick={adicionarServico}
+                disabled={form.servicos.length >= 3}
+              >
+                + Adicionar
+              </button>
+
+            </div>
+
+          </div>
+
+
+          {/* SERVIÇOS ADICIONADOS */}
+
+          {form.servicos.length > 0 && (
+
+            <div className="servicos-selecionados">
+
+              <label>
+                Serviços cadastrados ({form.servicos.length}/3)
+              </label>
+
+              {form.servicos.map((servico) => (
+
+                <div
+                  key={servico}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '10px',
+                    marginTop: '8px',
+                    border: '1px solid #ddd',
+                    borderRadius: '6px'
+                  }}
+                >
+
+                  <span>
+                    {servico}
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() => removerServico(servico)}
+                    style={{
+                      color: 'red',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Remover
+                  </button>
+
+                </div>
+
+              ))}
+
+            </div>
+
+          )}
+
+
+          {/* =============================== */}
+          {/* INFORMAÇÕES COMPLEMENTARES */}
+          {/* =============================== */}
+
+          <div className="form-group">
+
+            <label>
+              Informações complementares
+            </label>
+
+            <textarea
+              value={form.informacoesComplementares}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  informacoesComplementares: e.target.value
+                })
+              }
+              placeholder="Conte um pouco mais sobre seus serviços, experiência, formas de atendimento, horários, regiões onde atende, etc."
+              rows="6"
+            />
+
+          </div>
+
         </form>
 
         <br />
@@ -245,7 +464,7 @@ function CadastroPrestador() {
             type="button"
             onClick={salvarPrestador}
           >
-            Avançar
+            Cadastrar Prestador
           </button>
 
         </div>
@@ -253,7 +472,6 @@ function CadastroPrestador() {
       </div>
 
     </main>
-
   );
 }
 

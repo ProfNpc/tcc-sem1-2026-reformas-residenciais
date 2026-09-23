@@ -9,7 +9,7 @@ import br.com.belval.refores.model.Pessoa;
 	
 	public interface PessoaRepository extends CrudRepository <Pessoa, Integer>{
 		
-		/*List<Produto> findByNomeContainingOrDescricaoContaining(String texto2);*/
+		
 		List<Pessoa> findByNomeContainingOrEmailContaining(String nome, String email);
 		
 	}

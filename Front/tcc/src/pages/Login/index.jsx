@@ -24,7 +24,7 @@ function index() {
     if (tipo === "adm") {
 
       if (usuario === "admin" && senha === "refores") {
-        navigate("/");
+        navigate("../PesquisaGeral");
         return;
       }
 
