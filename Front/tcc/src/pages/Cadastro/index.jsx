@@ -69,7 +69,7 @@ function Index() {
 
         setSucesso('Pessoa cadastrada com sucesso!');
 
-        alert("Pessoa cadastrada com sucesso");
+        //alert("Pessoa cadastrada com sucesso");
 
         // limpa formulário
         setForm({
@@ -232,7 +232,7 @@ function Index() {
             type="button"
             onClick={salvarPessoa}
           >
-            Avançar
+            Continuar cadastro
           </button>
 
         </div>

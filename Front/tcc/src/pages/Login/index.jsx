@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './stylelogin.css'
 
-import PesID from '../PesquisaGeral'
 import Footer from '../../components/footer'
-import { useNavigate } from "react-router-dom";
 
 
 function index() {
@@ -15,40 +13,62 @@ function index() {
   const [pegausu, setpegausu] = useState('')
   const navigate = useNavigate();
 
-  // ALTERAÇÃO: função de login
+
+  // =====================================================
+  // LOGIN
+  // =====================================================
+
   async function handleLogin(e) {
 
     e.preventDefault();
 
+    // =====================================================
     // LOGIN DO ADMINISTRADOR
+    // =====================================================
+
     if (tipo === "adm") {
 
       if (usuario === "admin" && senha === "refores") {
+
         navigate("../PesquisaGeral");
+
         return;
       }
 
       alert("Usuário ou senha inválidos");
+
       return;
     }
 
+
     try {
 
-      // Busca os usuários cadastrados
+      // =====================================================
+      // BUSCA OS USUÁRIOS
+      // =====================================================
+
       const responseUsuarios = await fetch(
         "http://127.0.0.1:8089/Usuarios"
       );
 
+
       if (!responseUsuarios.ok) {
-        throw new Error("Erro ao consultar usuários");
+
+        throw new Error(
+          "Erro ao consultar usuários"
+        );
+
       }
+
 
       const usuarios = await responseUsuarios.json();
 
+
       let usuarioEncontrado = null;
 
+
       // =====================================================
-      // 1 - VERIFICA SE FOI DIGITADO O USUÁRIO
+      // 1 - PROCURA PELO NOME DE USUÁRIO
       // =====================================================
 
       usuarioEncontrado = usuarios.find(
@@ -59,12 +79,13 @@ function index() {
 
 
       // =====================================================
-      // 2 - SE NÃO ENCONTROU, VERIFICA SE FOI DIGITADO EMAIL
+      // 2 - SE NÃO ENCONTROU, PROCURA PELO EMAIL
       // =====================================================
 
       if (!usuarioEncontrado) {
 
         let responseCadastro;
+
 
         if (tipo === "cliente") {
 
@@ -80,40 +101,53 @@ function index() {
 
         }
 
+
         if (!responseCadastro.ok) {
-          throw new Error("Erro ao consultar cadastro");
+
+          throw new Error(
+            "Erro ao consultar cadastro"
+          );
+
         }
 
-        const cadastros = await responseCadastro.json();
 
-        const cadastroEncontrado = cadastros.find(
-          (item) =>
-            item.email?.toLowerCase() ===
-            usuario.toLowerCase()
-        );
+        const cadastros =
+          await responseCadastro.json();
 
 
-        // =====================================================
+        const cadastroEncontrado =
+          cadastros.find(
+            (item) =>
+              item.email?.toLowerCase() ===
+              usuario.toLowerCase()
+          );
+
+
+        // =================================================
         // 3 - ENCONTROU O EMAIL
-        // =====================================================
+        // =================================================
 
         if (cadastroEncontrado) {
 
           if (tipo === "cliente") {
 
-            usuarioEncontrado = usuarios.find(
-              (item) =>
-                item.idCliente === cadastroEncontrado.id &&
-                item.tipoUsuario === "cliente"
-            );
+            usuarioEncontrado =
+              usuarios.find(
+                (item) =>
+                  item.idCliente ===
+                    cadastroEncontrado.id &&
+                  item.tipoUsuario === "cliente"
+              );
 
           } else {
 
-            usuarioEncontrado = usuarios.find(
-              (item) =>
-                item.idPrestador === cadastroEncontrado.id &&
-                item.tipoUsuario === "prestador"
-            );
+            usuarioEncontrado =
+              usuarios.find(
+                (item) =>
+                  item.idPrestador ===
+                    cadastroEncontrado.id &&
+                  item.tipoUsuario === "prestador"
+              );
 
           }
 
@@ -123,12 +157,14 @@ function index() {
 
 
       // =====================================================
-      // 4 - USUÁRIO OU EMAIL NÃO ENCONTRADO
+      // 4 - USUÁRIO NÃO ENCONTRADO
       // =====================================================
 
       if (!usuarioEncontrado) {
 
-        alert("Usuário ou e-mail não encontrado");
+        alert(
+          "Usuário ou e-mail não encontrado"
+        );
 
         return;
       }
@@ -144,9 +180,14 @@ function index() {
           : "prestador";
 
 
-      if (usuarioEncontrado.tipoUsuario !== tipoEsperado) {
+      if (
+        usuarioEncontrado.tipoUsuario !==
+        tipoEsperado
+      ) {
 
-        alert("Usuário não pertence ao tipo selecionado");
+        alert(
+          "Usuário não pertence ao tipo selecionado"
+        );
 
         return;
       }
@@ -156,7 +197,10 @@ function index() {
       // 6 - VERIFICA A SENHA
       // =====================================================
 
-      if (usuarioEncontrado.senhaCriada !== senha) {
+      if (
+        usuarioEncontrado.senhaCriada !==
+        senha
+      ) {
 
         alert("Senha incorreta");
 
@@ -165,20 +209,170 @@ function index() {
 
 
       // =====================================================
-      // 7 - LOGIN REALIZADO
+      // 7 - BUSCA OS DADOS DO CADASTRO
       // =====================================================
 
-      alert("Login realizado com sucesso!");
+      let cadastroAtual = null;
 
-      navigate("/");
+
+      if (tipo === "cliente") {
+
+        const responsePessoa =
+          await fetch(
+            "http://127.0.0.1:8089/Pessoa"
+          );
+
+
+        if (!responsePessoa.ok) {
+
+          throw new Error(
+            "Erro ao consultar dados do cliente"
+          );
+
+        }
+
+
+        const pessoas =
+          await responsePessoa.json();
+
+
+        cadastroAtual =
+          pessoas.find(
+            (item) =>
+              item.id ===
+              usuarioEncontrado.idCliente
+          );
+
+      } else {
+
+        const responsePrestador =
+          await fetch(
+            "http://127.0.0.1:8089/Prestador"
+          );
+
+
+        if (!responsePrestador.ok) {
+
+          throw new Error(
+            "Erro ao consultar dados do prestador"
+          );
+
+        }
+
+
+        const prestadores =
+          await responsePrestador.json();
+
+
+        cadastroAtual =
+          prestadores.find(
+            (item) =>
+              item.id ===
+              usuarioEncontrado.idPrestador
+          );
+
+      }
+
+
+      // =====================================================
+      // 8 - VERIFICA SE O CADASTRO FOI ENCONTRADO
+      // =====================================================
+
+      if (!cadastroAtual) {
+
+        alert(
+          "Usuário encontrado, mas cadastro não localizado."
+        );
+
+        return;
+      }
+
+
+      // =====================================================
+      // 9 - CRIA O USUÁRIO LOGADO
+      // =====================================================
+
+      const usuarioLogado = {
+
+        usuarioId:
+          usuarioEncontrado.id,
+
+        id:
+          tipo === "cliente"
+            ? usuarioEncontrado.idCliente
+            : usuarioEncontrado.idPrestador,
+
+        tipoUsuario:
+          usuarioEncontrado.tipoUsuario,
+
+        nome:
+          cadastroAtual.nome,
+
+        email:
+          cadastroAtual.email,
+
+        telefone:
+          cadastroAtual.telefone
+
+      };
+
+
+      // =====================================================
+      // 10 - SALVA NO LOCAL STORAGE
+      // =====================================================
+
+      localStorage.setItem(
+        "usuarioLogado",
+        JSON.stringify(usuarioLogado)
+      );
+
+
+      console.log(
+        "Usuário logado:",
+        usuarioLogado
+      );
+
+
+      // =====================================================
+      // 11 - LOGIN REALIZADO
+      // =====================================================
+
+      alert(
+        "Login realizado com sucesso!"
+      );
+
+
+      // =====================================================
+      // 12 - DIRECIONAMENTO
+      // =====================================================
+
+      if (tipo === "cliente") {
+
+        navigate("/Logados");
+
+      } else {
+
+        // Por enquanto o prestador continua aqui.
+        // Depois criaremos o painel do prestador.
+
+        navigate("/");
+
+      }
+
 
     } catch (error) {
 
-      console.error("Erro no login:", error);
+      console.error(
+        "Erro no login:",
+        error
+      );
 
-      alert("Erro ao realizar login");
+      alert(
+        "Erro ao realizar login"
+      );
 
     }
+
   }
 
 
@@ -195,10 +389,13 @@ function index() {
     >
 
       {/* TOPO DINÂMICO */}
+
       <div className="topo">
 
         {tipo === 'cliente' ? (
+
           <>
+
             <h1 className="topocliente">
               Transforme sua casa com profissionais de confiança
             </h1>
@@ -206,9 +403,13 @@ function index() {
             <p className="topoclientep">
               A plataforma que conecta sua obra aos melhores especialistas da sua região.
             </p>
+
           </>
+
         ) : (
+
           <>
+
             <h1 className="topoprofissional">
               A plataforma que conecta o especialista com o cliente.
             </h1>
@@ -216,47 +417,74 @@ function index() {
             <p className="topoclientep">
               Encontre oportunidades de trabalho na sua região.
             </p>
+
           </>
+
         )}
 
       </div>
 
 
       {/* CAIXA LOGIN */}
+
       <div className="login-container">
 
+
         {/* LOGO */}
+
         <div className="logo">
-          <span className="logo-icon">🏗️</span> ReformaJá
+
+          <span className="logo-icon">
+            🏗️
+          </span>
+
+          ReformaJá
+
         </div>
 
 
         {/* TABS */}
+
         <div className="tabs">
+
 
           <div
             className={`tab ${
-              tipo === 'cliente' ? 'active' : ''
+              tipo === 'cliente'
+                ? 'active'
+                : ''
             }`}
-            onClick={() => setTipo('cliente')}
+            onClick={() =>
+              setTipo('cliente')
+            }
           >
             SOU CLIENTE
           </div>
 
+
           <div
             className={`tab ${
-              tipo === 'pro' ? 'active' : ''
+              tipo === 'pro'
+                ? 'active'
+                : ''
             }`}
-            onClick={() => setTipo('pro')}
+            onClick={() =>
+              setTipo('pro')
+            }
           >
             SOU PROFISSIONAL
           </div>
 
+
           <div
             className={`tab ${
-              tipo === 'adm' ? 'active' : ''
+              tipo === 'adm'
+                ? 'active'
+                : ''
             }`}
-            onClick={() => setTipo('adm')}
+            onClick={() =>
+              setTipo('adm')
+            }
           >
             SOU ADMINISTRADOR
           </div>
@@ -265,6 +493,7 @@ function index() {
 
 
         {pegausu && (
+
           <p
             style={{
               color: 'red',
@@ -273,41 +502,66 @@ function index() {
           >
             {pegausu}
           </p>
+
         )}
 
 
         {/* FORM */}
+
         <div className="form-content">
+
 
           <div className="header-text">
 
             {tipo === 'cliente' ? (
+
               <>
-                <h2>Olá, Morador!</h2>
+
+                <h2>
+                  Olá, Morador!
+                </h2>
+
                 <p>
                   Acompanhe a evolução da sua obra em tempo real.
                 </p>
+
               </>
+
             ) : tipo === 'pro' ? (
+
               <>
-                <h2>Olá, Profissional!</h2>
+
+                <h2>
+                  Olá, Profissional!
+                </h2>
+
                 <p>
                   Encontre novas oportunidades de trabalho.
                 </p>
+
               </>
+
             ) : (
+
               <>
-                <h2>Olá, Administrador!</h2>
+
+                <h2>
+                  Olá, Administrador!
+                </h2>
+
                 <p>
                   Gerencie seu sistema.
                 </p>
+
               </>
+
             )}
 
           </div>
 
 
           <form onSubmit={handleLogin}>
+
 
             <div className="input-group">
 
@@ -351,11 +605,13 @@ function index() {
               type="submit"
               className="btn"
             >
+
               {tipo === 'cliente'
                 ? 'ACESSAR MINHA OBRA'
                 : tipo === 'pro'
                 ? 'ACESSAR PAINEL'
                 : 'GERENCIAR O SISTEMA'}
+
             </button>
 
           </form>
@@ -422,6 +678,7 @@ function index() {
 
 
           {/* FOOTER */}
+
           <div className="footer">
 
           </div>
@@ -430,10 +687,12 @@ function index() {
 
       </div>
 
+
       <Footer />
 
     </div>
   )
+
 }
 
 export default index;

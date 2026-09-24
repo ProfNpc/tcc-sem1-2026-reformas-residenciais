@@ -106,7 +106,7 @@ function Usuarios() {
 
       console.log("Usuário salvo:", data);
 
-      alert("Usuário cadastrado com sucesso!");
+      alert("Prestador cadastrado com sucesso!");
 
       setUsuario("");
       setSenha("");

@@ -1,0 +1,349 @@
+
+/* =====================================================
+   PÁGINA DE PRESTADORES
+===================================================== */
+
+.prestadores-page {
+  min-height: 100vh;
+  background: #f5f7fa;
+  color: #222;
+}
+
+
+/* =====================================================
+   CABEÇALHO
+===================================================== */
+
+.prestadores-header {
+  width: 100%;
+  min-height: 70px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 40px;
+  box-sizing: border-box;
+
+  gap: 25px;
+}
+
+
+.prestadores-header button {
+  border: none;
+  background: transparent;
+
+  color: #2563eb;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  padding: 10px 0;
+}
+
+
+.prestadores-header button:hover {
+  text-decoration: underline;
+}
+
+
+.prestadores-header h1 {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+
+/* =====================================================
+   CONTEÚDO
+===================================================== */
+
+.prestadores-conteudo {
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 40px;
+
+  box-sizing: border-box;
+}
+
+
+.prestadores-conteudo h2 {
+  margin: 0 0 8px;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+
+.prestadores-conteudo > p {
+  margin: 0 0 30px;
+
+  color: #6b7280;
+
+  font-size: 16px;
+}
+
+
+/* =====================================================
+   MENSAGENS
+===================================================== */
+
+.prestadores-mensagem {
+  width: 100%;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  padding: 35px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  color: #6b7280;
+}
+
+
+.prestadores-mensagem h3 {
+  margin: 0 0 8px;
+
+  color: #111827;
+
+  font-size: 20px;
+}
+
+
+.prestadores-mensagem p {
+  margin: 0;
+
+  color: #6b7280;
+}
+
+
+.prestadores-mensagem.erro {
+  color: #b91c1c;
+
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+
+/* =====================================================
+   GRID DE PRESTADORES
+===================================================== */
+
+.prestadores-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(280px, 1fr));
+
+  gap: 22px;
+}
+
+
+/* =====================================================
+   CARD DO PRESTADOR
+===================================================== */
+
+.prestador-card {
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 14px;
+
+  padding: 25px;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.05);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.prestador-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =====================================================
+   NOME
+===================================================== */
+
+.prestador-card h3 {
+  margin: 0 0 18px;
+
+  color: #111827;
+
+  font-size: 21px;
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   INFORMAÇÕES
+===================================================== */
+
+.prestador-card p {
+  margin: 9px 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+
+  line-height: 1.5;
+}
+
+
+.prestador-card p strong {
+  color: #374151;
+}
+
+
+/* =====================================================
+   BOTÃO SOLICITAR SERVIÇO
+===================================================== */
+
+.prestador-card button {
+  width: 100%;
+
+  margin-top: 20px;
+
+  padding: 12px 18px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #2563eb;
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+  
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+
+.prestador-card button:hover {
+  background: #1d4ed8;
+}
+
+
+.prestador-card button:active {
+  transform: scale(0.98);
+}
+
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .prestadores-header {
+    padding: 0 20px;
+  }
+
+
+  .prestadores-header h1 {
+    font-size: 20px;
+  }
+
+
+  .prestadores-conteudo {
+    padding: 25px 20px;
+  }
+
+
+  .prestadores-conteudo h2 {
+    font-size: 25px;
+  }
+
+
+  .prestadores-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =====================================================
+   CELULAR PEQUENO
+===================================================== */
+
+@media (max-width: 480px) {
+
+  .prestadores-header {
+    min-height: 60px;
+
+    gap: 15px;
+  }
+
+
+  .prestadores-header h1 {
+    font-size: 18px;
+  }
+
+
+  .prestadores-conteudo {
+    padding: 20px 15px;
+  }
+
+
+  .prestador-card {
+    padding: 20px;
+  }
+
+}
+
+/* =INFORMAÇÕES COMPLEMENTARES DO PRESTADOR = */ 
+.prestador-informacoes { 
+  margin-top: 18px; 
+  padding: 15px; 
+  background: #f8fafc; 
+  border-left: 4px solid #2563eb; 
+  border-radius: 8px; 
+  box-sizing: border-box;
+ }
+  .prestador-informacoes 
+  > strong 
+    { 
+      display: block; 
+      margin-bottom: 8px; 
+      color: #374151; 
+      font-size: 14px; 
+    } 
+    .prestador-informacoes p { 
+      margin: 0; 
+      color: #6b7280; 
+      font-size: 14px; 
+      line-height: 1.6; 
+      white-space: pre-line; 
+    }

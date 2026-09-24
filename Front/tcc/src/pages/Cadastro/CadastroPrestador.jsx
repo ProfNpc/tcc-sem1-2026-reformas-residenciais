@@ -146,7 +146,7 @@ function CadastroPrestador() {
 
         setSucesso('Prestador cadastrado com sucesso!');
 
-        alert('Prestador cadastrado com sucesso!');
+        //alert('Prestador cadastrado com sucesso!');
 
         setForm({
           nome: '',
@@ -464,7 +464,7 @@ function CadastroPrestador() {
             type="button"
             onClick={salvarPrestador}
           >
-            Cadastrar Prestador
+            Continuar cadastro
           </button>
 
         </div>

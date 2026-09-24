@@ -32,7 +32,7 @@ const Footer = () => {
           </Link>
         </nav>*/}
 
-             <Link
+            {/* <Link
             to="/Logados"
             style={{
               color: "blue",
@@ -48,7 +48,7 @@ const Footer = () => {
   onClick={() => window.location.href = "pages/Logados"}
 >
   Clientebotao
-</button>
+</button>*/}
 
 
         {/* TEXTO */}
