@@ -10,6 +10,7 @@ import Atualizar from './pages/Atualizar'
 import Usuarios from './pages/Cadastro/Usuarios'
 import ClienteHome from './pages/Logados/ClienteLogado/ClienteHome'
 import Prestadores from './pages/Logados/ClienteLogado/Prestadores'
+import Pedidos from './pages/Logados/ClienteLogado/Pedidos'
 
 
 
@@ -53,6 +54,11 @@ export default function Rotas({ Home }) {
 <Route
   path="/prestadores/:servico"
   element={<Prestadores />}
+/>
+
+<Route
+  path="/pedidos/:idPrestador/:servico"
+  element={<Pedidos />}
 />
 
       <Route

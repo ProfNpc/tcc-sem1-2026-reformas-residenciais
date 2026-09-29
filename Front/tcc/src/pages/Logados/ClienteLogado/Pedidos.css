@@ -1,0 +1,53 @@
+.pedidos-page {
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+.pedidos-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 30px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pedidos-header button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pedidos-header button:hover {
+  background: #1d4ed8;
+}
+
+.pedidos-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #1f2937;
+}
+
+.pedidos-conteudo {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.pedidos-conteudo h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #1f2937;
+}
+
+.pedidos-conteudo p {
+  margin: 12px 0;
+  color: #4b5563;
+}

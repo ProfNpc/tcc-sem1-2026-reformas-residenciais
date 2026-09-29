@@ -49,7 +49,7 @@ public class PrestadorController {
 
    
 
-    	@GetMapping("/Prestador/{id}")
+    	@GetMapping("/{id}")
 	public ResponseEntity<Object> buscarPorid(
 			@PathVariable(value = "id") Integer id){
 		

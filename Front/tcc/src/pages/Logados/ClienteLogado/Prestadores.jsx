@@ -168,22 +168,24 @@ function Prestadores() {
                   {prestador.email}
                 </p>
 
-                {/* INFORMAÇÕES COMPLEMENTARES */} 
-                {prestador.informacoesComplementares && ( 
-                  <div className="prestador-informacoes"> 
-                    <strong>Sobre o profissional:</strong> 
-                    <p> 
+                {/* INFORMAÇÕES COMPLEMENTARES */}
+                {prestador.informacoesComplementares && (
+                  <div className="prestador-informacoes">
+
+                    <strong>Sobre o profissional:</strong>
+
+                    <p>
                       {prestador.informacoesComplementares}
-                    </p> 
-                  </div> 
+                    </p>
+
+                  </div>
                 )}
 
                 <button
                   type="button"
                   onClick={() => {
-                    console.log(
-                      'Prestador selecionado:',
-                      prestador
+                    navigate(
+                      `/pedidos/${prestador.id}/${encodeURIComponent(servico)}`
                     );
                   }}
                 >

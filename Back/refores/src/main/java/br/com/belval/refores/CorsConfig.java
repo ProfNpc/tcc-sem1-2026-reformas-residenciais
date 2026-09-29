@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * PARA FAZER A LIGAÇÃO DO BACK END COM O FRONT END.
+ * PARA FAZER A LIGAÇÃO DO BACKEND COM O FRONT END.
  */
 
 /**
