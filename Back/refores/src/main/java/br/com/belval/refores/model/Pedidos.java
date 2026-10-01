@@ -27,6 +27,13 @@ public class Pedidos {
     @Column(name = "servico", nullable = false, length = 100)
     private String servico;
 
+    @Column(name = "whatsappCliente")
+    private String whatsappCliente;
+
+    @Column(name = "whatsappPrestador")
+    private String whatsappPrestador;
+      
+
     @Column(name = "descricao", length = 1000)
     private String descricao;
 
@@ -75,6 +82,14 @@ public class Pedidos {
 
     public void setServico(String servico) {
         this.servico = servico;
+    }
+
+       public String getwhatsappCliente() {
+        return whatsappCliente;
+    }
+
+    public void setwhatsappCliente(String whatsappCliente) {
+        this.whatsappCliente = whatsappCliente;
     }
 
     public String getDescricao() {
@@ -141,6 +156,8 @@ public class Pedidos {
                 ", idCliente=" + idCliente +
                 ", idPrestador=" + idPrestador +
                 ", servico=" + servico +
+				",whatsappPrestador" + whatsappPrestador +
+				",whatsappCliente" + whatsappCliente +
                 ", descricao=" + descricao +
                 ", endereco=" + endereco +
                 ", dataDesejada=" + dataDesejada +

@@ -286,3 +286,23 @@
   }
 
 }
+
+.lista-pedidos {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pedido-card {
+  padding: 18px 0;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.pedido-card:first-child {
+  padding-top: 0;
+}
+
+.pedido-card:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}

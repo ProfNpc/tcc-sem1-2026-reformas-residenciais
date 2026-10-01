@@ -11,6 +11,7 @@ import Usuarios from './pages/Cadastro/Usuarios'
 import ClienteHome from './pages/Logados/ClienteLogado/ClienteHome'
 import Prestadores from './pages/Logados/ClienteLogado/Prestadores'
 import Pedidos from './pages/Logados/ClienteLogado/Pedidos'
+import PrestadorHome from './pages/Logados/PrestadorLogado/PrestadorHome'
 
 
 
@@ -50,6 +51,10 @@ export default function Rotas({ Home }) {
   path="/Logados"
   element={<ClienteHome />}
 />
+
+<Route 
+  path="/prestador" 
+  element={<PrestadorHome />} />
 
 <Route
   path="/prestadores/:servico"

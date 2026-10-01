@@ -1,0 +1,419 @@
+.prestador-home {
+  min-height: 100vh;
+  background: #f4f6f9;
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   CABEÇALHO
+========================================= */
+
+.prestador-topo {
+  width: 100%;
+  height: 70px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 55px;
+  box-sizing: border-box;
+}
+
+.prestador-logo {
+  color: #2563eb;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.prestador-usuario {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  color: #111827;
+  font-size: 14px;
+}
+
+.prestador-usuario strong {
+  font-weight: 700;
+}
+
+.prestador-usuario button {
+  border: none;
+  background: transparent;
+
+  color: #dc2626;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.prestador-usuario button:hover {
+  color: #b91c1c;
+}
+
+
+/* =========================================
+   CONTEÚDO
+========================================= */
+
+.prestador-conteudo {
+  width: 100%;
+  max-width: 980px;
+
+  margin: 0 auto;
+
+  padding: 40px 20px 60px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   BOAS-VINDAS
+========================================= */
+
+.prestador-boas-vindas {
+  text-align: center;
+
+  margin-bottom: 38px;
+}
+
+.prestador-boas-vindas h1 {
+  margin: 0 0 8px;
+
+  color: #111827;
+
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.prestador-boas-vindas p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 16px;
+}
+
+
+/* =========================================
+   MEUS PEDIDOS
+========================================= */
+
+.meus-pedidos {
+  background: white;
+
+  border: 1px solid #e1e5eb;
+  border-radius: 12px;
+
+  padding: 32px 65px;
+
+  box-sizing: border-box;
+}
+
+.meus-pedidos-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  margin-bottom: 5px;
+}
+
+.meus-pedidos-cabecalho h2 {
+  margin: 0 0 6px;
+
+  color: #111827;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.meus-pedidos-cabecalho p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+}
+
+
+/* =========================================
+   MENSAGENS
+========================================= */
+
+.prestador-mensagem {
+  padding: 35px 20px;
+
+  text-align: center;
+
+  color: #6b7280;
+}
+
+.prestador-mensagem h3 {
+  margin: 0 0 8px;
+
+  color: #374151;
+
+  font-size: 18px;
+}
+
+.prestador-mensagem p {
+  margin: 0;
+
+  font-size: 14px;
+}
+
+.prestador-mensagem.erro {
+  color: #b91c1c;
+
+  background: #fee2e2;
+
+  border-radius: 8px;
+
+  margin-top: 20px;
+}
+
+
+/* =========================================
+   LISTA DE PEDIDOS
+========================================= */
+
+.lista-pedidos-prestador {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* =========================================
+   CARD DO PEDIDO
+========================================= */
+
+.pedido-prestador-card {
+  padding: 25px 0;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pedido-prestador-card:last-child {
+  border-bottom: none;
+}
+
+
+/* =========================================
+   CABEÇALHO DO PEDIDO
+========================================= */
+
+.pedido-cabecalho {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 18px;
+}
+
+.pedido-cabecalho h3 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 19px;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status-pedido {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+.status-pendente {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-aceito {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-recusado {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+
+/* =========================================
+   DADOS DO PEDIDO
+========================================= */
+
+.pedido-dados {
+  background: #f8fafc;
+
+  border-left: 4px solid #2563eb;
+
+  border-radius: 6px;
+
+  padding: 15px 18px;
+}
+
+.pedido-dados p {
+  margin: 7px 0;
+
+  color: #374151;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+.pedido-dados p:first-child {
+  margin-top: 0;
+}
+
+.pedido-dados p:last-child {
+  margin-bottom: 0;
+}
+
+.pedido-dados strong {
+  color: #111827;
+}
+
+
+/* =========================================
+   BOTÕES
+========================================= */
+
+.acoes-pedido {
+  display: flex;
+
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+.acoes-pedido button {
+  border: none;
+
+  padding: 11px 20px;
+
+  border-radius: 8px;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.botao-aceitar {
+  background: #16a34a;
+}
+
+.botao-aceitar:hover {
+  background: #15803d;
+}
+
+.botao-recusar {
+  background: #dc2626;
+}
+
+.botao-recusar:hover {
+  background: #b91c1c;
+}
+
+
+/* =========================================
+   RESPONSIVO
+========================================= */
+
+@media (max-width: 700px) {
+
+  .prestador-topo {
+    height: auto;
+
+    padding: 18px 20px;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    align-items: flex-start;
+  }
+
+  .prestador-usuario {
+    width: 100%;
+
+    justify-content: space-between;
+
+    gap: 10px;
+  }
+
+  .prestador-conteudo {
+    padding: 30px 15px 40px;
+  }
+
+  .prestador-boas-vindas h1 {
+    font-size: 26px;
+  }
+
+  .prestador-boas-vindas p {
+    font-size: 14px;
+  }
+
+  .meus-pedidos {
+    padding: 25px 20px;
+  }
+
+  .meus-pedidos-cabecalho {
+    align-items: flex-start;
+  }
+
+  .pedido-cabecalho {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+  .acoes-pedido {
+    flex-direction: column;
+  }
+
+  .acoes-pedido button {
+    width: 100%;
+  }
+
+}

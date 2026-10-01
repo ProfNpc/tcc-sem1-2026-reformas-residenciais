@@ -355,7 +355,7 @@ function index() {
         // Por enquanto o prestador continua aqui.
         // Depois criaremos o painel do prestador.
 
-        navigate("/");
+        navigate("/Prestador");
 
       }
 
