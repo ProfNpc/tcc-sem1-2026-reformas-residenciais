@@ -10,6 +10,19 @@ function PrestadorHome() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState('');
 
+  const [pedidoWhatsApp, setPedidoWhatsApp] = useState(null);
+  const [whatsappPrestador, setWhatsappPrestador] = useState('');
+
+  const [pedidoRecusa, setPedidoRecusa] = useState(null);
+  const [motivoRecusa, setMotivoRecusa] = useState('');
+
+  // Encerramento do pedido
+  const [pedidoEncerramento, setPedidoEncerramento] = useState(null);
+  const [observacaoEncerramento, setObservacaoEncerramento] = useState('');
+
+  // Menu dos três tracinhos
+  const [menuAberto, setMenuAberto] = useState(false);
+
   useEffect(() => {
     const buscarPedidos = async () => {
       try {
@@ -21,15 +34,12 @@ function PrestadorHome() {
         }
 
         const usuarioLogado = JSON.parse(usuarioSalvo);
-
         setUsuario(usuarioLogado);
 
         const idPrestador = usuarioLogado.id;
 
         if (!idPrestador) {
-          setErro(
-            'Não foi possível identificar o prestador logado.'
-          );
+          setErro('Não foi possível identificar o prestador logado.');
           setCarregando(false);
           return;
         }
@@ -39,31 +49,21 @@ function PrestadorHome() {
         );
 
         if (!resposta.ok) {
-          throw new Error(
-            'Não foi possível carregar os pedidos.'
-          );
+          throw new Error('Não foi possível carregar os pedidos.');
         }
 
         const dados = await resposta.json();
 
         const pedidosDoPrestador = dados.filter(
           (pedido) =>
-            Number(pedido.idPrestador) ===
-            Number(idPrestador)
+            Number(pedido.idPrestador) === Number(idPrestador)
         );
 
         setPedidos(pedidosDoPrestador);
 
       } catch (error) {
-        console.error(
-          'Erro ao buscar pedidos:',
-          error
-        );
-
-        setErro(
-          'Não foi possível carregar os pedidos.'
-        );
-
+        console.error('Erro ao buscar pedidos:', error);
+        setErro('Não foi possível carregar os pedidos.');
       } finally {
         setCarregando(false);
       }
@@ -72,64 +72,76 @@ function PrestadorHome() {
     buscarPedidos();
   }, [navigate]);
 
-  const aceitarPedido = async (pedido) => {
-    try {
-      const pedidoAtualizado = {
-        ...pedido,
-        status: 'ACEITO'
-      };
+  const aceitarPedido = (pedido) => {
+    setPedidoWhatsApp(pedido);
+    setWhatsappPrestador('');
+  };
 
+  const confirmarAceite = async () => {
+    if (!whatsappPrestador.trim()) {
+      alert('Informe o WhatsApp para aceitar o pedido.');
+      return;
+    }
+
+    try {
       const resposta = await fetch(
-        `http://127.0.0.1:8089/Pedidos/${pedido.id}`,
+        `http://127.0.0.1:8089/Pedidos/${pedidoWhatsApp.id}/aceitar`,
         {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(pedidoAtualizado)
+          body: JSON.stringify({
+            whatsappPrestador: whatsappPrestador
+          })
         }
       );
 
       if (!resposta.ok) {
-        throw new Error(
-          'Não foi possível aceitar o pedido.'
-        );
+        throw new Error('Não foi possível aceitar o pedido.');
       }
+
+      const pedidoAtualizado = await resposta.json();
 
       setPedidos((pedidosAtuais) =>
         pedidosAtuais.map((item) =>
-          item.id === pedido.id
-            ? {
-                ...item,
-                status: 'ACEITO'
-              }
+          item.id === pedidoWhatsApp.id
+            ? pedidoAtualizado
             : item
         )
       );
+
+      setPedidoWhatsApp(null);
+      setWhatsappPrestador('');
 
       alert('Pedido aceito com sucesso!');
 
     } catch (error) {
-      console.error(
-        'Erro ao aceitar pedido:',
-        error
-      );
-
-      alert(
-        'Não foi possível aceitar o pedido.'
-      );
+      console.error('Erro ao aceitar pedido:', error);
+      alert('Não foi possível aceitar o pedido.');
     }
   };
 
-  const recusarPedido = async (pedido) => {
+  const recusarPedido = (pedido) => {
+    setPedidoRecusa(pedido);
+    setMotivoRecusa('');
+  };
+
+  const confirmarRecusa = async () => {
+    if (!motivoRecusa.trim()) {
+      alert('Informe o motivo da recusa.');
+      return;
+    }
+
     try {
       const pedidoAtualizado = {
-        ...pedido,
-        status: 'RECUSADO'
+        ...pedidoRecusa,
+        status: 'RECUSADO',
+        observacoes: motivoRecusa
       };
 
       const resposta = await fetch(
-        `http://127.0.0.1:8089/Pedidos/${pedido.id}`,
+        `http://127.0.0.1:8089/Pedidos/${pedidoRecusa.id}`,
         {
           method: 'PUT',
           headers: {
@@ -140,33 +152,103 @@ function PrestadorHome() {
       );
 
       if (!resposta.ok) {
-        throw new Error(
-          'Não foi possível recusar o pedido.'
-        );
+        throw new Error('Não foi possível recusar o pedido.');
       }
+
+      const pedidoRetornado = await resposta.json();
 
       setPedidos((pedidosAtuais) =>
         pedidosAtuais.map((item) =>
-          item.id === pedido.id
-            ? {
-                ...item,
-                status: 'RECUSADO'
-              }
+          item.id === pedidoRecusa.id
+            ? pedidoRetornado
             : item
         )
       );
 
-      alert('Pedido recusado.');
+      setPedidoRecusa(null);
+      setMotivoRecusa('');
+
+      alert('Pedido recusado com sucesso.');
 
     } catch (error) {
-      console.error(
-        'Erro ao recusar pedido:',
-        error
+      console.error('Erro ao recusar pedido:', error);
+      alert('Não foi possível recusar o pedido.');
+    }
+  };
+
+  // Abrir WhatsApp do cliente
+  const abrirWhatsAppCliente = (pedido) => {
+    if (!pedido.whatsappCliente) {
+      alert('O WhatsApp do cliente não foi informado.');
+      return;
+    }
+
+    const numero = pedido.whatsappCliente.replace(/\D/g, '');
+
+    if (!numero) {
+      alert('WhatsApp do cliente inválido.');
+      return;
+    }
+
+    const mensagem = encodeURIComponent(
+      `Olá! Sou o prestador responsável pelo seu pedido #${pedido.id}. Código de atendimento: ${pedido.codigoAtendimento || ''}`
+    );
+
+    window.open(
+      `https://wa.me/${numero}?text=${mensagem}`,
+      '_blank'
+    );
+  };
+
+  // Abrir modal para encerrar pedido
+  const encerrarPedido = (pedido) => {
+    setPedidoEncerramento(pedido);
+    setObservacaoEncerramento('');
+  };
+
+  // Confirmar encerramento
+  const confirmarEncerramento = async () => {
+    if (!observacaoEncerramento.trim()) {
+      alert('Informe uma observação para encerrar o pedido.');
+      return;
+    }
+
+    try {
+      const resposta = await fetch(
+        `http://127.0.0.1:8089/Pedidos/${pedidoEncerramento.id}/encerrar`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            observacoes: observacaoEncerramento
+          })
+        }
       );
 
-      alert(
-        'Não foi possível recusar o pedido.'
+      if (!resposta.ok) {
+        throw new Error('Não foi possível encerrar o pedido.');
+      }
+
+      const pedidoRetornado = await resposta.json();
+
+      setPedidos((pedidosAtuais) =>
+        pedidosAtuais.map((item) =>
+          item.id === pedidoEncerramento.id
+            ? pedidoRetornado
+            : item
+        )
       );
+
+      setPedidoEncerramento(null);
+      setObservacaoEncerramento('');
+
+      alert('Pedido encerrado com sucesso!');
+
+    } catch (error) {
+      console.error('Erro ao encerrar pedido:', error);
+      alert('Não foi possível encerrar o pedido.');
     }
   };
 
@@ -178,7 +260,6 @@ function PrestadorHome() {
   return (
     <main className="prestador-home">
 
-      {/* CABEÇALHO */}
       <header className="prestador-topo">
 
         <div className="prestador-logo">
@@ -191,8 +272,42 @@ function PrestadorHome() {
             Olá, <strong>{usuario?.nome || 'Prestador'}</strong>
           </span>
 
+          <div className="menu-usuario">
+
+            <button
+              type="button"
+              className="botao-menu"
+              onClick={() =>
+                setMenuAberto(!menuAberto)
+              }
+              aria-label="Abrir menu"
+            >
+              ☰
+            </button>
+
+            {menuAberto && (
+
+              <div className="menu-dropdown">
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuAberto(false);
+                    navigate('/editar-prestador');
+                  }}
+                >
+                  ✏️ Editar meus dados
+                </button>
+
+              </div>
+
+            )}
+
+          </div>
+
           <button
             type="button"
+            className="botao-sair"
             onClick={sair}
           >
             Sair
@@ -202,11 +317,8 @@ function PrestadorHome() {
 
       </header>
 
-
-      {/* CONTEÚDO PRINCIPAL */}
       <section className="prestador-conteudo">
 
-        {/* BOAS-VINDAS */}
         <div className="prestador-boas-vindas">
 
           <h1>
@@ -219,42 +331,34 @@ function PrestadorHome() {
 
         </div>
 
-
-        {/* MEUS PEDIDOS */}
         <section className="meus-pedidos">
 
           <div className="meus-pedidos-cabecalho">
 
             <div>
-              <h2>
-                Meus pedidos
-              </h2>
+
+              <h2>Meus pedidos</h2>
 
               <p>
                 Confira as solicitações recebidas dos clientes.
               </p>
+
             </div>
 
           </div>
 
-
-          {/* CARREGANDO */}
           {carregando && (
             <div className="prestador-mensagem">
               Carregando pedidos...
             </div>
           )}
 
-
-          {/* ERRO */}
           {!carregando && erro && (
             <div className="prestador-mensagem erro">
               {erro}
             </div>
           )}
 
-
-          {/* NENHUM PEDIDO */}
           {!carregando &&
             !erro &&
             pedidos.length === 0 && (
@@ -273,8 +377,6 @@ function PrestadorHome() {
 
             )}
 
-
-          {/* LISTA DE PEDIDOS */}
           {!carregando &&
             !erro &&
             pedidos.length > 0 && (
@@ -302,50 +404,37 @@ function PrestadorHome() {
 
                     </div>
 
-
                     <div className="pedido-dados">
 
                       <p>
-                        <strong>
-                          Serviço:
-                        </strong>{' '}
+                        <strong>Serviço:</strong>{' '}
                         {pedido.servico}
                       </p>
 
                       <p>
-                        <strong>
-                          Descrição:
-                        </strong>{' '}
+                        <strong>Descrição:</strong>{' '}
                         {pedido.descricao}
                       </p>
 
                       <p>
-                        <strong>
-                          Endereço:
-                        </strong>{' '}
+                        <strong>Endereço:</strong>{' '}
                         {pedido.endereco}
                       </p>
 
                       <p>
-                        <strong>
-                          Data desejada:
-                        </strong>{' '}
+                        <strong>Data desejada:</strong>{' '}
                         {pedido.dataDesejada}
                       </p>
 
                       {pedido.observacoes && (
                         <p>
-                          <strong>
-                            Observações:
-                          </strong>{' '}
+                          <strong>Observações:</strong>{' '}
                           {pedido.observacoes}
                         </p>
                       )}
 
                     </div>
 
-
-                    {/* AÇÕES */}
                     {pedido.status === 'PENDENTE' && (
 
                       <div className="acoes-pedido">
@@ -374,6 +463,78 @@ function PrestadorHome() {
 
                     )}
 
+                    {pedido.status === 'ACEITO' && (
+
+                      <div className="pedido-aceito">
+
+                        <p>
+                          <strong>
+                            Código de atendimento:
+                          </strong>{' '}
+                          {pedido.codigoAtendimento ||
+                            pedido.codigo_atendimento ||
+                            'Código não encontrado'}
+                        </p>
+
+                        <p>
+                          <strong>
+                            WhatsApp do cliente:
+                          </strong>{' '}
+                          {pedido.whatsappCliente ||
+                            'Não informado'}
+                        </p>
+
+                        <div className="acoes-pedido">
+
+                          <button
+                            type="button"
+                            className="botao-whatsapp"
+                            onClick={() =>
+                              abrirWhatsAppCliente(pedido)
+                            }
+                          >
+                            📱 Conversar com cliente
+                          </button>
+
+                          <button
+                            type="button"
+                            className="botao-encerrar"
+                            onClick={() =>
+                              encerrarPedido(pedido)
+                            }
+                          >
+                            ✓ Encerrar pedido
+                          </button>
+
+                        </div>
+
+                      </div>
+
+                    )}
+
+                    {pedido.status === 'ENCERRADO' && (
+
+                      <div className="pedido-encerrado">
+
+                        <p>
+                          <strong>
+                            ✓ Pedido encerrado
+                          </strong>
+                        </p>
+
+                        {pedido.observacoes && (
+                          <p>
+                            <strong>
+                              Observação do encerramento:
+                            </strong>{' '}
+                            {pedido.observacoes}
+                          </p>
+                        )}
+
+                      </div>
+
+                    )}
+
                   </article>
 
                 ))}
@@ -385,6 +546,164 @@ function PrestadorHome() {
         </section>
 
       </section>
+
+      {/* MODAL DE ACEITE */}
+
+      {pedidoWhatsApp && (
+
+        <div className="modal-whatsapp">
+
+          <div className="modal-whatsapp-conteudo">
+
+            <h2>
+              Aceitar pedido
+            </h2>
+
+            <p>
+              Informe o WhatsApp que será utilizado
+              para entrar em contato com o cliente.
+            </p>
+
+            <input
+              type="tel"
+              value={whatsappPrestador}
+              onChange={(event) =>
+                setWhatsappPrestador(event.target.value)
+              }
+              placeholder="Digite o WhatsApp"
+            />
+
+            <div className="modal-whatsapp-acoes">
+
+              <button
+                type="button"
+                onClick={() => {
+                  setPedidoWhatsApp(null);
+                  setWhatsappPrestador('');
+                }}
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="button"
+                onClick={confirmarAceite}
+              >
+                Confirmar aceite
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
+
+      {/* MODAL DE RECUSA */}
+
+      {pedidoRecusa && (
+
+        <div className="modal-whatsapp">
+
+          <div className="modal-whatsapp-conteudo">
+
+            <h2>
+              Recusar pedido
+            </h2>
+
+            <p>
+              Informe o motivo da recusa para o cliente.
+            </p>
+
+            <textarea
+              value={motivoRecusa}
+              onChange={(event) =>
+                setMotivoRecusa(event.target.value)
+              }
+              placeholder="Digite o motivo da recusa..."
+              rows="5"
+            />
+
+            <div className="modal-whatsapp-acoes">
+
+              <button
+                type="button"
+                onClick={() => {
+                  setPedidoRecusa(null);
+                  setMotivoRecusa('');
+                }}
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="button"
+                onClick={confirmarRecusa}
+              >
+                Confirmar recusa
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
+
+      {/* MODAL DE ENCERRAMENTO */}
+
+      {pedidoEncerramento && (
+
+        <div className="modal-whatsapp">
+
+          <div className="modal-whatsapp-conteudo">
+
+            <h2>
+              Encerrar pedido
+            </h2>
+
+            <p>
+              Informe uma observação sobre o encerramento
+              do serviço.
+            </p>
+
+            <textarea
+              value={observacaoEncerramento}
+              onChange={(event) =>
+                setObservacaoEncerramento(event.target.value)
+              }
+              placeholder="Digite a observação do encerramento..."
+              rows="5"
+            />
+
+            <div className="modal-whatsapp-acoes">
+
+              <button
+                type="button"
+                onClick={() => {
+                  setPedidoEncerramento(null);
+                  setObservacaoEncerramento('');
+                }}
+              >
+                Cancelar
+              </button>
+
+              <button
+                type="button"
+                onClick={confirmarEncerramento}
+              >
+                Confirmar encerramento
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
 
     </main>
   );

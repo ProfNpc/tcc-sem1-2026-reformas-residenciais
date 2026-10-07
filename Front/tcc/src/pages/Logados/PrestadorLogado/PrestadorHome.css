@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 
-
 /* =========================================
    CABEÇALHO
 ========================================= */
@@ -29,22 +28,121 @@
   font-weight: 700;
 }
 
+/* =========================================
+   USUÁRIO / MENU
+========================================= */
+
 .prestador-usuario {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 18px;
 
   color: #111827;
   font-size: 14px;
+}
+
+.prestador-usuario > span {
+  white-space: nowrap;
 }
 
 .prestador-usuario strong {
   font-weight: 700;
 }
 
-.prestador-usuario button {
+.menu-usuario {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+/* =========================================
+   BOTÃO TRÊS TRACINHOS
+========================================= */
+
+.botao-menu {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+
+  color: #333;
+
+  font-size: 28px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.botao-menu:hover {
+  background: #f0f0f0;
+}
+
+/* =========================================
+   MENU DROPDOWN
+========================================= */
+
+.menu-dropdown {
+  position: absolute;
+
+  top: 50px;
+  right: 0;
+
+  width: 210px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+
+  overflow: hidden;
+
+  z-index: 1000;
+}
+
+.menu-dropdown button {
+  width: 100%;
+
+  padding: 14px 16px;
+
+  border: none;
+  background: #ffffff;
+
+  text-align: left;
+
+  color: #333;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.menu-dropdown button:hover {
+  background: #f3f6f9;
+}
+
+/* =========================================
+   BOTÃO SAIR
+========================================= */
+
+.botao-sair {
   border: none;
   background: transparent;
+
+  padding: 8px 0;
 
   color: #dc2626;
 
@@ -52,12 +150,13 @@
   font-weight: 600;
 
   cursor: pointer;
+
+  white-space: nowrap;
 }
 
-.prestador-usuario button:hover {
+.botao-sair:hover {
   color: #b91c1c;
 }
-
 
 /* =========================================
    CONTEÚDO
@@ -73,7 +172,6 @@
 
   box-sizing: border-box;
 }
-
 
 /* =========================================
    BOAS-VINDAS
@@ -101,7 +199,6 @@
 
   font-size: 16px;
 }
-
 
 /* =========================================
    MEUS PEDIDOS
@@ -147,7 +244,6 @@
   font-size: 15px;
 }
 
-
 /* =========================================
    MENSAGENS
 ========================================= */
@@ -184,7 +280,6 @@
   margin-top: 20px;
 }
 
-
 /* =========================================
    LISTA DE PEDIDOS
 ========================================= */
@@ -193,7 +288,6 @@
   display: flex;
   flex-direction: column;
 }
-
 
 /* =========================================
    CARD DO PEDIDO
@@ -208,7 +302,6 @@
 .pedido-prestador-card:last-child {
   border-bottom: none;
 }
-
 
 /* =========================================
    CABEÇALHO DO PEDIDO
@@ -233,7 +326,6 @@
   font-size: 19px;
   font-weight: 700;
 }
-
 
 /* =========================================
    STATUS
@@ -269,7 +361,6 @@
   background: #fee2e2;
   color: #991b1b;
 }
-
 
 /* =========================================
    DADOS DO PEDIDO
@@ -307,9 +398,8 @@
   color: #111827;
 }
 
-
 /* =========================================
-   BOTÕES
+   BOTÕES DOS PEDIDOS
 ========================================= */
 
 .acoes-pedido {
@@ -353,6 +443,179 @@
   background: #b91c1c;
 }
 
+/* =========================================
+   PEDIDO ACEITO
+========================================= */
+
+.pedido-aceito {
+  margin-top: 20px;
+
+  padding: 16px;
+
+  background: #f0fdf4;
+
+  border: 1px solid #bbf7d0;
+
+  border-radius: 8px;
+}
+
+.pedido-aceito p {
+  margin: 7px 0;
+
+  color: #374151;
+
+  font-size: 14px;
+}
+
+.pedido-aceito strong {
+  color: #166534;
+}
+
+/* =========================================
+   BOTÃO WHATSAPP
+========================================= */
+
+.botao-whatsapp {
+  margin-top: 12px;
+
+  padding: 10px 16px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #16a34a;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.botao-whatsapp:hover {
+  background: #15803d;
+}
+
+/* =========================================
+   MODAIS
+========================================= */
+
+.modal-whatsapp {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  z-index: 2000;
+}
+
+.modal-whatsapp-conteudo {
+  width: 90%;
+  max-width: 450px;
+
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 12px;
+
+  box-sizing: border-box;
+}
+
+.modal-whatsapp-conteudo h2 {
+  margin-top: 0;
+
+  color: #111827;
+}
+
+.modal-whatsapp-conteudo p {
+  color: #4b5563;
+}
+
+.modal-whatsapp-conteudo input,
+.modal-whatsapp-conteudo textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 12px;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 8px;
+
+  font-size: 15px;
+
+  font-family: inherit;
+
+  outline: none;
+}
+
+.modal-whatsapp-conteudo input:focus,
+.modal-whatsapp-conteudo textarea:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.modal-whatsapp-conteudo textarea {
+  resize: vertical;
+}
+
+/* =========================================
+   AÇÕES DO MODAL
+========================================= */
+
+.modal-whatsapp-acoes {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 20px;
+}
+
+.modal-whatsapp-acoes button {
+  padding: 10px 15px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+}
+
+.modal-whatsapp-acoes button:first-child {
+  background: #e5e7eb;
+
+  color: #374151;
+}
+
+.modal-whatsapp-acoes button:first-child:hover {
+  background: #d1d5db;
+}
+
+.modal-whatsapp-acoes button:last-child {
+  background: #2563eb;
+
+  color: white;
+}
+
+.modal-whatsapp-acoes button:last-child:hover {
+  background: #1d4ed8;
+}
 
 /* =========================================
    RESPONSIVO
@@ -375,9 +638,9 @@
   .prestador-usuario {
     width: 100%;
 
-    justify-content: space-between;
+    justify-content: flex-end;
 
-    gap: 10px;
+    gap: 14px;
   }
 
   .prestador-conteudo {
@@ -416,4 +679,29 @@
     width: 100%;
   }
 
+}
+
+.botao-encerrar {
+  background-color: #198754;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.botao-encerrar:hover {
+  opacity: 0.9;
+}
+
+.pedido-encerrado {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #f1f8f4;
+}
+
+.pedido-encerrado p {
+  margin: 6px 0;
 }

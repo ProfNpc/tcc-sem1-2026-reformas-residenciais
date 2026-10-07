@@ -80,27 +80,39 @@ public class PessoaController {
 	
 	//curl -X PUT http://localhost:8080/Pessoa/1 -H "Content-Type: application/json; Charset=utf-8" -d @cadastro.json
 	@PutMapping("/Pessoa/{id}")
-	public ResponseEntity<Object> atualizaPessoa(
-			
-			@PathVariable Integer id,
-			@RequestBody Pessoa Pessoa){
-		
-		Optional<Pessoa> pessoaOpt = repository.findById(id);
-		
-		if(pessoaOpt.isEmpty()) {
-			return ResponseEntity
-					.status(HttpStatus.NOT_FOUND)
-					.body(" Pessoa não encontrado!");				
-		}
-		
-		Pessoa.setId(id);
-		Pessoa.setDataCriacao(pessoaOpt.get().getDataCriacao());
-				repository.save(Pessoa);
-				return ResponseEntity
-						.status(HttpStatus.OK)
-						.body(" Pessoa atualizado com sucesso");
-		
-	}
+public ResponseEntity<Object> atualizaPessoa(
+        @PathVariable Integer id,
+        @RequestBody Pessoa pessoaAtualizada) {
+
+    Optional<Pessoa> pessoaOpt = repository.findById(id);
+
+    if (pessoaOpt.isEmpty()) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("Pessoa não encontrada!");
+    }
+
+    Pessoa pessoa = pessoaOpt.get();
+
+    // Somente estes dados podem ser alterados pelo cliente
+    pessoa.setNome(pessoaAtualizada.getNome());
+    pessoa.setCep(pessoaAtualizada.getCep());
+    pessoa.setTelefone(pessoaAtualizada.getTelefone());
+    pessoa.setEndereco(pessoaAtualizada.getEndereco());
+    pessoa.setEmail(pessoaAtualizada.getEmail());
+
+    // Estes dados NÃO são alterados:
+    // id
+    // cpf
+    // dataCriacao
+    // deletado
+
+    repository.save(pessoa);
+
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(pessoa);
+}
 	
 	//curl -X DELETE http://localhost:8080/Pessoa/2
 	@DeleteMapping("/Pessoa/{id}")

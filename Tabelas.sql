@@ -13,13 +13,3 @@ select * from tb_usuarios
 select * from tb_Pedidos
 
 
-
-
-
-
-
-
-
-
-
-

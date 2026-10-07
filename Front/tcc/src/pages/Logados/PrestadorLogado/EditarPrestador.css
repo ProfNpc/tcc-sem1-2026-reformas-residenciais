@@ -1,0 +1,280 @@
+
+.editar-prestador {
+  min-height: 100vh;
+  background: #f4f6f9;
+  padding: 40px 20px 60px;
+  box-sizing: border-box;
+}
+
+.editar-prestador-container {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+
+  background: #ffffff;
+
+  border: 1px solid #e1e5eb;
+  border-radius: 12px;
+
+  padding: 35px 45px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   CABEÇALHO
+========================================= */
+
+.editar-prestador-cabecalho {
+  margin-bottom: 30px;
+}
+
+.editar-prestador-cabecalho h1 {
+  margin: 20px 0 8px;
+
+  color: #111827;
+
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.editar-prestador-cabecalho p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+}
+
+.botao-voltar {
+  border: none;
+  background: transparent;
+
+  padding: 0;
+
+  color: #2563eb;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.botao-voltar:hover {
+  text-decoration: underline;
+}
+
+/* =========================================
+   FORMULÁRIO
+========================================= */
+
+.formulario-prestador {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px;
+}
+
+.campo-formulario {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.campo-formulario label {
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.campo-formulario input,
+.campo-formulario textarea {
+  width: 100%;
+
+  padding: 11px 13px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.campo-formulario input:focus,
+.campo-formulario textarea:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.campo-formulario input:disabled {
+  background: #f3f4f6;
+
+  color: #6b7280;
+
+  cursor: not-allowed;
+}
+
+.campo-formulario textarea {
+  resize: vertical;
+
+  min-height: 120px;
+
+  font-family: inherit;
+}
+
+.campo-largo {
+  grid-column: 1 / -1;
+}
+
+/* =========================================
+   INFORMAÇÕES PROFISSIONAIS
+========================================= */
+
+.separador-formulario {
+  grid-column: 1 / -1;
+
+  margin-top: 10px;
+
+  padding-top: 25px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+.separador-formulario h2 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 20px;
+}
+
+/* =========================================
+   BOTÕES
+========================================= */
+
+.acoes-formulario {
+  grid-column: 1 / -1;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-top: 10px;
+
+  padding-top: 25px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+.acoes-formulario button {
+  padding: 11px 20px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.botao-cancelar {
+  background: #e5e7eb;
+
+  color: #374151;
+}
+
+.botao-cancelar:hover {
+  background: #d1d5db;
+}
+
+.botao-salvar {
+  background: #2563eb;
+
+  color: #ffffff;
+}
+
+.botao-salvar:hover {
+  background: #1d4ed8;
+}
+
+.acoes-formulario button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+/* =========================================
+   CARREGANDO
+========================================= */
+
+.editar-prestador-carregando {
+  min-height: 70vh;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #6b7280;
+
+  font-size: 16px;
+}
+
+/* =========================================
+   RESPONSIVO
+========================================= */
+
+@media (max-width: 700px) {
+
+  .editar-prestador {
+    padding: 25px 15px 40px;
+  }
+
+  .editar-prestador-container {
+    padding: 25px 20px;
+  }
+
+  .formulario-prestador {
+    grid-template-columns: 1fr;
+  }
+
+  .campo-largo {
+    grid-column: auto;
+  }
+
+  .separador-formulario {
+    grid-column: auto;
+  }
+
+  .acoes-formulario {
+    grid-column: auto;
+
+    flex-direction: column;
+  }
+
+  .acoes-formulario button {
+    width: 100%;
+  }
+
+}

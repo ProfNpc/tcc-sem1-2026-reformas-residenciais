@@ -5,57 +5,11 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer
-      style={{
-        backgroundColor: "green",
-        color: "blue",
-        padding: "18px 0",
-        marginTop: "10px",
-        fontSize: "10px",
-        textAlign: "center"
-      }}
-    >
+    <footer className="footer-principal">
       <div>
-
-        {/* MENU 
-        <nav style={{ marginBottom: "2px" }}>
-          <Link
-            to="/Cadastro"
-            style={{
-              color: "blue",
-              textDecoration: "none",
-              fontSize: "15px",
-              marginRight: "15px"
-            }}
-          >
-            Cadastre - se
-          </Link>
-        </nav>*/}
-
-            {/* <Link
-            to="/Logados"
-            style={{
-              color: "blue",
-              textDecoration: "none",
-              fontSize: "15px",
-              marginRight: "15px"
-            }}
-          >
-            Cliente
-          </Link>
-
-            <button
-  onClick={() => window.location.href = "pages/Logados"}
->
-  Clientebotao
-</button>*/}
-
-
-        {/* TEXTO */}
-        <div style={{ fontSize: "10px", color: "white" }}>
+        <div className="footer-texto">
           © {new Date().getFullYear()} TCC FIEB. REFORMAS RESIDENCIAIS.
         </div>
-
       </div>
     </footer>
   );

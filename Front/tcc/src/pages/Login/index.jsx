@@ -10,8 +10,62 @@ function index() {
   const [tipo, setTipo] = useState('cliente')
   const [usuario, setUsuario] = useState('')
   const [senha, setSenha] = useState('')
-  const [pegausu, setpegausu] = useState('')
-  const navigate = useNavigate();
+
+  const navigate = useNavigate()
+
+
+  // =====================================================
+  // BUSCA OS DADOS DO CADASTRO
+  // =====================================================
+
+  async function buscarCadastro(usuarioEncontrado, tipo) {
+
+    if (tipo === "cliente") {
+
+      const responsePessoa =
+        await fetch(
+          "http://127.0.0.1:8089/Pessoa"
+        )
+
+      if (!responsePessoa.ok) {
+
+        throw new Error(
+          "Erro ao consultar dados do cliente"
+        )
+      }
+
+      const pessoas =
+        await responsePessoa.json()
+
+      return pessoas.find(
+        (item) =>
+          item.id ===
+          usuarioEncontrado.idCliente
+      )
+    }
+
+
+    const responsePrestador =
+      await fetch(
+        "http://127.0.0.1:8089/Prestador"
+      )
+
+    if (!responsePrestador.ok) {
+
+      throw new Error(
+        "Erro ao consultar dados do prestador"
+      )
+    }
+
+    const prestadores =
+      await responsePrestador.json()
+
+    return prestadores.find(
+      (item) =>
+        item.id ===
+        usuarioEncontrado.idPrestador
+    )
+  }
 
 
   // =====================================================
@@ -20,7 +74,8 @@ function index() {
 
   async function handleLogin(e) {
 
-    e.preventDefault();
+    e.preventDefault()
+
 
     // =====================================================
     // LOGIN DO ADMINISTRADOR
@@ -28,156 +83,80 @@ function index() {
 
     if (tipo === "adm") {
 
-      if (usuario === "admin" && senha === "refores") {
+      if (
+        usuario === "admin" &&
+        senha === "refores"
+      ) {
 
-        navigate("../PesquisaGeral");
+        void navigate("../PesquisaGeral")
 
-        return;
+        return
       }
 
-      alert("Usuário ou senha inválidos");
+      alert("Usuário ou senha inválidos")
 
-      return;
+      return
     }
 
 
     try {
 
       // =====================================================
-      // BUSCA OS USUÁRIOS
+      // LOGIN COM BACKEND + BCrypt
       // =====================================================
 
-      const responseUsuarios = await fetch(
-        "http://127.0.0.1:8089/Usuarios"
-      );
+      const responseLogin =
+        await fetch(
+          "http://127.0.0.1:8089/Usuarios/login",
+          {
+            method: "POST",
 
+            headers: {
+              "Content-Type": "application/json"
+            },
 
-      if (!responseUsuarios.ok) {
-
-        throw new Error(
-          "Erro ao consultar usuários"
-        );
-
-      }
-
-
-      const usuarios = await responseUsuarios.json();
-
-
-      let usuarioEncontrado = null;
-
-
-      // =====================================================
-      // 1 - PROCURA PELO NOME DE USUÁRIO
-      // =====================================================
-
-      usuarioEncontrado = usuarios.find(
-        (item) =>
-          item.usuarioCriado?.toLowerCase() ===
-          usuario.toLowerCase()
-      );
-
-
-      // =====================================================
-      // 2 - SE NÃO ENCONTROU, PROCURA PELO EMAIL
-      // =====================================================
-
-      if (!usuarioEncontrado) {
-
-        let responseCadastro;
-
-
-        if (tipo === "cliente") {
-
-          responseCadastro = await fetch(
-            "http://127.0.0.1:8089/Pessoa"
-          );
-
-        } else {
-
-          responseCadastro = await fetch(
-            "http://127.0.0.1:8089/Prestador"
-          );
-
-        }
-
-
-        if (!responseCadastro.ok) {
-
-          throw new Error(
-            "Erro ao consultar cadastro"
-          );
-
-        }
-
-
-        const cadastros =
-          await responseCadastro.json();
-
-
-        const cadastroEncontrado =
-          cadastros.find(
-            (item) =>
-              item.email?.toLowerCase() ===
-              usuario.toLowerCase()
-          );
-
-
-        // =================================================
-        // 3 - ENCONTROU O EMAIL
-        // =================================================
-
-        if (cadastroEncontrado) {
-
-          if (tipo === "cliente") {
-
-            usuarioEncontrado =
-              usuarios.find(
-                (item) =>
-                  item.idCliente ===
-                    cadastroEncontrado.id &&
-                  item.tipoUsuario === "cliente"
-              );
-
-          } else {
-
-            usuarioEncontrado =
-              usuarios.find(
-                (item) =>
-                  item.idPrestador ===
-                    cadastroEncontrado.id &&
-                  item.tipoUsuario === "prestador"
-              );
-
+            body: JSON.stringify({
+              usuarioCriado: usuario,
+              senhaCriada: senha
+            })
           }
-
-        }
-
-      }
+        )
 
 
       // =====================================================
-      // 4 - USUÁRIO NÃO ENCONTRADO
+      // LOGIN INVÁLIDO
       // =====================================================
 
-      if (!usuarioEncontrado) {
+      if (!responseLogin.ok) {
+
+        const mensagem =
+          await responseLogin.text()
 
         alert(
-          "Usuário ou e-mail não encontrado"
-        );
+          mensagem ||
+          "Usuário ou senha inválidos"
+        )
 
-        return;
+        return
       }
 
 
       // =====================================================
-      // 5 - VERIFICA O TIPO
+      // USUÁRIO RETORNADO PELO BACKEND
+      // =====================================================
+
+      const usuarioEncontrado =
+        await responseLogin.json()
+
+
+      // =====================================================
+      // VERIFICA O TIPO
       // =====================================================
 
       const tipoEsperado =
         tipo === "cliente"
           ? "cliente"
-          : "prestador";
+          : "prestador"
 
 
       if (
@@ -187,109 +166,39 @@ function index() {
 
         alert(
           "Usuário não pertence ao tipo selecionado"
-        );
+        )
 
-        return;
+        return
       }
 
 
       // =====================================================
-      // 6 - VERIFICA A SENHA
+      // BUSCA OS DADOS DO CADASTRO
       // =====================================================
 
-      if (
-        usuarioEncontrado.senhaCriada !==
-        senha
-      ) {
-
-        alert("Senha incorreta");
-
-        return;
-      }
+      const cadastroAtual =
+        await buscarCadastro(
+          usuarioEncontrado,
+          tipo
+        )
 
 
       // =====================================================
-      // 7 - BUSCA OS DADOS DO CADASTRO
-      // =====================================================
-
-      let cadastroAtual = null;
-
-
-      if (tipo === "cliente") {
-
-        const responsePessoa =
-          await fetch(
-            "http://127.0.0.1:8089/Pessoa"
-          );
-
-
-        if (!responsePessoa.ok) {
-
-          throw new Error(
-            "Erro ao consultar dados do cliente"
-          );
-
-        }
-
-
-        const pessoas =
-          await responsePessoa.json();
-
-
-        cadastroAtual =
-          pessoas.find(
-            (item) =>
-              item.id ===
-              usuarioEncontrado.idCliente
-          );
-
-      } else {
-
-        const responsePrestador =
-          await fetch(
-            "http://127.0.0.1:8089/Prestador"
-          );
-
-
-        if (!responsePrestador.ok) {
-
-          throw new Error(
-            "Erro ao consultar dados do prestador"
-          );
-
-        }
-
-
-        const prestadores =
-          await responsePrestador.json();
-
-
-        cadastroAtual =
-          prestadores.find(
-            (item) =>
-              item.id ===
-              usuarioEncontrado.idPrestador
-          );
-
-      }
-
-
-      // =====================================================
-      // 8 - VERIFICA SE O CADASTRO FOI ENCONTRADO
+      // VERIFICA SE O CADASTRO FOI ENCONTRADO
       // =====================================================
 
       if (!cadastroAtual) {
 
         alert(
           "Usuário encontrado, mas cadastro não localizado."
-        );
+        )
 
-        return;
+        return
       }
 
 
       // =====================================================
-      // 9 - CRIA O USUÁRIO LOGADO
+      // CRIA O USUÁRIO LOGADO
       // =====================================================
 
       const usuarioLogado = {
@@ -313,49 +222,45 @@ function index() {
 
         telefone:
           cadastroAtual.telefone
-
-      };
+      }
 
 
       // =====================================================
-      // 10 - SALVA NO LOCAL STORAGE
+      // SALVA NO LOCAL STORAGE
       // =====================================================
 
       localStorage.setItem(
         "usuarioLogado",
         JSON.stringify(usuarioLogado)
-      );
+      )
 
 
       console.log(
         "Usuário logado:",
         usuarioLogado
-      );
+      )
 
 
       // =====================================================
-      // 11 - LOGIN REALIZADO
+      // LOGIN REALIZADO
       // =====================================================
 
       alert(
         "Login realizado com sucesso!"
-      );
+      )
 
 
       // =====================================================
-      // 12 - DIRECIONAMENTO
+      // DIRECIONAMENTO
       // =====================================================
 
       if (tipo === "cliente") {
 
-        navigate("/Logados");
+        void navigate("/Logados")
 
       } else {
 
-        // Por enquanto o prestador continua aqui.
-        // Depois criaremos o painel do prestador.
-
-        navigate("/Prestador");
+        void navigate("/Prestador")
 
       }
 
@@ -365,14 +270,12 @@ function index() {
       console.error(
         "Erro no login:",
         error
-      );
+      )
 
       alert(
         "Erro ao realizar login"
-      );
-
+      )
     }
-
   }
 
 
@@ -447,8 +350,8 @@ function index() {
 
         <div className="tabs">
 
-
-          <div
+          <button
+            type="button"
             className={`tab ${
               tipo === 'cliente'
                 ? 'active'
@@ -459,10 +362,11 @@ function index() {
             }
           >
             SOU CLIENTE
-          </div>
+          </button>
 
 
-          <div
+          <button
+            type="button"
             className={`tab ${
               tipo === 'pro'
                 ? 'active'
@@ -473,10 +377,11 @@ function index() {
             }
           >
             SOU PROFISSIONAL
-          </div>
+          </button>
 
 
-          <div
+          <button
+            type="button"
             className={`tab ${
               tipo === 'adm'
                 ? 'active'
@@ -487,23 +392,9 @@ function index() {
             }
           >
             SOU ADMINISTRADOR
-          </div>
+          </button>
 
         </div>
-
-
-        {pegausu && (
-
-          <p
-            style={{
-              color: 'red',
-              marginBottom: '10px'
-            }}
-          >
-            {pegausu}
-          </p>
-
-        )}
 
 
         {/* FORM */}
@@ -617,17 +508,17 @@ function index() {
           </form>
 
 
-          {tipo == 'cliente' && (
+          {tipo === 'cliente' && (
 
             <nav
-              className='linkCadastro'
+              className="linkCadastro"
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 marginTop: "15px",
                 marginBottom: "2px",
-                color: "green",
+                color: "green"
               }}
             >
 
@@ -636,7 +527,7 @@ function index() {
                 style={{
                   color: "blue",
                   textDecoration: "green",
-                  fontSize: "15px",
+                  fontSize: "15px"
                 }}
               >
                 CADASTRE-SE
@@ -647,17 +538,17 @@ function index() {
           )}
 
 
-          {tipo == 'pro' && (
+          {tipo === 'pro' && (
 
             <nav
-              className='linkCadastro'
+              className="linkCadastro"
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 marginTop: "15px",
                 marginBottom: "2px",
-                color: "green",
+                color: "green"
               }}
             >
 
@@ -666,7 +557,7 @@ function index() {
                 style={{
                   color: "blue",
                   textDecoration: "green",
-                  fontSize: "15px",
+                  fontSize: "15px"
                 }}
               >
                 CADASTRE-SE
@@ -692,7 +583,6 @@ function index() {
 
     </div>
   )
-
 }
 
-export default index;
+export default index

@@ -19,6 +19,9 @@ function ClienteHome() {
 
   const [nomesPrestadores, setNomesPrestadores] = useState({});
 
+  // Menu dos três tracinhos
+  const [menuAberto, setMenuAberto] = useState(false);
+
   useEffect(() => {
 
     const buscarPedidos = async () => {
@@ -131,6 +134,31 @@ function ClienteHome() {
     );
   };
 
+  const abrirWhatsAppPrestador = (pedido) => {
+
+    if (!pedido.whatsappPrestador) {
+      alert('O WhatsApp do prestador ainda não foi informado.');
+      return;
+    }
+
+    const numero =
+      pedido.whatsappPrestador.replace(/\D/g, '');
+
+    if (!numero) {
+      alert('WhatsApp do prestador inválido.');
+      return;
+    }
+
+    const mensagem = encodeURIComponent(
+      `Olá! Estou entrando em contato sobre o pedido #${pedido.id}. Código de atendimento: ${pedido.codigoAtendimento || ''}`
+    );
+
+    window.open(
+      `https://wa.me/${numero}?text=${mensagem}`,
+      '_blank'
+    );
+  };
+
   const sair = () => {
 
     localStorage.removeItem('usuarioLogado');
@@ -153,8 +181,42 @@ function ClienteHome() {
             Olá, <strong>{usuario.nome}</strong>
           </span>
 
+          <div className="menu-usuario">
+
+            <button
+              type="button"
+              className="botao-menu"
+              onClick={() =>
+                setMenuAberto(!menuAberto)
+              }
+              aria-label="Abrir menu"
+            >
+              ☰
+            </button>
+
+            {menuAberto && (
+
+              <div className="menu-dropdown">
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuAberto(false);
+                    navigate('/editar-cliente');
+                  }}
+                >
+                  ✏️ Editar meus dados
+                </button>
+
+              </div>
+
+            )}
+
+          </div>
+
           <button
             type="button"
+            className="botao-sair"
             onClick={sair}
           >
             Sair
@@ -231,9 +293,6 @@ function ClienteHome() {
 
           </div>
 
-
-          {/* CARREGANDO PEDIDOS */}
-
           {carregandoPedidos && (
 
             <div className="sem-pedidos">
@@ -249,9 +308,6 @@ function ClienteHome() {
             </div>
 
           )}
-
-
-          {/* NENHUM PEDIDO */}
 
           {!carregandoPedidos &&
             pedidos.length === 0 && (
@@ -273,9 +329,6 @@ function ClienteHome() {
               </div>
 
             )}
-
-
-          {/* LISTA DE PEDIDOS */}
 
           {!carregandoPedidos &&
             pedidos.length > 0 && (
@@ -318,6 +371,60 @@ function ClienteHome() {
                       </span>
 
                     </p>
+
+                    {pedido.status === 'RECUSADO' &&
+                      pedido.observacoes && (
+
+                        <p className="motivo-recusa">
+
+                          <strong>
+                            Motivo da recusa:
+                          </strong>{' '}
+
+                          {pedido.observacoes}
+
+                        </p>
+
+                    )}
+
+                    {pedido.status === 'ACEITO' && (
+
+                      <div className="pedido-aceito">
+
+                        <p>
+                          <strong>
+                            Código de atendimento:
+                          </strong>{' '}
+
+                          {pedido.codigoAtendimento ||
+                            pedido.codigo_atendimento ||
+                            'Código não encontrado'}
+
+                        </p>
+
+                        <p>
+                          <strong>
+                            WhatsApp do prestador:
+                          </strong>{' '}
+
+                          {pedido.whatsappPrestador ||
+                            'Não informado'}
+
+                        </p>
+
+                        <button
+                          type="button"
+                          className="botao-whatsapp"
+                          onClick={() =>
+                            abrirWhatsAppPrestador(pedido)
+                          }
+                        >
+                          📱 Conversar com prestador
+                        </button>
+
+                      </div>
+
+                    )}
 
                   </div>
 

@@ -12,6 +12,8 @@ import ClienteHome from './pages/Logados/ClienteLogado/ClienteHome'
 import Prestadores from './pages/Logados/ClienteLogado/Prestadores'
 import Pedidos from './pages/Logados/ClienteLogado/Pedidos'
 import PrestadorHome from './pages/Logados/PrestadorLogado/PrestadorHome'
+import EditarCliente from './pages/Logados/ClienteLogado/EditarCliente'
+import EditarPrestador from './pages/Logados/PrestadorLogado/EditarPrestador'
 
 
 
@@ -52,9 +54,19 @@ export default function Rotas({ Home }) {
   element={<ClienteHome />}
 />
 
+<Route
+  path="/editar-cliente"
+  element={<EditarCliente />}
+/>
+
 <Route 
   path="/prestador" 
   element={<PrestadorHome />} />
+
+  <Route
+  path="/editar-prestador"
+  element={<EditarPrestador />}
+/>
 
 <Route
   path="/prestadores/:servico"

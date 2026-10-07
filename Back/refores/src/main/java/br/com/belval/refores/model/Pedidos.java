@@ -27,13 +27,15 @@ public class Pedidos {
     @Column(name = "servico", nullable = false, length = 100)
     private String servico;
 
-    @Column(name = "whatsappCliente")
+    @Column(name = "whatsapp_cliente")
     private String whatsappCliente;
 
-    @Column(name = "whatsappPrestador")
+    @Column(name = "whatsapp_prestador")
     private String whatsappPrestador;
-      
 
+    @Column(name = "codigoAtendimento")
+    private String codigoAtendimento;
+    
     @Column(name = "descricao", length = 1000)
     private String descricao;
 
@@ -84,13 +86,29 @@ public class Pedidos {
         this.servico = servico;
     }
 
-       public String getwhatsappCliente() {
+    public String getWhatsappCliente() {
         return whatsappCliente;
     }
 
-    public void setwhatsappCliente(String whatsappCliente) {
+    public void setWhatsappCliente(String whatsappCliente) {
         this.whatsappCliente = whatsappCliente;
     }
+
+    public String getWhatsappPrestador() {
+        return whatsappPrestador;
+    }
+
+    public void setWhatsappPrestador(String whatsappPrestador) {
+        this.whatsappPrestador = whatsappPrestador;
+    }
+
+      public String getCodigoAtendimento() {
+    return codigoAtendimento;
+}
+
+public void setCodigoAtendimento(String codigoAtendimento) {
+    this.codigoAtendimento = codigoAtendimento;
+}
 
     public String getDescricao() {
         return descricao;
@@ -124,6 +142,8 @@ public class Pedidos {
         this.observacoes = observacoes;
     }
 
+        
+
     public String getStatus() {
         return status;
     }
@@ -156,12 +176,13 @@ public class Pedidos {
                 ", idCliente=" + idCliente +
                 ", idPrestador=" + idPrestador +
                 ", servico=" + servico +
-				",whatsappPrestador" + whatsappPrestador +
-				",whatsappCliente" + whatsappCliente +
+                ", whatsappPrestador=" + whatsappPrestador +
+                ", whatsappCliente=" + whatsappCliente +
+                ", codigoAtendimento" + codigoAtendimento +
                 ", descricao=" + descricao +
                 ", endereco=" + endereco +
                 ", dataDesejada=" + dataDesejada +
-                ", observacoes=" + observacoes +
+                ", observacoes=" + observacoes +                
                 ", status=" + status + "]";
     }
 }

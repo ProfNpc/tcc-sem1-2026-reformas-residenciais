@@ -1,0 +1,110 @@
+
+.editar-cliente {
+  min-height: 100vh;
+  background: #f5f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.editar-cliente-card {
+  width: 100%;
+  max-width: 650px;
+  background: white;
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.editar-cliente-header {
+  margin-bottom: 30px;
+}
+
+.editar-cliente-header h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  color: #222;
+}
+
+.editar-cliente-header p {
+  margin: 0;
+  color: #666;
+}
+
+.campo-edicao {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.campo-edicao label {
+  margin-bottom: 7px;
+  font-weight: 600;
+  color: #333;
+}
+
+.campo-edicao input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+}
+
+.campo-edicao input:focus {
+  border-color: #007bff;
+}
+
+.campo-edicao input:disabled {
+  background: #eeeeee;
+  color: #777;
+  cursor: not-allowed;
+}
+
+.campo-edicao small {
+  margin-top: 5px;
+  color: #777;
+  font-size: 12px;
+}
+
+.botoes-edicao {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.botoes-edicao button {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.botao-cancelar {
+  background: #e5e5e5;
+  color: #333;
+}
+
+.botao-salvar {
+  background: #007bff;
+  color: white;
+}
+
+.botoes-edicao button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.botao-cancelar:hover:not(:disabled) {
+  background: #d5d5d5;
+}
+
+.botao-salvar:hover:not(:disabled) {
+  background: #0069d9;
+}

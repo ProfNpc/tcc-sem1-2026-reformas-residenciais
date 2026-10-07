@@ -1,6 +1,7 @@
 package br.com.belval.refores.model.controller;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class PedidosController {
     @Autowired
     private PedidosRepository repository;
 
+
     // LISTAR TODOS OS PEDIDOS
     @GetMapping
     public ResponseEntity<Iterable<Pedidos>> obterPedidos() {
@@ -34,6 +36,7 @@ public class PedidosController {
                 .status(HttpStatus.OK)
                 .body(repository.findAll());
     }
+
 
     // CRIAR PEDIDO
     @PostMapping
@@ -49,6 +52,7 @@ public class PedidosController {
                 .status(HttpStatus.CREATED)
                 .body(pedidoSalvo);
     }
+
 
     // BUSCAR PEDIDO POR ID
     @GetMapping("/{id}")
@@ -69,6 +73,130 @@ public class PedidosController {
                 .status(HttpStatus.NOT_FOUND)
                 .body("Pedido não encontrado");
     }
+
+
+    // ACEITAR PEDIDO
+    @PutMapping("/{id}/aceitar")
+    public ResponseEntity<Object> aceitarPedido(
+            @PathVariable Integer id,
+            @RequestBody Pedidos dados) {
+
+        Optional<Pedidos> pedidoOpt =
+                repository.findById(id);
+
+        if (pedidoOpt.isEmpty()) {
+
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Pedido não encontrado!");
+        }
+
+        Pedidos pedido =
+                pedidoOpt.get();
+
+
+        // Verifica se o prestador informou o WhatsApp
+        if (dados.getWhatsappPrestador() == null ||
+            dados.getWhatsappPrestador().trim().isEmpty()) {
+
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Informe o WhatsApp do prestador!");
+        }
+
+
+        // Salva o WhatsApp do prestador
+        pedido.setWhatsappPrestador(
+                dados.getWhatsappPrestador()
+        );
+
+
+        // Gera o código do atendimento
+        String codigo =
+                "RF-" +
+                UUID.randomUUID()
+                        .toString()
+                        .substring(0, 6)
+                        .toUpperCase();
+
+
+        pedido.setCodigoAtendimento(codigo);
+
+
+        // Altera o status
+        pedido.setStatus("ACEITO");
+
+
+        // Salva o pedido
+        Pedidos pedidoAtualizado =
+                repository.save(pedido);
+
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(pedidoAtualizado);
+    }
+
+
+    // ENCERRAR PEDIDO
+    @PutMapping("/{id}/encerrar")
+    public ResponseEntity<Object> encerrarPedido(
+            @PathVariable Integer id,
+            @RequestBody Pedidos dados) {
+
+        Optional<Pedidos> pedidoOpt =
+                repository.findById(id);
+
+        if (pedidoOpt.isEmpty()) {
+
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Pedido não encontrado!");
+        }
+
+        Pedidos pedido =
+                pedidoOpt.get();
+
+
+        // Só permite encerrar pedido aceito
+        if (!"ACEITO".equals(pedido.getStatus())) {
+
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Somente pedidos aceitos podem ser encerrados!");
+        }
+
+
+        // Verifica se foi informada uma observação
+        if (dados.getObservacoes() == null ||
+            dados.getObservacoes().trim().isEmpty()) {
+
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Informe uma observação para encerrar o pedido!");
+        }
+
+
+        // Salva a observação
+        pedido.setObservacoes(
+                dados.getObservacoes()
+        );
+
+
+        // Altera o status
+        pedido.setStatus("ENCERRADO");
+
+
+        // Salva o pedido
+        Pedidos pedidoAtualizado =
+                repository.save(pedido);
+
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(pedidoAtualizado);
+    }
+
 
     // ATUALIZAR PEDIDO
     @PutMapping("/{id}")
@@ -95,6 +223,7 @@ public class PedidosController {
                 .status(HttpStatus.OK)
                 .body(pedidoAtualizado);
     }
+
 
     // EXCLUIR PEDIDO
     @DeleteMapping("/{id}")
