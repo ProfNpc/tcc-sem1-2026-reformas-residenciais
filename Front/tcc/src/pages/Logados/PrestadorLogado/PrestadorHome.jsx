@@ -20,7 +20,7 @@ function PrestadorHome() {
   const [pedidoEncerramento, setPedidoEncerramento] = useState(null);
   const [observacaoEncerramento, setObservacaoEncerramento] = useState('');
 
-  // Menu dos três tracinhos
+  // Menu do usuário
   const [menuAberto, setMenuAberto] = useState(false);
 
   useEffect(() => {
@@ -44,9 +44,7 @@ function PrestadorHome() {
           return;
         }
 
-        const resposta = await fetch(
-          'http://127.0.0.1:8089/Pedidos'
-        );
+        const resposta = await fetch('http://127.0.0.1:8089/Pedidos');
 
         if (!resposta.ok) {
           throw new Error('Não foi possível carregar os pedidos.');
@@ -60,7 +58,6 @@ function PrestadorHome() {
         );
 
         setPedidos(pedidosDoPrestador);
-
       } catch (error) {
         console.error('Erro ao buscar pedidos:', error);
         setErro('Não foi possível carregar os pedidos.');
@@ -106,7 +103,7 @@ function PrestadorHome() {
       setPedidos((pedidosAtuais) =>
         pedidosAtuais.map((item) =>
           item.id === pedidoWhatsApp.id
-            ? pedidoAtualizado
+            ? { ...item, ...pedidoAtualizado }
             : item
         )
       );
@@ -115,7 +112,6 @@ function PrestadorHome() {
       setWhatsappPrestador('');
 
       alert('Pedido aceito com sucesso!');
-
     } catch (error) {
       console.error('Erro ao aceitar pedido:', error);
       alert('Não foi possível aceitar o pedido.');
@@ -160,7 +156,7 @@ function PrestadorHome() {
       setPedidos((pedidosAtuais) =>
         pedidosAtuais.map((item) =>
           item.id === pedidoRecusa.id
-            ? pedidoRetornado
+            ? { ...item, ...pedidoRetornado }
             : item
         )
       );
@@ -169,7 +165,6 @@ function PrestadorHome() {
       setMotivoRecusa('');
 
       alert('Pedido recusado com sucesso.');
-
     } catch (error) {
       console.error('Erro ao recusar pedido:', error);
       alert('Não foi possível recusar o pedido.');
@@ -183,7 +178,7 @@ function PrestadorHome() {
       return;
     }
 
-    const numero = pedido.whatsappCliente.replace(/\D/g, '');
+    const numero = String(pedido.whatsappCliente).replace(/\D/g, '');
 
     if (!numero) {
       alert('WhatsApp do cliente inválido.');
@@ -236,7 +231,7 @@ function PrestadorHome() {
       setPedidos((pedidosAtuais) =>
         pedidosAtuais.map((item) =>
           item.id === pedidoEncerramento.id
-            ? pedidoRetornado
+            ? { ...item, ...pedidoRetornado }
             : item
         )
       );
@@ -245,7 +240,6 @@ function PrestadorHome() {
       setObservacaoEncerramento('');
 
       alert('Pedido encerrado com sucesso!');
-
     } catch (error) {
       console.error('Erro ao encerrar pedido:', error);
       alert('Não foi possível encerrar o pedido.');
@@ -277,16 +271,13 @@ function PrestadorHome() {
             <button
               type="button"
               className="botao-menu"
-              onClick={() =>
-                setMenuAberto(!menuAberto)
-              }
+              onClick={() => setMenuAberto(!menuAberto)}
               aria-label="Abrir menu"
             >
               ☰
             </button>
 
             {menuAberto && (
-
               <div className="menu-dropdown">
 
                 <button
@@ -300,7 +291,6 @@ function PrestadorHome() {
                 </button>
 
               </div>
-
             )}
 
           </div>
@@ -336,13 +326,11 @@ function PrestadorHome() {
           <div className="meus-pedidos-cabecalho">
 
             <div>
-
               <h2>Meus pedidos</h2>
 
               <p>
                 Confira as solicitações recebidas dos clientes.
               </p>
-
             </div>
 
           </div>
@@ -359,189 +347,179 @@ function PrestadorHome() {
             </div>
           )}
 
-          {!carregando &&
-            !erro &&
-            pedidos.length === 0 && (
+          {!carregando && !erro && pedidos.length === 0 && (
+            <div className="prestador-mensagem">
 
-              <div className="prestador-mensagem">
+              <h3>Nenhum pedido encontrado</h3>
 
-                <h3>
-                  Nenhum pedido encontrado
-                </h3>
+              <p>
+                Você ainda não possui pedidos de clientes.
+              </p>
 
-                <p>
-                  Você ainda não possui pedidos de clientes.
-                </p>
+            </div>
+          )}
 
-              </div>
+          {!carregando && !erro && pedidos.length > 0 && (
+            <div className="lista-pedidos-prestador">
 
-            )}
+              {pedidos.map((pedido) => (
+                <article
+                  key={pedido.id}
+                  className="pedido-prestador-card"
+                >
 
-          {!carregando &&
-            !erro &&
-            pedidos.length > 0 && (
+                  <div className="pedido-cabecalho">
 
-              <div className="lista-pedidos-prestador">
+                    <h3>
+                      Pedido #{pedido.id}
+                    </h3>
 
-                {pedidos.map((pedido) => (
+                    <span
+                      className={`status-pedido status-${pedido.status?.toLowerCase()}`}
+                    >
+                      {pedido.status}
+                    </span>
 
-                  <article
-                    key={pedido.id}
-                    className="pedido-prestador-card"
-                  >
+                  </div>
 
-                    <div className="pedido-cabecalho">
+                  <div className="pedido-dados">
 
-                      <h3>
-                        Pedido #{pedido.id}
-                      </h3>
+                    <p>
+                      <strong>Cliente:</strong>{' '}
+                      {pedido.nomeCliente || 'Nome não informado'}
+                    </p>
 
-                      <span
-                        className={`status-pedido status-${pedido.status?.toLowerCase()}`}
+                    <p>
+                      <strong>Telefone do cliente:</strong>{' '}
+                      {pedido.telefoneCliente || 'Não informado'}
+                    </p>
+
+                    <p>
+                      <strong>Serviço:</strong>{' '}
+                      {pedido.servico}
+                    </p>
+
+                    <p>
+                      <strong>Descrição:</strong>{' '}
+                      {pedido.descricao}
+                    </p>
+
+                    <p>
+                      <strong>Endereço:</strong>{' '}
+                      {pedido.endereco}
+                    </p>
+
+                    <p>
+                      <strong>Data desejada:</strong>{' '}
+                      {pedido.dataDesejada}
+                    </p>
+
+                    {pedido.observacoes && (
+                      <p>
+                        <strong>Observações:</strong>{' '}
+                        {pedido.observacoes}
+                      </p>
+                    )}
+
+                  </div>
+
+                  {pedido.status === 'PENDENTE' && (
+                    <div className="acoes-pedido">
+
+                      <button
+                        type="button"
+                        className="botao-aceitar"
+                        onClick={() => aceitarPedido(pedido)}
                       >
-                        {pedido.status}
-                      </span>
+                        Aceitar pedido
+                      </button>
+
+                      <button
+                        type="button"
+                        className="botao-recusar"
+                        onClick={() => recusarPedido(pedido)}
+                      >
+                        Recusar pedido
+                      </button>
 
                     </div>
+                  )}
 
-                    <div className="pedido-dados">
+                  {pedido.status === 'ACEITO' && (
+                    <div className="pedido-aceito">
 
                       <p>
-                        <strong>Serviço:</strong>{' '}
-                        {pedido.servico}
+                        <strong>Código de atendimento:</strong>{' '}
+                        {pedido.codigoAtendimento ||
+                          pedido.codigo_atendimento ||
+                          'Código não encontrado'}
                       </p>
 
                       <p>
-                        <strong>Descrição:</strong>{' '}
-                        {pedido.descricao}
+                        <strong>WhatsApp do cliente:</strong>{' '}
+                        {pedido.whatsappCliente || 'Não informado'}
                       </p>
-
-                      <p>
-                        <strong>Endereço:</strong>{' '}
-                        {pedido.endereco}
-                      </p>
-
-                      <p>
-                        <strong>Data desejada:</strong>{' '}
-                        {pedido.dataDesejada}
-                      </p>
-
-                      {pedido.observacoes && (
-                        <p>
-                          <strong>Observações:</strong>{' '}
-                          {pedido.observacoes}
-                        </p>
-                      )}
-
-                    </div>
-
-                    {pedido.status === 'PENDENTE' && (
 
                       <div className="acoes-pedido">
 
                         <button
                           type="button"
-                          className="botao-aceitar"
-                          onClick={() =>
-                            aceitarPedido(pedido)
-                          }
+                          className="botao-whatsapp"
+                          onClick={() => abrirWhatsAppCliente(pedido)}
                         >
-                          Aceitar pedido
+                          📱 Conversar com cliente
                         </button>
 
                         <button
                           type="button"
-                          className="botao-recusar"
-                          onClick={() =>
-                            recusarPedido(pedido)
-                          }
+                          className="botao-encerrar"
+                          onClick={() => encerrarPedido(pedido)}
                         >
-                          Recusar pedido
+                          ✓ Encerrar pedido
                         </button>
 
                       </div>
 
-                    )}
+                    </div>
+                  )}
 
-                    {pedido.status === 'ACEITO' && (
+                  {pedido.status === 'RECUSADO' && (
+                    <div className="pedido-recusado">
+                      <p>
+                        <strong>Pedido recusado</strong>
+                      </p>
 
-                      <div className="pedido-aceito">
-
+                      {pedido.observacoes && (
                         <p>
-                          <strong>
-                            Código de atendimento:
-                          </strong>{' '}
-                          {pedido.codigoAtendimento ||
-                            pedido.codigo_atendimento ||
-                            'Código não encontrado'}
+                          <strong>Motivo da recusa:</strong>{' '}
+                          {pedido.observacoes}
                         </p>
+                      )}
+                    </div>
+                  )}
 
+                  {pedido.status === 'ENCERRADO' && (
+                    <div className="pedido-encerrado">
+
+                      <p>
+                        <strong>✓ Pedido encerrado</strong>
+                      </p>
+
+                      {pedido.observacoes && (
                         <p>
-                          <strong>
-                            WhatsApp do cliente:
-                          </strong>{' '}
-                          {pedido.whatsappCliente ||
-                            'Não informado'}
+                          <strong>Observação do encerramento:</strong>{' '}
+                          {pedido.observacoes}
                         </p>
+                      )}
 
-                        <div className="acoes-pedido">
+                    </div>
+                  )}
 
-                          <button
-                            type="button"
-                            className="botao-whatsapp"
-                            onClick={() =>
-                              abrirWhatsAppCliente(pedido)
-                            }
-                          >
-                            📱 Conversar com cliente
-                          </button>
+                </article>
+              ))}
 
-                          <button
-                            type="button"
-                            className="botao-encerrar"
-                            onClick={() =>
-                              encerrarPedido(pedido)
-                            }
-                          >
-                            ✓ Encerrar pedido
-                          </button>
-
-                        </div>
-
-                      </div>
-
-                    )}
-
-                    {pedido.status === 'ENCERRADO' && (
-
-                      <div className="pedido-encerrado">
-
-                        <p>
-                          <strong>
-                            ✓ Pedido encerrado
-                          </strong>
-                        </p>
-
-                        {pedido.observacoes && (
-                          <p>
-                            <strong>
-                              Observação do encerramento:
-                            </strong>{' '}
-                            {pedido.observacoes}
-                          </p>
-                        )}
-
-                      </div>
-
-                    )}
-
-                  </article>
-
-                ))}
-
-              </div>
-
-            )}
+            </div>
+          )}
 
         </section>
 
@@ -550,14 +528,11 @@ function PrestadorHome() {
       {/* MODAL DE ACEITE */}
 
       {pedidoWhatsApp && (
-
         <div className="modal-whatsapp">
 
           <div className="modal-whatsapp-conteudo">
 
-            <h2>
-              Aceitar pedido
-            </h2>
+            <h2>Aceitar pedido</h2>
 
             <p>
               Informe o WhatsApp que será utilizado
@@ -597,20 +572,16 @@ function PrestadorHome() {
           </div>
 
         </div>
-
       )}
 
       {/* MODAL DE RECUSA */}
 
       {pedidoRecusa && (
-
         <div className="modal-whatsapp">
 
           <div className="modal-whatsapp-conteudo">
 
-            <h2>
-              Recusar pedido
-            </h2>
+            <h2>Recusar pedido</h2>
 
             <p>
               Informe o motivo da recusa para o cliente.
@@ -649,20 +620,16 @@ function PrestadorHome() {
           </div>
 
         </div>
-
       )}
 
       {/* MODAL DE ENCERRAMENTO */}
 
       {pedidoEncerramento && (
-
         <div className="modal-whatsapp">
 
           <div className="modal-whatsapp-conteudo">
 
-            <h2>
-              Encerrar pedido
-            </h2>
+            <h2>Concluir Serviço</h2>
 
             <p>
               Informe uma observação sobre o encerramento
@@ -702,7 +669,6 @@ function PrestadorHome() {
           </div>
 
         </div>
-
       )}
 
     </main>
