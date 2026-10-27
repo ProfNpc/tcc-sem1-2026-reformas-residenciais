@@ -16,11 +16,9 @@ function PrestadorHome() {
   const [pedidoRecusa, setPedidoRecusa] = useState(null);
   const [motivoRecusa, setMotivoRecusa] = useState('');
 
-  // Encerramento do pedido
   const [pedidoEncerramento, setPedidoEncerramento] = useState(null);
   const [observacaoEncerramento, setObservacaoEncerramento] = useState('');
 
-  // Menu do usuário
   const [menuAberto, setMenuAberto] = useState(false);
 
   useEffect(() => {
@@ -171,7 +169,6 @@ function PrestadorHome() {
     }
   };
 
-  // Abrir WhatsApp do cliente
   const abrirWhatsAppCliente = (pedido) => {
     if (!pedido.whatsappCliente) {
       alert('O WhatsApp do cliente não foi informado.');
@@ -195,13 +192,11 @@ function PrestadorHome() {
     );
   };
 
-  // Abrir modal para encerrar pedido
   const encerrarPedido = (pedido) => {
     setPedidoEncerramento(pedido);
     setObservacaoEncerramento('');
   };
 
-  // Confirmar encerramento
   const confirmarEncerramento = async () => {
     if (!observacaoEncerramento.trim()) {
       alert('Informe uma observação para encerrar o pedido.');
@@ -261,6 +256,15 @@ function PrestadorHome() {
         </div>
 
         <div className="prestador-usuario">
+
+          {/* NOVO BOTÃO DO DASHBOARD */}
+          <button
+            type="button"
+            className="botao-dashboard"
+            onClick={() => navigate('/prestador/dashboard')}
+          >
+            📊 Meu Dashboard
+          </button>
 
           <span>
             Olá, <strong>{usuario?.nome || 'Prestador'}</strong>
@@ -485,6 +489,7 @@ function PrestadorHome() {
 
                   {pedido.status === 'RECUSADO' && (
                     <div className="pedido-recusado">
+
                       <p>
                         <strong>Pedido recusado</strong>
                       </p>
@@ -495,6 +500,7 @@ function PrestadorHome() {
                           {pedido.observacoes}
                         </p>
                       )}
+
                     </div>
                   )}
 

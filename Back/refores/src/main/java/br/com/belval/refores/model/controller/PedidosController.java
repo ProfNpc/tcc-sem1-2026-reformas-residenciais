@@ -126,7 +126,8 @@ public class PedidosController {
 
         if (pedidoOpt.isPresent()) {
 
-            return ResponseEntity
+
+                    return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(montarDetalhesPedido(pedidoOpt.get()));
         }

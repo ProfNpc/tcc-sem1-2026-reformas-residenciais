@@ -13,3 +13,12 @@ select * from tb_usuarios
 select * from tb_Pedidos
 
 
+--conferir login criados
+
+SELECT
+    usuario_criado,
+    tipo_usuario,
+    id_cliente,
+    id_prestador
+FROM tb_usuarios
+ORDER BY tipo_usuario, usuario_criado;

@@ -1,21 +1,12 @@
-import './style.css'
+import './style.css';
 
-import { useState } from 'react'
-import { BrowserRouter, useNavigate } from 'react-router-dom'
+import { useState } from 'react';
+import { BrowserRouter, useNavigate } from 'react-router-dom';
+import Rotas from './Rotas';
 
-import Rotas from './Rotas'
-
-{/*import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
-import Login from './pages/Login'
-import Cadastro from './pages/Cadastro'
-import PesquisaGeral from './pages/PesquisaGeral'
-import PesquisaDeletados from './pages/PesquisaDeletados'
-import Deletar from './pages/Deletar'
-import Atualizar from './pages/Atualizar'
-import Footer from './components/footer'*/}
-
-
-/* ---------- NOVO: Grade de serviços (acrescentada, nada foi removido) ---------- */
+/* =========================================
+   ÍCONES DOS SERVIÇOS
+========================================= */
 
 const Icone = ({ children }) => (
   <svg
@@ -30,7 +21,11 @@ const Icone = ({ children }) => (
   >
     {children}
   </svg>
-)
+);
+
+/* =========================================
+   SERVIÇOS DISPONÍVEIS
+========================================= */
 
 const SERVICOS = [
   {
@@ -50,7 +45,7 @@ const SERVICOS = [
     nome: 'Encanador',
     slug: 'encanador',
     descricao:
-      'Conserto de vazamentos, desentupimento de pia, ralo e vaso, troca de torneiras e registros, instalação de máquina de lavar e limpeza de caixa d\u2019água.',
+      'Conserto de vazamentos, desentupimento de pia, ralo e vaso, troca de torneiras e registros, instalação de máquina de lavar e limpeza de caixa d’água.',
     icone: (
       <Icone>
         <path d="M4 5h5v6H4z" />
@@ -187,15 +182,25 @@ const SERVICOS = [
       </Icone>
     ),
   },
-]
+];
+
+/* =========================================
+   QUADRINHOS DE SERVIÇOS
+========================================= */
 
 function ServicosGrid({ onSolicitar }) {
-  const [slugAberto, setSlugAberto] = useState(null)
-  const selecionado = SERVICOS.find((s) => s.slug === slugAberto)
+  const [slugAberto, setSlugAberto] = useState(null);
+
+  const selecionado = SERVICOS.find(
+    (servico) => servico.slug === slugAberto
+  );
 
   return (
     <section className="servicos" id="servicos">
-      <h2 className="servicos-titulo">Solicite um orçamento grátis</h2>
+      <h2 className="servicos-titulo">
+        Solicite um orçamento grátis
+      </h2>
+
       <p className="servicos-subtitulo">
         Explique pra gente o que você precisa e encontraremos os melhores
         profissionais da sua região
@@ -203,7 +208,8 @@ function ServicosGrid({ onSolicitar }) {
 
       <ul className="servicos-grid">
         {SERVICOS.map((servico) => {
-          const aberto = servico.slug === slugAberto
+          const aberto = servico.slug === slugAberto;
+
           return (
             <li key={servico.slug}>
               <button
@@ -211,13 +217,15 @@ function ServicosGrid({ onSolicitar }) {
                 className={`servico-card${aberto ? ' is-aberto' : ''}`}
                 aria-expanded={aberto}
                 aria-controls="servico-detalhe"
-                onClick={() => setSlugAberto(aberto ? null : servico.slug)}
+                onClick={() =>
+                  setSlugAberto(aberto ? null : servico.slug)
+                }
               >
                 {servico.icone}
                 <span className="servico-nome">{servico.nome}</span>
               </button>
             </li>
-          )
+          );
         })}
       </ul>
 
@@ -225,6 +233,7 @@ function ServicosGrid({ onSolicitar }) {
         <div className="servico-detalhe" id="servico-detalhe">
           <div className="servico-detalhe-topo">
             <h3>{selecionado.nome}</h3>
+
             <button
               type="button"
               className="servico-fechar"
@@ -247,107 +256,181 @@ function ServicosGrid({ onSolicitar }) {
         </div>
       )}
     </section>
-  )
+  );
 }
 
-/* ------------------------------- Home ------------------------------- */
+/* =========================================
+   ANÚNCIOS DE LOJAS
+========================================= */
+
+const ANUNCIOS = [
+  {
+    id: 1,
+    categoria: 'MATERIAIS DE CONSTRUÇÃO',
+    nome: 'Depósitos de materiais',
+    descricao:
+      'Cimento, areia, pedra, tijolos e materiais para sua obra.',
+    emoji: '🧱',
+    classe: 'anuncio-materiais',
+    selo: 'Sua obra começa aqui',
+  },
+  {
+    id: 2,
+    categoria: 'PISOS E REVESTIMENTOS',
+    nome: 'Pisos e revestimentos',
+    descricao:
+      'Encontre opções para renovar o banheiro, a cozinha e todos os ambientes.',
+    emoji: '🏠',
+    classe: 'anuncio-pisos',
+    selo: 'Renove seus ambientes',
+  },
+  {
+    id: 3,
+    categoria: 'TINTAS E PINTURA',
+    nome: 'Lojas de tintas',
+    descricao:
+      'Tintas, pincéis, rolos e acessórios para dar vida nova à sua casa.',
+    emoji: '🎨',
+    classe: 'anuncio-tintas',
+    selo: 'Mais cor para sua casa',
+  },
+];
+
+function AnunciosLojas() {
+  return (
+    <section className="anuncios-lojas" id="parceiros">
+      <div className="anuncios-cabecalho">
+        <span className="anuncios-etiqueta">
+          TUDO PARA SUA REFORMA
+        </span>
+
+        <h2>Parceiros para sua reforma</h2>
+
+        <p>
+          Encontre materiais e produtos para tirar seu projeto do papel.
+        </p>
+      </div>
+
+      <div className="anuncios-grid">
+        {ANUNCIOS.map((anuncio) => (
+          <article
+            className={`anuncio-card ${anuncio.classe}`}
+            key={anuncio.id}
+          >
+            <div className="anuncio-ilustracao" aria-hidden="true">
+              <span>{anuncio.emoji}</span>
+            </div>
+
+            <div className="anuncio-conteudo">
+              <span className="anuncio-categoria">
+                {anuncio.categoria}
+              </span>
+
+              <h3>{anuncio.nome}</h3>
+
+              <p>{anuncio.descricao}</p>
+
+              <span className="anuncio-selo">
+                {anuncio.selo}
+              </span>
+            </div>
+
+            <div className="anuncio-rodape">
+              <span className="anuncio-demo">
+                Espaço para parceiro
+              </span>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p className="anuncios-aviso">
+        Anúncios demonstrativos. Lojas e parceiros reais poderão ser
+        cadastrados futuramente.
+      </p>
+    </section>
+  );
+}
+
+/* =========================================
+   TELA INICIAL
+========================================= */
 
 function Home() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   return (
-            <>
-                <header>
-                  <div className="logo">🏗️ ReformaJá</div>
-                    <nav className="nav-links">  
-                      <a onClick={() => navigate('/login')} className="btn-main-cliente" style={{ cursor: 'pointer' }}> Sou cliente</a>      
-                      <a onClick={() => navigate('/login')} className="btn-main" style={{ cursor: 'pointer' }}>Sou Profissional</a>
-                    </nav>
-                </header>
+    <>
+      <header>
+        <div className="logo">🏗️ ReformaJá</div>
 
-                <section className="hero">
-                  <h1>Transforme sua casa com profissionais de confiança</h1>
-                  <p>A plataforma que conecta sua obra aos melhores especialistas da sua região.</p>
-                  <br />
-                  <button 
-                    type="button" 
-                    id="btn-sol-orcamento1" 
-                    className="btn-sol-orcamento" 
-                    style={{ background: 'var(--accent)' }}
-                    onClick={() => navigate('/login')}
-                  > 
-                    Solicitar orçamento 
-                  </button>
-                  <div className="scroll-indicator">↓</div>
-                </section>
+        <nav className="nav-links">
+          <a
+            onClick={() => navigate('/login')}
+            className="btn-main-cliente"
+            style={{ cursor: 'pointer' }}
+          >
+            Sou cliente
+          </a>
 
-                {/* NOVO: grade de serviços agora logo após o hero */}
-                <ServicosGrid onSolicitar={() => navigate('/login')} />
+          <a
+            onClick={() => navigate('/login')}
+            className="btn-main"
+            style={{ cursor: 'pointer' }}
+          >
+            Sou Profissional
+          </a>
+        </nav>
+      </header>
 
-                {/* "Qualificações" desceu para junto de Dicas de contratação e Avaliações */}
-                <div className="container" id="modelo">
-                  <h2 style={{ textAlign: 'center' }}>Qualificações | Serviços Disponiveis</h2>
-                  <div className="grid">
-                    <div className="card">
-                      <h3>Nicho de Especialista</h3>
-                      <p>Contamos com profissionais treinados e altamente qualificados.</p>
-                      <p>Nossa equipe é credenciada junto aos órgãos federais competentes.</p>
-                    </div>
+      <section className="hero">
+        <h1>
+          Transforme sua casa com profissionais de confiança
+        </h1>
 
-                    <div className="card">
-                      <h3>Nicho de Serviços <span className="badge">Profissionais</span></h3>
-                      <ul>
-                        <li><strong>Soluções em pintura, elétrica, montagem e hidráulica, com profissionais altamente qualificados.</strong></li>
-                        <li><strong>Excelência em alvenaria, gesso, jardinagem e azulejaria, com acabamento profissional e qualidade.</strong></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>     
+        <p>
+          A plataforma que conecta sua obra aos melhores especialistas
+          da sua região.
+        </p>
 
-                {/* Mantido exatamente como no seu HTML original */}
-        
-                <div className="container" id="tecnologia" style={{ background: '#edf2f7' }}>
-                  <h2 style={{ textAlign: 'center' }}>Dicas de contratação & Dicas de Segurança</h2>
+        <br />
 
-                  <div className="grid">
-                    <div className="card">
-                      <h3>O que fazer se o chuveiro não esquentar</h3>
-                      <p><strong>Chuveiro não esquenta pode ti dar muita dor de cabeça: </strong> Mas nossos especialista tem a solucção para, contrate ja.</p>
-                    </div>
+        <button
+          type="button"
+          id="btn-sol-orcamento1"
+          className="btn-sol-orcamento"
+          style={{ background: 'var(--accent)' }}
+          onClick={() => navigate('/login')}
+        >
+          Solicitar orçamento
+        </button>
 
-                    <div className="card" id="seguranca">
-                      <h3>Dicas de segurança</h3>
-                      <p><strong>Como garantir a segurança na hora da contratação? </strong> Proteja seus dados no dia a dia e manter sua segurança para evitar cair em golpes.</p>
-                    </div>
-                  </div>
-                </div>
+        <div className="scroll-indicator">↓</div>
+      </section>
 
-                <div className="container">
-                  <h2 style={{ textAlign: 'center' }}>Avaliações</h2>
-                  <div className="grid">
-                    <div className="card">
-                      <h3>Profissional Avaliado</h3>
-                      <p><em>"otimo profissional, recomendo"</em></p>
-                    </div>
+      {/* QUADRINHOS ORIGINAIS DOS SERVIÇOS */}
+      <ServicosGrid onSolicitar={() => navigate('/login')} />
 
-                    <div className="card">
-                      <h3>Cliente Avaliado</h3>
-                      <p>otimo cliente</p>
-                    </div>
-                  </div>
-              </div> 
+      {/* NOVA ÁREA DE ANÚNCIOS */}
+      <AnunciosLojas />
 
-              <footer>
-                <p>&copy; 2024 ReformaJá - Conectando quem constrói com quem precisa.</p>
-              </footer> 
-            </>
-          )
-  }
+      <footer>
+        <p>
+          &copy; 2026 ReformaJá - Conectando quem constrói com quem precisa.
+        </p>
+      </footer>
+    </>
+  );
+}
 
+/* =========================================
+   ROTAS DO SISTEMA
+========================================= */
 
 export default function App() {
   return (
     <BrowserRouter>
       <Rotas Home={Home} />
     </BrowserRouter>
-  )
+  );
 }

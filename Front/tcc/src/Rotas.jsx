@@ -1,92 +1,55 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 
-import Login from './pages/Login'
-import Cadastro from './pages/Cadastro'
-import CadastroPrestador from './pages/Cadastro/CadastroPrestador'
-import PesquisaGeral from './pages/PesquisaGeral'
-import PesquisaDeletados from './pages/PesquisaDeletados'
-import Deletar from './pages/Deletar'
-import Atualizar from './pages/Atualizar'
-import Usuarios from './pages/Cadastro/Usuarios'
-import ClienteHome from './pages/Logados/ClienteLogado/ClienteHome'
-import Prestadores from './pages/Logados/ClienteLogado/Prestadores'
-import Pedidos from './pages/Logados/ClienteLogado/Pedidos'
-import PrestadorHome from './pages/Logados/PrestadorLogado/PrestadorHome'
-import EditarCliente from './pages/Logados/ClienteLogado/EditarCliente'
-import EditarPrestador from './pages/Logados/PrestadorLogado/EditarPrestador'
+import Login from './pages/Login';
+import Cadastro from './pages/Cadastro';
+import CadastroPrestador from './pages/Cadastro/CadastroPrestador';
+import PesquisaGeral from './pages/PesquisaGeral';
+import PesquisaDeletados from './pages/PesquisaDeletados';
+import Deletar from './pages/Deletar';
+import Atualizar from './pages/Atualizar';
+import Usuarios from './pages/Cadastro/Usuarios';
 
+import ClienteHome from './pages/Logados/ClienteLogado/ClienteHome';
+import Prestadores from './pages/Logados/ClienteLogado/Prestadores';
+import Pedidos from './pages/Logados/ClienteLogado/Pedidos';
 
+import PrestadorHome from './pages/Logados/PrestadorLogado/PrestadorHome';
+import EditarCliente from './pages/Logados/ClienteLogado/EditarCliente';
+import EditarPrestador from './pages/Logados/PrestadorLogado/EditarPrestador';
+
+import DashboardAdmin from './pages/Logados/Dashboard/DashboardAdmin';
+import DashboardPrestador from './pages/Logados/Dashboard/DashboardPrestador';
 
 export default function Rotas({ Home }) {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-
       <Route path="/login" element={<Login />} />
 
-      <Route
-        path="/PesquisaGeral"
-        element={<PesquisaGeral />}
-      />
+      <Route path="/PesquisaGeral" element={<PesquisaGeral />} />
+      <Route path="/PesquisaDeletados" element={<PesquisaDeletados />} />
 
-      <Route
-        path="/PesquisaDeletados"
-        element={<PesquisaDeletados />}
-      />
-
-      <Route
-        path="/cadastro/:tipo"
-        element={<Cadastro />}
-      />
-
+      <Route path="/cadastro/:tipo" element={<Cadastro />} />
       <Route
         path="/cadastro/prestador/:tipo"
         element={<CadastroPrestador />}
       />
+      <Route path="/usuarios/:tipo" element={<Usuarios />} />
 
-         <Route
-        path="/usuarios/:tipo"
-        element={<Usuarios />}
-      />
+      <Route path="/Logados" element={<ClienteHome />} />
+      <Route path="/editar-cliente" element={<EditarCliente />} />
 
-     <Route
-  path="/Logados"
-  element={<ClienteHome />}
-/>
+      <Route path="/prestador" element={<PrestadorHome />} />
+      <Route path="/editar-prestador" element={<EditarPrestador />} />
 
-<Route
-  path="/editar-cliente"
-  element={<EditarCliente />}
-/>
+      <Route path="/prestadores/:servico" element={<Prestadores />} />
+      <Route path="/pedidos/:idPrestador/:servico" element={<Pedidos />} />
 
-<Route 
-  path="/prestador" 
-  element={<PrestadorHome />} />
+      <Route path="/admin/dashboard" element={<DashboardAdmin />} />
+      <Route path="/prestador/dashboard" element={<DashboardPrestador />} />
 
-  <Route
-  path="/editar-prestador"
-  element={<EditarPrestador />}
-/>
-
-<Route
-  path="/prestadores/:servico"
-  element={<Prestadores />}
-/>
-
-<Route
-  path="/pedidos/:idPrestador/:servico"
-  element={<Pedidos />}
-/>
-
-      <Route
-        path="/deletar/:id"
-        element={<Deletar />}
-      />
-
-      <Route
-        path="/atualizar/:tipo/:id"
-        element={<Atualizar />}
-/>
+      <Route path="/deletar/:id" element={<Deletar />} />
+      <Route path="/atualizar/:tipo/:id" element={<Atualizar />} />
     </Routes>
-  )
+  );
 }

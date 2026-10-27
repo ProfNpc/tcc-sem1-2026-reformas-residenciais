@@ -1,220 +1,284 @@
 import './atualizar.css';
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from "react-router-dom";
-
-
+import { useParams, useNavigate } from 'react-router-dom';
 
 function Atualizar() {
-
   const { id, tipo } = useParams();
   const navigate = useNavigate();
 
   const [itemSelecionado, setItemSelecionado] = useState({
-    nome: "",
-    cpf: "",
-    telefone: "",
-    email: "",
-    endereco: ""
+    nome: '',
+    cpf: '',
+    telefone: '',
+    email: '',
+    endereco: '',
+    cep: '',
+    cnpj: '',
+    servico1: '',
+    servico2: '',
+    servico3: '',
+    informacoesComplementares: ''
   });
 
   const [loading, setLoading] = useState(true);
+  const [erro, setErro] = useState('');
 
-  // Define qual tabela/API consultar
-  const url = tipo === "prestador"
-    ? `http://127.0.0.1:8089/Prestador/Prestador/${id}`
+  const ehPrestador = tipo?.toLowerCase() === 'prestador';
+
+  const url = ehPrestador
+    ? `http://127.0.0.1:8089/Prestador/${id}`
     : `http://127.0.0.1:8089/Pessoa/${id}`;
 
   useEffect(() => {
+    const buscarCadastro = async () => {
+      setLoading(true);
+      setErro('');
 
-    fetch(url)
+      try {
+        const resposta = await fetch(url);
 
-      .then(resp => {
-
-        if (!resp.ok) {
-          throw new Error("Erro ao buscar cadastro");
+        if (!resposta.ok) {
+          throw new Error('Não foi possível buscar os dados do cadastro.');
         }
 
-        return resp.json();
+        const dados = await resposta.json();
 
-      })
-
-      .then(json => {
-
-        setItemSelecionado(json);
+        setItemSelecionado({
+          ...dados,
+          nome: dados.nome || '',
+          cpf: dados.cpf || '',
+          telefone: dados.telefone || '',
+          email: dados.email || '',
+          endereco: dados.endereco || '',
+          cep: dados.cep || '',
+          cnpj: dados.cnpj || '',
+          servico1: dados.servico1 || '',
+          servico2: dados.servico2 || '',
+          servico3: dados.servico3 || '',
+          informacoesComplementares:
+            dados.informacoesComplementares || ''
+        });
+      } catch (error) {
+        console.error('Erro ao buscar cadastro:', error);
+        setErro('Não foi possível carregar os dados. Verifique o cadastro e tente novamente.');
+      } finally {
         setLoading(false);
+      }
+    };
 
-      })
+    buscarCadastro();
+  }, [url]);
 
-      .catch(err => {
+  const alterarCampo = (campo, valor) => {
+    setItemSelecionado((anterior) => ({
+      ...anterior,
+      [campo]: valor
+    }));
+  };
 
-        console.error("Erro ao buscar cadastro:", err);
-        setLoading(false);
+  const atualizar = async (event) => {
+    event.preventDefault();
 
+    try {
+      const urlAtualizar = ehPrestador
+        ? `http://127.0.0.1:8089/Prestador/${id}`
+        : `http://127.0.0.1:8089/Pessoa/${id}`;
+
+      const resposta = await fetch(urlAtualizar, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(itemSelecionado)
       });
 
-  }, [id, tipo]);
+      if (!resposta.ok) {
+        throw new Error('Não foi possível atualizar o cadastro.');
+      }
 
-  const atualizar = () => {
-
-    const urlAtualizar = tipo === "prestador"
-      ? `http://127.0.0.1:8089/Prestador/${id}`
-      : `http://127.0.0.1:8089/Pessoa/${id}`;
-
-    fetch(urlAtualizar, {
-
-      method: 'PUT',
-
-      headers: {
-        'Content-Type': 'application/json'
-      },
-
-      body: JSON.stringify(itemSelecionado)
-
-    })
-
-      .then(resp => {
-
-        if (!resp.ok) {
-          throw new Error("Erro ao atualizar");
-        }
-
-        alert(
-          tipo === "prestador"
-            ? "Prestador atualizado com sucesso!"
-            : "Pessoa atualizada com sucesso!"
-        );
-
-        navigate("/PesquisaGeral");
-
-      })
-
-      .catch(err =>
-        console.error("Erro ao atualizar:", err)
+      alert(
+        ehPrestador
+          ? 'Prestador atualizado com sucesso!'
+          : 'Cliente atualizado com sucesso!'
       );
 
+      navigate('/PesquisaGeral');
+    } catch (error) {
+      console.error('Erro ao atualizar:', error);
+      alert('Não foi possível atualizar o cadastro. Tente novamente.');
+    }
   };
 
   if (loading) {
-    return <p>Carregando...</p>;
+    return <p>Carregando dados do cadastro...</p>;
+  }
+
+  if (erro) {
+    return (
+      <main className="atualizar">
+        <h2>Erro ao carregar cadastro</h2>
+        <p>{erro}</p>
+
+        <button type="button" onClick={() => navigate(-1)}>
+          Voltar
+        </button>
+      </main>
+    );
   }
 
   return (
-
     <main className="atualizar">
-
       <div className="container-form">
-
         <h2>
-          Atualizar {tipo === "prestador" ? "Prestador" : "Cliente"}
+          Atualizar {ehPrestador ? 'Prestador' : 'Cliente'}
         </h2>
-
       </div>
 
-      <table>
+      <form onSubmit={atualizar}>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <label htmlFor="nome">Nome:</label>
+                <input
+                  id="nome"
+                  type="text"
+                  value={itemSelecionado.nome}
+                  onChange={(e) => alterarCampo('nome', e.target.value)}
+                  required
+                />
+              </td>
 
-        <tbody>
+              <td>
+                <label htmlFor="cpf">CPF:</label>
+                <input
+                  id="cpf"
+                  type="text"
+                  value={itemSelecionado.cpf}
+                  onChange={(e) => alterarCampo('cpf', e.target.value)}
+                />
+              </td>
 
-          <tr>
+              <td>
+                <label htmlFor="telefone">Telefone:</label>
+                <input
+                  id="telefone"
+                  type="text"
+                  value={itemSelecionado.telefone}
+                  onChange={(e) => alterarCampo('telefone', e.target.value)}
+                />
+              </td>
 
-            <td>
+              <td>
+                <label htmlFor="email">Email:</label>
+                <input
+                  id="email"
+                  type="email"
+                  value={itemSelecionado.email}
+                  onChange={(e) => alterarCampo('email', e.target.value)}
+                />
+              </td>
 
-              <label>Nome:</label>
+              <td>
+                <label htmlFor="endereco">Endereço:</label>
+                <input
+                  id="endereco"
+                  type="text"
+                  value={itemSelecionado.endereco}
+                  onChange={(e) => alterarCampo('endereco', e.target.value)}
+                />
+              </td>
+            </tr>
 
-              <input
-                value={itemSelecionado.nome || ""}
-                onChange={(e) =>
-                  setItemSelecionado({
-                    ...itemSelecionado,
-                    nome: e.target.value
-                  })
-                }
-              />
+            {ehPrestador && (
+              <>
+                <tr>
+                  <td>
+                    <label htmlFor="cep">CEP:</label>
+                    <input
+                      id="cep"
+                      type="text"
+                      value={itemSelecionado.cep}
+                      onChange={(e) => alterarCampo('cep', e.target.value)}
+                    />
+                  </td>
 
-            </td>
+                  <td>
+                    <label htmlFor="cnpj">CNPJ:</label>
+                    <input
+                      id="cnpj"
+                      type="text"
+                      value={itemSelecionado.cnpj}
+                      onChange={(e) => alterarCampo('cnpj', e.target.value)}
+                    />
+                  </td>
 
-            <td>
+                  <td>
+                    <label htmlFor="servico1">Serviço 1:</label>
+                    <input
+                      id="servico1"
+                      type="text"
+                      value={itemSelecionado.servico1}
+                      onChange={(e) => alterarCampo('servico1', e.target.value)}
+                    />
+                  </td>
 
-              <label>CPF:</label>
+                  <td>
+                    <label htmlFor="servico2">Serviço 2:</label>
+                    <input
+                      id="servico2"
+                      type="text"
+                      value={itemSelecionado.servico2}
+                      onChange={(e) => alterarCampo('servico2', e.target.value)}
+                    />
+                  </td>
 
-              <input
-                value={itemSelecionado.cpf || ""}
-                onChange={(e) =>
-                  setItemSelecionado({
-                    ...itemSelecionado,
-                    cpf: e.target.value
-                  })
-                }
-              />
+                  <td>
+                    <label htmlFor="servico3">Serviço 3:</label>
+                    <input
+                      id="servico3"
+                      type="text"
+                      value={itemSelecionado.servico3}
+                      onChange={(e) => alterarCampo('servico3', e.target.value)}
+                    />
+                  </td>
+                </tr>
 
-            </td>
+                <tr>
+                  <td colSpan="5">
+                    <label htmlFor="informacoesComplementares">
+                      Informações complementares:
+                    </label>
 
-            <td>
+                    <textarea
+                      id="informacoesComplementares"
+                      value={itemSelecionado.informacoesComplementares}
+                      onChange={(e) =>
+                        alterarCampo('informacoesComplementares', e.target.value)
+                      }
+                      rows="4"
+                    />
+                  </td>
+                </tr>
+              </>
+            )}
+          </tbody>
+        </table>
 
-              <label>Telefone:</label>
+        <br />
 
-              <input
-                value={itemSelecionado.telefone || ""}
-                onChange={(e) =>
-                  setItemSelecionado({
-                    ...itemSelecionado,
-                    telefone: e.target.value
-                  })
-                }
-              />
+        <button type="submit">
+          Atualizar
+        </button>
 
-            </td>
-
-            <td>
-
-              <label>Email:</label>
-
-              <input
-                value={itemSelecionado.email || ""}
-                onChange={(e) =>
-                  setItemSelecionado({
-                    ...itemSelecionado,
-                    email: e.target.value
-                  })
-                }
-              />
-
-            </td>
-
-            <td>
-
-              <label>Endereço:</label>
-
-              <input
-                value={itemSelecionado.endereco || ""}
-                onChange={(e) =>
-                  setItemSelecionado({
-                    ...itemSelecionado,
-                    endereco: e.target.value
-                  })
-                }
-              />
-
-            </td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
-
-      <br />
-
-      <button onClick={atualizar}>
-        Atualizar
-      </button>
-
-      <button
-        className='btn-cancelarAtu'
-        onClick={() => navigate(-1)}
-      >
-        Cancelar
-      </button>
-
+        <button
+          type="button"
+          className="btn-cancelarAtu"
+          onClick={() => navigate(-1)}
+        >
+          Cancelar
+        </button>
+      </form>
     </main>
   );
 }
