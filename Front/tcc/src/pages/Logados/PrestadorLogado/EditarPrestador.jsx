@@ -195,7 +195,7 @@ function EditarPrestador() {
         'Dados atualizados com sucesso!'
       );
 
-      navigate('/Logados');
+      navigate('/prestador');
 
     } catch (error) {
 

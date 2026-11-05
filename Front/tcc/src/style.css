@@ -998,3 +998,57 @@ footer {
     font-size: 19px;
   }
 }
+
+
+/* Destaque especial para o Depósito ConstruMais */
+
+.anuncio-materiais {
+  border: 2px solid #16a34a;
+  box-shadow: 0 8px 25px rgba(22, 163, 74, 0.18);
+  position: relative;
+}
+
+.anuncio-materiais .anuncio-ilustracao {
+  background: linear-gradient(135deg, #bbf7d0, #4ade80);
+}
+
+.anuncio-materiais .anuncio-conteudo h3 {
+  color: #166534;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.anuncio-materiais .anuncio-conteudo p {
+  color: #263b2c;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.anuncio-materiais .anuncio-selo {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #15803d;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(21, 128, 61, 0.2);
+}
+
+.anuncio-materiais .anuncio-rodape {
+  background: #f0fdf4;
+  border-top: 1px solid #bbf7d0;
+}
+
+.anuncio-materiais .anuncio-demo {
+  color: #166534;
+  font-weight: 700;
+}
+
+.anuncio-materiais:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(22, 163, 74, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}

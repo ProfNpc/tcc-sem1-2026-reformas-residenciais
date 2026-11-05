@@ -267,12 +267,13 @@ const ANUNCIOS = [
   {
     id: 1,
     categoria: 'MATERIAIS DE CONSTRUÇÃO',
-    nome: 'Depósitos de materiais',
-    descricao:
-      'Cimento, areia, pedra, tijolos e materiais para sua obra.',
-    emoji: '🧱',
-    classe: 'anuncio-materiais',
-    selo: 'Sua obra começa aqui',
+    nome: 'Depósito ConstruMais',
+   descricao:
+  'Prestadores cadastrados no ReformaJá têm acesso a uma promoção especial em cimento, areia, tijolos e outros materiais. Apresente um pedido do ReformaJá no depósito e consulte as condições!',
+
+emoji: '🧱',
+classe: 'anuncio-materiais',
+selo: '🎉 DESCONTO EXCLUSIVO PARA PRESTADORES',
   },
   {
     id: 2,
@@ -337,7 +338,10 @@ function AnunciosLojas() {
 
             <div className="anuncio-rodape">
               <span className="anuncio-demo">
-                Espaço para parceiro
+                {anuncio.id === 1
+                  ? <p>APROVEITE PRESTADOR <br></br><br></br>
+                     Rua 2 S/N Barueri </p>
+                  : 'Espaço para parceiro'}
               </span>
             </div>
           </article>
@@ -345,8 +349,7 @@ function AnunciosLojas() {
       </div>
 
       <p className="anuncios-aviso">
-        Anúncios demonstrativos. Lojas e parceiros reais poderão ser
-        cadastrados futuramente.
+        
       </p>
     </section>
   );
@@ -411,7 +414,7 @@ function Home() {
       {/* QUADRINHOS ORIGINAIS DOS SERVIÇOS */}
       <ServicosGrid onSolicitar={() => navigate('/login')} />
 
-      {/* NOVA ÁREA DE ANÚNCIOS */}
+      {/* ANÚNCIOS DE LOJAS */}
       <AnunciosLojas />
 
       <footer>
