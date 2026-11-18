@@ -195,22 +195,30 @@ function ClienteHome() {
             </button>
 
             {menuAberto && (
+  <div className="menu-dropdown">
 
-              <div className="menu-dropdown">
+    <button
+      type="button"
+      onClick={() => {
+        setMenuAberto(false);
+        navigate('/editar-cliente');
+      }}
+    >
+      ✏️ Editar cliente
+    </button>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMenuAberto(false);
-                    navigate('/editar-cliente');
-                  }}
-                >
-                  ✏️ Editar meus dados
-                </button>
+    <button
+      type="button"
+      onClick={() => {
+        setMenuAberto(false);
+        navigate('/alterar-senha');
+      }}
+    >
+      🔒 Alterar senha
+    </button>
 
-              </div>
-
-            )}
+  </div>
+)}
 
           </div>
 

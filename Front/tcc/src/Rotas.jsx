@@ -1,8 +1,11 @@
+
 import { Routes, Route } from 'react-router-dom';
 
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
 import CadastroPrestador from './pages/Cadastro/CadastroPrestador';
+import CadastroAdmin from './pages/Cadastro/CadastroAdmin';
+
 import PesquisaGeral from './pages/PesquisaGeral';
 import PesquisaDeletados from './pages/PesquisaDeletados';
 import Deletar from './pages/Deletar';
@@ -15,10 +18,12 @@ import Pedidos from './pages/Logados/ClienteLogado/Pedidos';
 
 import PrestadorHome from './pages/Logados/PrestadorLogado/PrestadorHome';
 import EditarCliente from './pages/Logados/ClienteLogado/EditarCliente';
+import AlterarSenha from './pages/Logados/ClienteLogado/AlterarSenha';
 import EditarPrestador from './pages/Logados/PrestadorLogado/EditarPrestador';
 
 import DashboardAdmin from './pages/Logados/Dashboard/DashboardAdmin';
 import DashboardPrestador from './pages/Logados/Dashboard/DashboardPrestador';
+import Administradores from './pages/Logados/Dashboard/Administradores';
 
 export default function Rotas({ Home }) {
   return (
@@ -30,14 +35,19 @@ export default function Rotas({ Home }) {
       <Route path="/PesquisaDeletados" element={<PesquisaDeletados />} />
 
       <Route path="/cadastro/:tipo" element={<Cadastro />} />
-      <Route
-        path="/cadastro/prestador/:tipo"
-        element={<CadastroPrestador />}
-      />
+      <Route path="/cadastro/prestador/:tipo" element={<CadastroPrestador />} />
+      <Route path="/cadastro-admin" element={<CadastroAdmin />} />
       <Route path="/usuarios/:tipo" element={<Usuarios />} />
 
       <Route path="/Logados" element={<ClienteHome />} />
       <Route path="/editar-cliente" element={<EditarCliente />} />
+
+      
+    <Route path="/alterar-senha" element={<AlterarSenha />} />
+
+
+
+
 
       <Route path="/prestador" element={<PrestadorHome />} />
       <Route path="/editar-prestador" element={<EditarPrestador />} />
@@ -45,7 +55,11 @@ export default function Rotas({ Home }) {
       <Route path="/prestadores/:servico" element={<Prestadores />} />
       <Route path="/pedidos/:idPrestador/:servico" element={<Pedidos />} />
 
+      {/* ADMINISTRADOR */}
       <Route path="/admin/dashboard" element={<DashboardAdmin />} />
+      <Route path="/admin/administradores" element={<Administradores />} />
+
+      {/* DASHBOARD PRESTADOR */}
       <Route path="/prestador/dashboard" element={<DashboardPrestador />} />
 
       <Route path="/deletar/:id" element={<Deletar />} />

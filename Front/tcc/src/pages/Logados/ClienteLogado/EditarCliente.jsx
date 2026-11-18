@@ -7,13 +7,8 @@ function EditarCliente() {
 
   const navigate = useNavigate();
 
-  const usuarioSalvo =
-    localStorage.getItem('usuarioLogado');
-
-  const usuario =
-    usuarioSalvo
-      ? JSON.parse(usuarioSalvo)
-      : null;
+  const usuarioSalvo = localStorage.getItem('usuarioLogado');
+  const usuario = usuarioSalvo ? JSON.parse(usuarioSalvo) : null;
 
   const [formulario, setFormulario] = useState({
     nome: '',
@@ -38,17 +33,14 @@ function EditarCliente() {
 
       try {
 
-        const idCliente =
-          usuario.idCliente ?? usuario.id;
+        const idCliente = usuario.idCliente ?? usuario.id;
 
         const resposta = await fetch(
           `http://127.0.0.1:8089/Pessoa/${idCliente}`
         );
 
         if (!resposta.ok) {
-          throw new Error(
-            'Não foi possível carregar os dados do cliente.'
-          );
+          throw new Error('Não foi possível carregar os dados do cliente.');
         }
 
         const pessoa = await resposta.json();
@@ -64,14 +56,8 @@ function EditarCliente() {
 
       } catch (error) {
 
-        console.error(
-          'Erro ao buscar cliente:',
-          error
-        );
-
-        alert(
-          'Não foi possível carregar seus dados.'
-        );
+        console.error('Erro ao buscar cliente:', error);
+        alert('Não foi possível carregar seus dados.');
 
       } finally {
 
@@ -104,8 +90,7 @@ function EditarCliente() {
 
       setSalvando(true);
 
-      const idCliente =
-        usuario.idCliente ?? usuario.id;
+      const idCliente = usuario.idCliente ?? usuario.id;
 
       const dadosParaEnviar = {
         nome: formulario.nome,
@@ -116,7 +101,7 @@ function EditarCliente() {
         email: formulario.email
       };
 
-      const resposta = await fetch(
+      const respostaPessoa = await fetch(
         `http://127.0.0.1:8089/Pessoa/${idCliente}`,
         {
           method: 'PUT',
@@ -127,19 +112,16 @@ function EditarCliente() {
         }
       );
 
-      if (!resposta.ok) {
-        throw new Error(
-          'Não foi possível atualizar os dados.'
-        );
+      if (!respostaPessoa.ok) {
+        throw new Error('Não foi possível atualizar os dados pessoais.');
       }
 
-      const pessoaAtualizada =
-        await resposta.json();
+      const pessoaAtualizada = await respostaPessoa.json();
 
-      // Atualiza somente os dados do cliente no login
       const usuarioAtualizado = {
         ...usuario,
-        nome: pessoaAtualizada.nome
+        nome: pessoaAtualizada.nome,
+        email: pessoaAtualizada.email
       };
 
       localStorage.setItem(
@@ -147,22 +129,15 @@ function EditarCliente() {
         JSON.stringify(usuarioAtualizado)
       );
 
-      alert(
-        'Seus dados foram atualizados com sucesso!'
-      );
+      alert('Seus dados foram atualizados com sucesso!');
 
       navigate('/Logados');
 
     } catch (error) {
 
-      console.error(
-        'Erro ao atualizar cliente:',
-        error
-      );
+      console.error('Erro ao atualizar cliente:', error);
 
-      alert(
-        'Não foi possível atualizar seus dados.'
-      );
+      alert(error.message || 'Não foi possível atualizar seus dados.');
 
     } finally {
 
@@ -195,9 +170,7 @@ function EditarCliente() {
 
         <div className="editar-cliente-header">
 
-          <h1>
-            Editar meus dados
-          </h1>
+          <h1>Editar meus dados</h1>
 
           <p>
             Atualize seus dados de cadastro.
@@ -208,10 +181,7 @@ function EditarCliente() {
         <form onSubmit={salvar}>
 
           <div className="campo-edicao">
-
-            <label>
-              Nome
-            </label>
+            <label>Nome</label>
 
             <input
               type="text"
@@ -220,14 +190,10 @@ function EditarCliente() {
               onChange={alterarCampo}
               required
             />
-
           </div>
 
           <div className="campo-edicao">
-
-            <label>
-              CPF
-            </label>
+            <label>CPF</label>
 
             <input
               type="text"
@@ -239,14 +205,10 @@ function EditarCliente() {
             <small>
               O CPF não pode ser alterado.
             </small>
-
           </div>
 
           <div className="campo-edicao">
-
-            <label>
-              CEP
-            </label>
+            <label>CEP</label>
 
             <input
               type="text"
@@ -255,14 +217,10 @@ function EditarCliente() {
               onChange={alterarCampo}
               required
             />
-
           </div>
 
           <div className="campo-edicao">
-
-            <label>
-              Telefone
-            </label>
+            <label>Telefone</label>
 
             <input
               type="text"
@@ -270,14 +228,10 @@ function EditarCliente() {
               value={formulario.telefone}
               onChange={alterarCampo}
             />
-
           </div>
 
           <div className="campo-edicao">
-
-            <label>
-              Endereço
-            </label>
+            <label>Endereço</label>
 
             <input
               type="text"
@@ -285,22 +239,18 @@ function EditarCliente() {
               value={formulario.endereco}
               onChange={alterarCampo}
             />
-
           </div>
 
           <div className="campo-edicao">
-
-            <label>
-              E-mail
-            </label>
+            <label>E-mail</label>
 
             <input
               type="email"
               name="email"
               value={formulario.email}
               onChange={alterarCampo}
+              required
             />
-
           </div>
 
           <div className="botoes-edicao">
@@ -308,9 +258,7 @@ function EditarCliente() {
             <button
               type="button"
               className="botao-cancelar"
-              onClick={() =>
-                navigate('/Logados')
-              }
+              onClick={() => navigate('/Logados')}
               disabled={salvando}
             >
               Cancelar
@@ -321,9 +269,7 @@ function EditarCliente() {
               className="botao-salvar"
               disabled={salvando}
             >
-              {salvando
-                ? 'Salvando...'
-                : 'Salvar alterações'}
+              {salvando ? 'Salvando...' : 'Salvar alterações'}
             </button>
 
           </div>

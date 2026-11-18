@@ -1,0 +1,101 @@
+
+.alterar-senha {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+  background: #f4f6f9;
+}
+
+.alterar-senha-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 35px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+}
+
+.alterar-senha-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.alterar-senha-header h1 {
+  color: #263746;
+  margin-bottom: 10px;
+}
+
+.alterar-senha-header p {
+  color: #666;
+  font-size: 14px;
+}
+
+.campo-senha {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.campo-senha label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.campo-senha input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.campo-senha input:focus {
+  outline: none;
+  border-color: #26734d;
+}
+
+.botoes-senha {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.botoes-senha button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.botoes-senha .botao-cancelar {
+  background: #ddd;
+  color: #333;
+}
+
+.botoes-senha .botao-salvar {
+  background: #26734d;
+  color: white;
+}
+
+.botoes-senha button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .alterar-senha-card {
+    padding: 25px 18px;
+  }
+
+  .botoes-senha {
+    flex-direction: column;
+  }
+}

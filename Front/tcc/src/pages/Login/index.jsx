@@ -1,76 +1,126 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import './stylelogin.css'
 
-import Footer from '../../components/footer'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './stylelogin.css';
 
-function index() {
-  const [tipo, setTipo] = useState('cliente')
-  const [usuario, setUsuario] = useState('')
-  const [senha, setSenha] = useState('')
+import Footer from '../../components/footer';
 
-  const navigate = useNavigate()
+function Login() {
+  const [tipo, setTipo] = useState('cliente');
+  const [usuario, setUsuario] = useState('');
+  const [senha, setSenha] = useState('');
+
+  const navigate = useNavigate();
 
   // BUSCA OS DADOS DO CADASTRO
   async function buscarCadastro(usuarioEncontrado, tipo) {
     if (tipo === 'cliente') {
       const responsePessoa = await fetch(
         'http://127.0.0.1:8089/Pessoa'
-      )
+      );
 
       if (!responsePessoa.ok) {
-        throw new Error('Erro ao consultar dados do cliente')
+        throw new Error('Erro ao consultar dados do cliente');
       }
 
-      const pessoas = await responsePessoa.json()
+      const pessoas = await responsePessoa.json();
 
       return pessoas.find(
         (item) => item.id === usuarioEncontrado.idCliente
-      )
+      );
     }
 
     const responsePrestador = await fetch(
       'http://127.0.0.1:8089/Prestador'
-    )
+    );
 
     if (!responsePrestador.ok) {
-      throw new Error('Erro ao consultar dados do prestador')
+      throw new Error('Erro ao consultar dados do prestador');
     }
 
-    const prestadores = await responsePrestador.json()
+    const prestadores = await responsePrestador.json();
 
     return prestadores.find(
       (item) => item.id === usuarioEncontrado.idPrestador
-    )
+    );
   }
 
-  // LOGIN
-  async function handleLogin(e) {
-    e.preventDefault()
+  // LOGIN DO ADMINISTRADOR
+  async function loginAdministrador() {
+    // ADMINISTRADOR PRINCIPAL
+    if (
+      usuario.trim().toLowerCase() === 'admin' &&
+      senha === 'refores'
+    ) {
+      const usuarioLogado = {
+        tipoUsuario: 'adm',
+        nome: 'Administrador',
+        email: 'admin'
+      };
 
-    // LOGIN DO ADMINISTRADOR
-    if (tipo === 'adm') {
-      if (usuario === 'admin' && senha === 'refores') {
-        const usuarioLogado = {
-          tipoUsuario: 'adm',
-          nome: 'Administrador'
-        }
+      localStorage.setItem(
+        'usuarioLogado',
+        JSON.stringify(usuarioLogado)
+      );
 
-        localStorage.setItem(
-          'usuarioLogado',
-          JSON.stringify(usuarioLogado)
-        )
-
-        navigate('/admin/dashboard')
-        return
-      }
-
-      alert('Usuário ou senha inválidos')
-      return
+      navigate('/admin/dashboard');
+      return;
     }
 
+    // LOGIN DOS ADMINISTRADORES CADASTRADOS NO BANCO
+    const response = await fetch(
+      'http://127.0.0.1:8089/Admin/login',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: usuario.trim(),
+          senha: senha
+        })
+      }
+    );
+
+    if (!response.ok) {
+      const mensagem = await response.text();
+
+      alert(mensagem || 'E-mail ou senha do administrador inválidos.');
+      return;
+    }
+
+    const administrador = await response.json();
+
+    // SALVA A SESSÃO DO ADMINISTRADOR
+    const usuarioLogado = {
+      id: administrador.id,
+      tipoUsuario: 'adm',
+      nome: administrador.nome,
+      email: administrador.email
+    };
+
+    localStorage.setItem(
+      'usuarioLogado',
+      JSON.stringify(usuarioLogado)
+    );
+
+    alert('Login realizado com sucesso!');
+
+    navigate('/admin/dashboard');
+  }
+
+  // LOGIN GERAL
+  async function handleLogin(e) {
+    e.preventDefault();
+
     try {
-      // LOGIN COM BACKEND + BCrypt
+      // ADMINISTRADOR
+      if (tipo === 'adm') {
+        await loginAdministrador();
+        return;
+      }
+
+      // LOGIN DE CLIENTE E PRESTADOR
       const responseLogin = await fetch(
         'http://127.0.0.1:8089/Usuarios/login',
         {
@@ -83,43 +133,40 @@ function index() {
             senhaCriada: senha
           })
         }
-      )
+      );
 
-      // LOGIN INVÁLIDO
       if (!responseLogin.ok) {
-        const mensagem = await responseLogin.text()
+        const mensagem = await responseLogin.text();
 
-        alert(mensagem || 'Usuário ou senha inválidos')
-        return
+        alert(mensagem || 'Usuário ou senha inválidos');
+        return;
       }
 
-      // USUÁRIO RETORNADO PELO BACKEND
-      const usuarioEncontrado = await responseLogin.json()
+      const usuarioEncontrado = await responseLogin.json();
 
-      // VERIFICA O TIPO
       const tipoEsperado =
-        tipo === 'cliente' ? 'cliente' : 'prestador'
+        tipo === 'cliente' ? 'cliente' : 'prestador';
 
       if (
-        usuarioEncontrado.tipoUsuario !== tipoEsperado
+        String(usuarioEncontrado.tipoUsuario).toLowerCase() !==
+        tipoEsperado
       ) {
-        alert('Usuário não pertence ao tipo selecionado')
-        return
+        alert('Usuário não pertence ao tipo selecionado');
+        return;
       }
 
       // BUSCA OS DADOS DO CADASTRO
       const cadastroAtual = await buscarCadastro(
         usuarioEncontrado,
         tipo
-      )
+      );
 
-      // VERIFICA SE O CADASTRO FOI ENCONTRADO
       if (!cadastroAtual) {
-        alert('Usuário encontrado, mas cadastro não localizado.')
-        return
+        alert('Usuário encontrado, mas cadastro não localizado.');
+        return;
       }
 
-      // CRIA O USUÁRIO LOGADO
+      // CRIA A SESSÃO
       const usuarioLogado = {
         usuarioId: usuarioEncontrado.id,
 
@@ -132,28 +179,30 @@ function index() {
         nome: cadastroAtual.nome,
         email: cadastroAtual.email,
         telefone: cadastroAtual.telefone
-      }
+      };
 
-      // SALVA NO LOCAL STORAGE
       localStorage.setItem(
         'usuarioLogado',
         JSON.stringify(usuarioLogado)
-      )
+      );
 
-      console.log('Usuário logado:', usuarioLogado)
+      console.log('Usuário logado:', usuarioLogado);
 
-      // LOGIN REALIZADO
-      alert('Login realizado com sucesso!')
+      alert('Login realizado com sucesso!');
 
-      // DIRECIONAMENTO
+      // REDIRECIONAMENTO
       if (tipo === 'cliente') {
-        navigate('/Logados')
+        navigate('/Logados');
       } else {
-        navigate('/prestador')
+        navigate('/prestador');
       }
+
     } catch (error) {
-      console.error('Erro no login:', error)
-      alert('Erro ao realizar login')
+      console.error('Erro no login:', error);
+
+      alert(
+        'Erro ao realizar login. Verifique se o servidor está funcionando.'
+      );
     }
   }
 
@@ -196,6 +245,7 @@ function index() {
 
       {/* CAIXA LOGIN */}
       <div className="login-container">
+
         {/* LOGO */}
         <div className="logo">
           <span className="logo-icon">🏗️</span>
@@ -204,6 +254,7 @@ function index() {
 
         {/* TABS */}
         <div className="tabs">
+
           <button
             type="button"
             className={`tab ${tipo === 'cliente' ? 'active' : ''}`}
@@ -227,10 +278,12 @@ function index() {
           >
             SOU ADMINISTRADOR
           </button>
+
         </div>
 
         {/* FORMULÁRIO */}
         <div className="form-content">
+
           <div className="header-text">
             {tipo === 'cliente' ? (
               <>
@@ -255,6 +308,7 @@ function index() {
           </div>
 
           <form onSubmit={handleLogin}>
+
             <div className="input-group">
               <label>E-MAIL OU USUARIO</label>
 
@@ -286,6 +340,7 @@ function index() {
                 ? 'ACESSAR PAINEL'
                 : 'GERENCIAR O SISTEMA'}
             </button>
+
           </form>
 
           {/* CADASTRO DE CLIENTE */}
@@ -340,14 +395,14 @@ function index() {
             </nav>
           )}
 
-          {/* FOOTER */}
           <div className="footer"></div>
+
         </div>
       </div>
 
       <Footer />
     </div>
-  )
+  );
 }
 
-export default index
+export default Login;

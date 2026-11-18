@@ -294,6 +294,16 @@ function PrestadorHome() {
                   ✏️ Editar meus dados
                 </button>
 
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuAberto(false);
+                    navigate('/alterar-senha');
+                    }}
+                  >
+                    🔒 Alterar senha
+</button>
+
               </div>
             )}
 

@@ -417,11 +417,24 @@ function Home() {
       {/* ANÚNCIOS DE LOJAS */}
       <AnunciosLojas />
 
-      <footer>
-        <p>
-          &copy; 2026 ReformaJá - Conectando quem constrói com quem precisa.
-        </p>
-      </footer>
+  <footer>
+  <p>
+    &copy; 2026 ReformaJá - Conectando quem constrói com quem precisa.
+  </p>
+
+  <a
+    href="#"
+    className="link-ajuda"
+    onClick={(event) => {
+      event.preventDefault();
+      alert(
+        'Precisa de ajuda?\n\nEntre em contato conosco pelo e-mail:\n\nreformas@reformas.com.br\n\nResposta em até 3 dias'
+      );
+    }}
+  >
+    Precisa de ajuda? Clique aqui
+  </a>
+</footer>
     </>
   );
 }

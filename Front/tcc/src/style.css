@@ -1052,3 +1052,30 @@ footer {
   box-shadow: 0 12px 30px rgba(22, 163, 74, 0.25);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+.link-ajuda {
+  display: inline-block;
+  margin-top: 8px;
+  color: #26734d;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.link-ajuda:hover {
+  color: #1b5035;
+  text-decoration: underline;
+}
+
+.link-ajuda {
+  display: inline-block;
+  margin-top: 8px;
+  color: #26734d;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.link-ajuda:hover {
+  color: #1b5035;
+  text-decoration: underline;
+}

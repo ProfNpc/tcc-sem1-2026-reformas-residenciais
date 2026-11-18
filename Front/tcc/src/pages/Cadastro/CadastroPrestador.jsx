@@ -288,7 +288,7 @@ function CadastroPrestador() {
                   endereco: e.target.value
                 })
               }
-              placeholder="Endereço"
+              placeholder="Logradouro"
             />
           </div>
 

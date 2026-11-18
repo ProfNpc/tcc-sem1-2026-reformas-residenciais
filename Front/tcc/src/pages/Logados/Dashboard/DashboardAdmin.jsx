@@ -1,93 +1,15 @@
-import { useEffect, useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
 const API = 'http://127.0.0.1:8089';
 
-function Cartao({ titulo, valor }) {
-  return (
-    <div className="dash-card">
-      <span className="dash-card-title">{titulo}</span>
-      <strong className="dash-card-value">
-        {valor ?? 0}
-      </strong>
-    </div>
-  );
-}
-
-function GraficoBarras({ titulo, dados = [] }) {
-  const maior = Math.max(
-    1,
-    ...dados.map(item => Number(item.total) || 0)
-  );
-
-  return (
-    <section className="dash-panel">
-      <h2>{titulo}</h2>
-
-      {dados.length === 0 ? (
-        <p className="dash-empty">Ainda não existem dados para exibir.</p>
-      ) : (
-        <div className="dash-bars">
-          {dados.map((item, index) => (
-            <div className="dash-bar-item" key={`${item.label}-${index}`}>
-              <div className="dash-bar-heading">
-                <span>{item.label}</span>
-                <strong>{item.total}</strong>
-              </div>
-
-              <div className="dash-bar-track">
-                <div
-                  className="dash-bar-fill"
-                  style={{
-                    width: `${(Number(item.total) / maior) * 100}%`
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </section>
-  );
-}
-
-function TabelaRanking({ dados = [] }) {
-  return (
-    <section className="dash-panel">
-      <h2>Prestadores mais solicitados</h2>
-
-      {dados.length === 0 ? (
-        <p className="dash-empty">Ainda não existem pedidos atribuídos a prestadores.</p>
-      ) : (
-        <div className="dash-table-wrapper">
-          <table className="dash-table">
-            <thead>
-              <tr>
-                <th>Posição</th>
-                <th>Prestador</th>
-                <th>Pedidos</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dados.map((item, index) => (
-                <tr key={item.idPrestador}>
-                  <td>{index + 1}º</td>
-                  <td>{item.nome}</td>
-                  <td>{item.total}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </section>
-  );
-}
-
 export default function DashboardAdmin() {
   const navigate = useNavigate();
-  const [dados, setDados] = useState(null);
+
+  const [dados, setDados] = useState({});
+  const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState('');
 
   useEffect(() => {
@@ -95,111 +17,345 @@ export default function DashboardAdmin() {
       localStorage.getItem('usuarioLogado') || 'null'
     );
 
-    if (!usuario || !['adm', 'administrador'].includes(
-      String(usuario.tipoUsuario).toLowerCase()
-    )) {
+    const tipo = String(usuario?.tipoUsuario || '').toLowerCase();
+
+    if (!usuario || !['adm', 'administrador'].includes(tipo)) {
       navigate('/login', { replace: true });
       return;
     }
 
-    let ativo = true;
-
-    async function carregarDashboard() {
-      try {
-        const response = await fetch(`${API}/Dashboard/admin`);
-
-        if (!response.ok) {
-          throw new Error('Não foi possível carregar os indicadores.');
-        }
-
-        const resultado = await response.json();
-
-        if (ativo) {
-          setDados(resultado);
-          setErro('');
-        }
-      } catch (error) {
-        if (ativo) {
-          setErro(error.message || 'Erro ao carregar o dashboard.');
-        }
-      }
-    }
-
     carregarDashboard();
-
-    return () => {
-      ativo = false;
-    };
   }, [navigate]);
 
-  function sair() {
-    localStorage.removeItem('usuarioLogado');
-    navigate('/login');
+  async function carregarDashboard() {
+    try {
+      setCarregando(true);
+      setErro('');
+
+      const resposta = await fetch(`${API}/Dashboard/admin`);
+
+      if (!resposta.ok) {
+        throw new Error('Não foi possível carregar os dados do dashboard.');
+      }
+
+      const resultado = await resposta.json();
+      setDados(resultado || {});
+    } catch (error) {
+      setErro(error.message || 'Erro ao carregar dashboard.');
+    } finally {
+      setCarregando(false);
+    }
   }
 
-  if (erro && !dados) {
+  function sair() {
+    const confirmar = window.confirm(
+      'Deseja realmente sair do sistema?'
+    );
+
+    if (confirmar) {
+      localStorage.removeItem('usuarioLogado');
+      navigate('/login', { replace: true });
+    }
+  }
+
+  function acessarAdministradores() {
+    navigate('/admin/administradores');
+  }
+
+  function acessarCadastros() {
+    navigate('/PesquisaGeral');
+  }
+
+  const totalClientes =
+    dados.totalClientes ?? dados.quantidadeClientes ?? 0;
+
+  const totalPrestadores =
+    dados.totalPrestadores ?? dados.quantidadePrestadores ?? 0;
+
+  const totalPedidos =
+    dados.totalPedidos ?? dados.quantidadePedidos ?? 0;
+
+  const pedidosPendentes =
+    dados.pedidosPendentes ?? dados.totalPendentes ?? 0;
+
+  const prestadorMaisSolicitado =
+    dados.prestadorMaisSolicitado ?? 'Não disponível';
+
+  const servicoMaisSolicitado =
+    dados.servicoMaisSolicitado ?? 'Não disponível';
+
+  const pedidosPorServico =
+    dados.pedidosPorServico ??
+    dados.servicosMaisSolicitados ??
+    [];
+
+  const pedidosPorStatus =
+    dados.pedidosPorStatus ??
+    dados.quantidadePorStatus ??
+    [];
+
+  function obterValor(item) {
     return (
-      <main className="dashboard-page">
-        <p className="dash-error">{erro}</p>
-        <button className="dash-button" onClick={() => window.location.reload()}>
-          Tentar novamente
-        </button>
-      </main>
+      item.quantidade ??
+      item.total ??
+      item.valor ??
+      item.quantidadePedidos ??
+      0
     );
   }
 
-  if (!dados) {
-    return <main className="dashboard-page">Carregando dashboard...</main>;
+  function obterNome(item) {
+    return (
+      item.servico ??
+      item.nomeServico ??
+      item.status ??
+      item.nome ??
+      'Não informado'
+    );
   }
+
+  const maiorQuantidadeServico = Math.max(
+    1,
+    ...pedidosPorServico.map(obterValor)
+  );
+
+  const maiorQuantidadeStatus = Math.max(
+    1,
+    ...pedidosPorStatus.map(obterValor)
+  );
 
   return (
     <main className="dashboard-page">
+
       <header className="dash-header">
         <div>
-          <p className="dash-eyebrow">REFORMA FÁCIL</p>
-          <h1>Dashboard administrativo</h1>
-          <p>Visão geral dos cadastros e pedidos da plataforma.</p>
+          <span className="dash-eyebrow">REFORMA FÁCIL</span>
+          <h1>Dashboard Administrativo</h1>
+          <p>Bem-vindo ao painel de administração.</p>
         </div>
 
         <div className="dash-actions">
-          <button className="dash-button secondary" onClick={() => window.location.reload()}>
+
+          <button
+            type="button"
+            className="dash-button secondary"
+            onClick={carregarDashboard}
+            disabled={carregando}
+          >
             Atualizar
           </button>
-          <button className="dash-button" onClick={() => navigate('/PesquisaGeral')}>
+
+          <button
+            type="button"
+            className="dash-button"
+            onClick={acessarCadastros}
+          >
             Cadastros
           </button>
-          <button className="dash-button danger" onClick={sair}>
+
+          <button
+            type="button"
+            className="dash-button"
+            onClick={acessarAdministradores}
+          >
+            Administradores
+          </button>
+
+          <button
+            type="button"
+            className="dash-button danger"
+            onClick={sair}
+          >
             Sair
           </button>
+
         </div>
       </header>
 
-      {erro && <p className="dash-warning">{erro}</p>}
+      {erro && (
+        <div className="dash-error">
+          {erro}
+        </div>
+      )}
 
-      <section className="dash-cards">
-        <Cartao titulo="Clientes ativos" valor={dados.totalClientes} />
-        <Cartao titulo="Prestadores ativos" valor={dados.totalPrestadores} />
-        <Cartao titulo="Total de pedidos" valor={dados.totalPedidos} />
-      </section>
+      {carregando ? (
+        <p className="dash-empty">
+          Carregando informações...
+        </p>
+      ) : (
+        <>
 
-      <section className="dash-grid">
-        <GraficoBarras
-          titulo="Serviços mais solicitados"
-          dados={dados.servicosMaisSolicitados}
-        />
+          {/* INDICADORES PRINCIPAIS */}
 
-        <GraficoBarras
-          titulo="Pedidos por status"
-          dados={dados.pedidosPorStatus}
-        />
+          <section className="dash-cards">
 
-        <GraficoBarras
-          titulo="Pedidos por mês desejado"
-          dados={dados.pedidosPorMes}
-        />
+            <article className="dash-card">
+              <span className="dash-card-title">
+                Total de Clientes
+              </span>
+              <strong className="dash-card-value">
+                {totalClientes}
+              </strong>
+            </article>
 
-        <TabelaRanking dados={dados.rankingPrestadores} />
-      </section>
+            <article className="dash-card">
+              <span className="dash-card-title">
+                Total de Prestadores
+              </span>
+              <strong className="dash-card-value">
+                {totalPrestadores}
+              </strong>
+            </article>
+
+            <article className="dash-card">
+              <span className="dash-card-title">
+                Total de Pedidos
+              </span>
+              <strong className="dash-card-value">
+                {totalPedidos}
+              </strong>
+            </article>
+
+            <article className="dash-card">
+              <span className="dash-card-title">
+                Pedidos Pendentes
+              </span>
+              <strong className="dash-card-value">
+                {pedidosPendentes}
+              </strong>
+            </article>
+
+          </section>
+
+          {/* DESTAQUES */}
+
+          <section className="dash-cards">
+
+            <article className="dash-card">
+              <span className="dash-card-title">
+                Prestador mais solicitado
+              </span>
+              <strong className="dash-card-value">
+                {prestadorMaisSolicitado}
+              </strong>
+            </article>
+
+            <article className="dash-card">
+              <span className="dash-card-title">
+                Serviço mais solicitado
+              </span>
+              <strong className="dash-card-value">
+                {servicoMaisSolicitado}
+              </strong>
+            </article>
+
+          </section>
+
+          {/* GRÁFICOS */}
+
+          <section className="dash-grid">
+
+            {/* PEDIDOS POR SERVIÇO */}
+
+            <article className="dash-panel">
+              <h2>Pedidos por Serviço</h2>
+
+              {Array.isArray(pedidosPorServico) &&
+              pedidosPorServico.length > 0 ? (
+
+                <div className="dash-bars">
+
+                  {pedidosPorServico.map((item, index) => {
+                    const quantidade = obterValor(item);
+
+                    const percentual =
+                      (quantidade / maiorQuantidadeServico) * 100;
+
+                    return (
+                      <div
+                        className="dash-bar-item"
+                        key={index}
+                      >
+
+                        <div className="dash-bar-heading">
+                          <span>{obterNome(item)}</span>
+                          <strong>{quantidade}</strong>
+                        </div>
+
+                        <div className="dash-bar-track">
+                          <div
+                            className="dash-bar-fill"
+                            style={{ width: `${percentual}%` }}
+                          />
+                        </div>
+
+                      </div>
+                    );
+                  })}
+
+                </div>
+
+              ) : (
+                <p className="dash-empty">
+                  Nenhum dado de serviço disponível.
+                </p>
+              )}
+
+            </article>
+
+            {/* PEDIDOS POR STATUS */}
+
+            <article className="dash-panel">
+              <h2>Pedidos por Status</h2>
+
+              {Array.isArray(pedidosPorStatus) &&
+              pedidosPorStatus.length > 0 ? (
+
+                <div className="dash-bars">
+
+                  {pedidosPorStatus.map((item, index) => {
+                    const quantidade = obterValor(item);
+
+                    const percentual =
+                      (quantidade / maiorQuantidadeStatus) * 100;
+
+                    return (
+                      <div
+                        className="dash-bar-item"
+                        key={index}
+                      >
+
+                        <div className="dash-bar-heading">
+                          <span>{obterNome(item)}</span>
+                          <strong>{quantidade}</strong>
+                        </div>
+
+                        <div className="dash-bar-track">
+                          <div
+                            className="dash-bar-fill"
+                            style={{ width: `${percentual}%` }}
+                          />
+                        </div>
+
+                      </div>
+                    );
+                  })}
+
+                </div>
+
+              ) : (
+                <p className="dash-empty">
+                  Nenhum dado de status disponível.
+                </p>
+              )}
+
+            </article>
+
+          </section>
+
+        </>
+      )}
+
     </main>
   );
 }

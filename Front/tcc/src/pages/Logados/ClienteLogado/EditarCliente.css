@@ -108,3 +108,17 @@
 .botao-salvar:hover:not(:disabled) {
   background: #0069d9;
 }
+
+
+.menu-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-dropdown button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  cursor: pointer;
+}
